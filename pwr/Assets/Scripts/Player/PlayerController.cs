@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
         if(hit)
         {
+            //An interactable tag should be added to specific hit boxes - this can cause the popup to only appear in specific placed
             interactPopup.SetActive(true);
             if(Input.GetKeyDown(KeyCode.E))
             {
