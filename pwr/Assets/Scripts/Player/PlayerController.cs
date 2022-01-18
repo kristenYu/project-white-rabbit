@@ -102,7 +102,19 @@ public class PlayerController : MonoBehaviour
             interactPopup.SetActive(false);
         }
     }
-    bool AddObjectToInventory(GameObject item, int indexAt)
+    private void FixedUpdate()
+    {
+        //Movemement 
+        if (horizontal != 0 && vertical != 0) // Check for diagonal movement
+        {
+            // limit movement speed diagonally, so you move at 70% speed
+            horizontal *= moveLimiter;
+            vertical *= moveLimiter;
+        }
+        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+    }
+
+    public bool AddObjectToInventory(GameObject item, int indexAt)
     {
         if(indexAt > inventorySize)
         {
@@ -118,6 +130,7 @@ public class PlayerController : MonoBehaviour
             return true;
         }
     }
+
     public GameObject RemoveObjectFromInventory(GameObject item)
     {
         tempObject = null;
@@ -133,6 +146,7 @@ public class PlayerController : MonoBehaviour
         }
         return tempObject;
     }
+
     public GameObject RemoveObjectFromInventory(int indexAt)
     {
         tempObject = inventory[indexAt];
@@ -140,20 +154,6 @@ public class PlayerController : MonoBehaviour
         return tempObject;
     }
 
-
-
-
-    private void FixedUpdate()
-    {
-        //Movemement 
-        if (horizontal != 0 && vertical != 0) // Check for diagonal movement
-        {
-            // limit movement speed diagonally, so you move at 70% speed
-            horizontal *= moveLimiter;
-            vertical *= moveLimiter;
-        }   
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
-    }
 
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
