@@ -1,0 +1,7 @@
+#public functions: 
+
+//Adds mew game object to inventory
+bool AddObjectToInventory(GameObject item, int indexAt);
+//removes gameobjects from inventory
+public GameObject RemoveObjectFromInventory(GameObject item);
+public GameObject RemoveObjectFromInventory(int indexAt);
