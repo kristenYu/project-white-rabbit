@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &301202599561496600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2304079556267632862}
+  - component: {fileID: 7636339193242510950}
+  m_Layer: 0
+  m_Name: Purple Chair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2304079556267632862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301202599561496600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7636339193242510950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301202599561496600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 0
+  stringName: Purple Chair
+  itemSprite: {fileID: -5378893518022665416, guid: a5e1977b32dd6294495363ff7caf9598,
+    type: 3}
+  leftSprite: {fileID: 233298309578972746, guid: a5e1977b32dd6294495363ff7caf9598,
+    type: 3}
+  rightSprite: {fileID: -8657426451743247220, guid: a5e1977b32dd6294495363ff7caf9598,
+    type: 3}
+  frontSprite: {fileID: -5378893518022665416, guid: a5e1977b32dd6294495363ff7caf9598,
+    type: 3}
+  backSprite: {fileID: -1362084332696454921, guid: a5e1977b32dd6294495363ff7caf9598,
+    type: 3}

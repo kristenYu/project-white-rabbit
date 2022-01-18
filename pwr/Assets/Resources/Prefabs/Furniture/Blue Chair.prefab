@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2094938081151820432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1734626395960715397}
+  - component: {fileID: 5612493557075104937}
+  m_Layer: 0
+  m_Name: Blue Chair
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1734626395960715397
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094938081151820432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5612493557075104937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094938081151820432}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 0
+  stringName: Blue Chair
+  itemSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
+    type: 3}
+  leftSprite: {fileID: 5398010615508591459, guid: 99d16a91e9b870240b89c9dd870674c5,
+    type: 3}
+  rightSprite: {fileID: -2654432513685751732, guid: 99d16a91e9b870240b89c9dd870674c5,
+    type: 3}
+  frontSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
+    type: 3}
+  backSprite: {fileID: 1936273586291569480, guid: 99d16a91e9b870240b89c9dd870674c5,
+    type: 3}
