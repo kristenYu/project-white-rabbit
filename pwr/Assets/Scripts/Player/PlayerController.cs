@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    //inventory 
+    public GameObject[] inventory;
+    public int currentInventoryIndex;
+    private int inventorySize;
+    private GameObject tempObject;
+
+
     //Movement
     private Rigidbody2D body;
     private float horizontal;
@@ -41,6 +48,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        inventorySize = 5;
+        inventory = new GameObject[inventorySize];
+        currentInventoryIndex = 0; 
+
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down; 
     }
@@ -90,17 +101,47 @@ public class PlayerController : MonoBehaviour
         {
             interactPopup.SetActive(false);
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.E))
+    }
+    bool AddObjectToInventory(GameObject item, int indexAt)
+    {
+        if(indexAt > inventorySize)
         {
-            if (hit)
+            return false;
+        }
+        else if(inventory[indexAt] != null)
+        {
+            return false; 
+        }
+        else
+        {
+            inventory[indexAt] = item;
+            return true;
+        }
+    }
+    public GameObject RemoveObjectFromInventory(GameObject item)
+    {
+        tempObject = null;
+        int savedIndex;
+        for(int i = 0; i < inventorySize; i++)
+        {
+            if (inventory[i] == item)
             {
-
-                
+                tempObject = inventory[i];
+                savedIndex = i;
+                inventory[i] = null;
             }
         }
-        */
+        return tempObject;
     }
+    public GameObject RemoveObjectFromInventory(int indexAt)
+    {
+        tempObject = inventory[indexAt];
+        inventory[indexAt] = null;
+        return tempObject;
+    }
+
+
+
 
     private void FixedUpdate()
     {
