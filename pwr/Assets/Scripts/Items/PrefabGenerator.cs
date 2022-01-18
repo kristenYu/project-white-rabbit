@@ -14,9 +14,7 @@ public class PrefabGenerator : MonoBehaviour
 
         foreach ( Texture2D texture in textureArray)
         {
-            //Create unique prefab location - prevents prefabs of the same name from being created
-            string localPath = "Assets/Prefabs/Furniture/" + texture.name + ".prefab";
-            localPath = AssetDatabase.GenerateUniqueAssetPath(localPath);
+            string localPath = "Assets/Resources/Prefabs/Furniture/" + texture.name + ".prefab";
 
             //load in sprites
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Furniture/" + texture.name);  
@@ -26,9 +24,9 @@ public class PrefabGenerator : MonoBehaviour
             }
 
             //generate new prefab object
-            GameObject gameObject = new GameObject();
-            gameObject.AddComponent<Furniture>();
-            Furniture furnitureScript = gameObject.GetComponent<Furniture>();
+            GameObject prefabGameObject = new GameObject();
+            prefabGameObject.AddComponent<Furniture>();
+            Furniture furnitureScript = prefabGameObject.GetComponent<Furniture>();
             //assumes the ordering that can be found in the chair sprites - make sure to reorder these as necessary
             furnitureScript.backSprite = sprites[0];
             furnitureScript.frontSprite = sprites[1];
@@ -39,23 +37,23 @@ public class PrefabGenerator : MonoBehaviour
 
             // Create the new Prefab
             bool isCreatedPrefab;
-            PrefabUtility.SaveAsPrefabAsset(gameObject, localPath, out isCreatedPrefab);
-            if(!isCreatedPrefab)
+            PrefabUtility.SaveAsPrefabAsset(prefabGameObject, localPath, out isCreatedPrefab);
+            if (!isCreatedPrefab)
             {
                 Debug.LogWarning(texture.name + " could not be made into a prefab");
             }
 
             //Clean up for the scene
-            DestroyImmediate(gameObject);
+            DestroyImmediate(prefabGameObject);
 
         }
         Debug.Log("Finished Making Furniture Prefabs");
     }
 
-    // Disable the menu item if no selection is in place.
+    // Disable the menu item if the proper items are not selected
     [MenuItem("My Generators/Generate Furniture Prefab From Texture2D Selection", true)]
     static bool ValidateCreatePrefab()
     {
-        return Selection.activeGameObject != null && !EditorUtility.IsPersistent(Selection.activeGameObject);
+        return Selection.activeObject != null && Selection.GetFiltered<Texture2D>(SelectionMode.Assets).Length > 0; 
     }
 }
