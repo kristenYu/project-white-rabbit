@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+
+    //Player State variables 
+    public GameObject[] inventory;
+    public int inventoryCurrentIndex;
+    private int inventorySize = 5;
+    private GameObject tempObject;
+
     //Movement
     private Rigidbody2D body;
     private float horizontal;
@@ -13,7 +20,6 @@ public class PlayerController : MonoBehaviour
     private float moveLimiter = 0.7f;
     public float runSpeed = 7.0f;
     public Vector2 previousDirection;
-
 
     //juice
     public GameObject interactPopup;
@@ -41,6 +47,9 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        inventory = new GameObject[5];
+        inventoryCurrentIndex = 0;
+
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down; 
     }
@@ -90,16 +99,46 @@ public class PlayerController : MonoBehaviour
         {
             interactPopup.SetActive(false);
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (hit)
-            {
+    }
 
-                
+    public bool AddObjectToInventory(GameObject item, int indexAt)
+    {
+        if(indexAt > inventorySize)
+        {
+            return false;
+        }
+        else if(inventory[indexAt] != null)
+        {
+            return false;
+        }
+        else
+        {
+            inventory[indexAt] = item;
+            return true;
+        }
+    }
+
+    public GameObject RemoveObjectFromInventory(int indexAt)
+    {
+        tempObject = inventory[indexAt];
+        inventory[indexAt] = null;
+        return tempObject;
+    }
+
+    public GameObject RemoveObjectFromInventory(GameObject item)
+    {
+        int savedIndex = 0;
+        tempObject = null;
+        for(int i = 0; i < inventorySize; i++)
+        {
+            if(inventory[i] == item)
+            {
+                tempObject = inventory[i];
+                savedIndex = i;
             }
         }
-        */
+        inventory[savedIndex] = null;
+        return tempObject;
     }
 
     private void FixedUpdate()
