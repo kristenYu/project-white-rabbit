@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &85318716664202011
+--- !u!1 &2094938081151820432
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8160283737939081651}
-  - component: {fileID: 7201526646524546986}
+  - component: {fileID: 1734626395960715397}
+  - component: {fileID: 5612493557075104937}
   m_Layer: 0
-  m_Name: Green Chair
+  m_Name: Blue Chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8160283737939081651
+--- !u!4 &1734626395960715397
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85318716664202011}
+  m_GameObject: {fileID: 2094938081151820432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,27 +31,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7201526646524546986
+--- !u!114 &5612493557075104937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85318716664202011}
+  m_GameObject: {fileID: 2094938081151820432}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
-  stringName: Green Chair
-  itemSprite: {fileID: -4058698264052094307, guid: 68fe0ce21afeea94a82e547410507ddc,
+  stringName: Blue Chair
+  itemSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
-  leftSprite: {fileID: -584684574616890901, guid: 68fe0ce21afeea94a82e547410507ddc,
+  leftSprite: {fileID: 5398010615508591459, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
-  rightSprite: {fileID: -1020388429630062547, guid: 68fe0ce21afeea94a82e547410507ddc,
+  rightSprite: {fileID: -2654432513685751732, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
-  frontSprite: {fileID: -4058698264052094307, guid: 68fe0ce21afeea94a82e547410507ddc,
+  frontSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
-  backSprite: {fileID: 6330625509372438382, guid: 68fe0ce21afeea94a82e547410507ddc,
+  backSprite: {fileID: 1936273586291569480, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
