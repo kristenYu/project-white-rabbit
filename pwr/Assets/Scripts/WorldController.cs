@@ -17,7 +17,28 @@ public class WorldController : MonoBehaviour
     //managing changing time of day
     private float dayDuration;
     private float twilightDuration;
-    private float nightDuration; 
+    private float nightDuration;
+
+
+    //Singleton 
+    private static WorldController instance;
+    // Read-only public access
+    public static WorldController Instance => instance;
+
+    private void Awake()
+    {
+        // Does another instance already exist?
+        if (instance && instance != this)
+        {
+            // Destroy myself
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise store my reference and make me DontDestroyOnLoad
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
 
     // Start is called before the first frame update
@@ -30,13 +51,9 @@ public class WorldController : MonoBehaviour
         currentTimer = 0.0f;
 
         //These might have to be balanced later
-        //dayDuration = 840.0f; //14 min
-        dayDuration = 10.0f;
-        //twilightDuration = 60.0f; //1 min
-        twilightDuration = 10.0f;
-        //nightDuration = 240.0f; //4 min
-        nightDuration = 10.0f;
-       
+        dayDuration = 840.0f; //14 min
+        twilightDuration = 60.0f; //1 min
+        nightDuration = 240.0f; //4 min
     }
 
     // Update is called once per frame
