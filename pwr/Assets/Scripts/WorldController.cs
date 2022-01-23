@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class WorldController : MonoBehaviour
 {
@@ -13,6 +15,11 @@ public class WorldController : MonoBehaviour
     public int currentDay;
     public TOD currentTOD;
     public float currentTimer;
+
+    //HUD Variables
+    public TextMeshProUGUI TODText;
+    public RawImage TODImage;
+    public Texture[] TODIcons = new Texture[3]; 
 
     //managing changing time of day
     private float dayDuration;
@@ -47,11 +54,13 @@ public class WorldController : MonoBehaviour
         //this will have to be preloaded
         currentDay = 1;
         currentTOD = TOD.Day;
+        TODText.text = "Day " + currentDay;
+        TODImage.texture = TODIcons[0];
 
         currentTimer = 0.0f;
 
         //These might have to be balanced later
-        dayDuration = 840.0f; //14 min
+        dayDuration = 480.0f; //14 min
         twilightDuration = 60.0f; //1 min
         nightDuration = 240.0f; //4 min
     }
@@ -66,6 +75,7 @@ public class WorldController : MonoBehaviour
             {
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
+                TODImage.texture = TODIcons[1];
             }
         }
         else if (currentTOD == TOD.Twilight)
@@ -74,6 +84,7 @@ public class WorldController : MonoBehaviour
             {
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
+                TODImage.texture = TODIcons[2];
             }
         }
         else if (currentTOD == TOD.Night)
@@ -83,6 +94,8 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Day;
                 currentTimer = 0.0f;
                 currentDay++;
+                TODText.text = "Day " + currentDay;
+                TODImage.texture = TODIcons[0];
             }
         }
     }
