@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private GameObject tempObject;
     private Item currentItem; 
 
+    //Currency
+    public int currency;
 
     //place furniture 
     public GameObject furnitureObject;
@@ -74,6 +76,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        currency = 10;
+        inventorySize = 5;
         inventory = new GameObject[inventorySize];
         currentInventoryIndex = 0; 
 
