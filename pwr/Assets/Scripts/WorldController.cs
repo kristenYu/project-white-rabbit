@@ -16,13 +16,12 @@ public class WorldController : MonoBehaviour
     public int currentDay;
     public TOD currentTOD;
     public float currentTimer;
-    public int coins;
 
     //HUD Variables
     public TextMeshProUGUI TODText;
     public RawImage TODImage;
     public Texture[] TODIcons = new Texture[3];
-    public TextMeshProUGUI coinsText;
+    
 
     //managing changing time of day
     private float dayDuration;
@@ -69,12 +68,6 @@ public class WorldController : MonoBehaviour
         TODImage.texture = TODIcons[0];
 
         currentTimer = 0.0f;
-
-        //Accessing the currency from PlayerController to display in the HUD
-        PlayerController playerController = GameObject.Find("Player").GetComponent<PlayerController>();
-        coins = playerController.currency;
-        coinsText.text = coins.ToString();
-        Debug.Log(coins);
 
         //These might have to be balanced later
         //dayDuration = 480.0f; //14 min
@@ -177,9 +170,5 @@ public class WorldController : MonoBehaviour
                 TODImage.texture = TODIcons[0];
             }
         }
-
-        //update player currency to view in HUD
-        coinsText.text = coins.ToString();
-            
     }
 }
