@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour
             interactPopup.SetActive(false);
         }
     }
+	
     private void FixedUpdate()
     {
         //Movemement 
@@ -270,6 +271,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }    
+	
     public bool AddObjectToInventory(GameObject item)
     {
         if(currentInventoryIndex < inventorySize)
@@ -306,6 +308,7 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
+	
     public bool AddObjectToInventory(GameObject item, int indexAt)
     {
         if(indexAt > inventorySize)
@@ -337,6 +340,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+	
     //only removes the first instance of the object in the list
     public GameObject RemoveObjectFromInventory(GameObject item)
     {
@@ -365,6 +369,7 @@ public class PlayerController : MonoBehaviour
         currentInventoryIndex = indexAt; 
         return tempObject;
     }
+
     private void ShowActiveItem()
     {
         if(activeItem != null)
@@ -390,6 +395,7 @@ public class PlayerController : MonoBehaviour
         furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
         furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
         activeItem = furnitureObject;
+
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
@@ -400,6 +406,26 @@ public class PlayerController : MonoBehaviour
         }
         return hit; 
     }
+	
+	 //functions to add and remove currency...is this...right??? ehhHHhHHH
+    public void addCurrency(int addAmount)
+    {
+        currency = currency + addAmount;
+    }
+
+    public bool removeCurrency(int removeAmount)
+    {
+        if (currency < removeAmount)
+        {
+            return false;
+        }
+        else
+        {
+            currency = currency - removeAmount;
+            return true;
+        }
+	}
+	
 }
 
 
