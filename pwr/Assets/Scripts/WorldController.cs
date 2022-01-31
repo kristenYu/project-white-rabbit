@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class WorldController : MonoBehaviour
     private float dayDuration;
     private float twilightDuration;
     private float nightDuration;
+
+    //crop management
+    public List<GameObject> activeCropList;
+    private Crop currentCropScript; 
 
     //Singleton 
     private static WorldController instance;
@@ -50,9 +55,6 @@ public class WorldController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TODText.fontSize = 10.0f; 
-
-
         //this will have to be preloaded
         currentDay = 1;
         currentTOD = TOD.Day;
@@ -62,18 +64,62 @@ public class WorldController : MonoBehaviour
         currentTimer = 0.0f;
 
         //These might have to be balanced later
-        dayDuration = 480.0f; //14 min
-        twilightDuration = 60.0f; //1 min
-        nightDuration = 240.0f; //4 min
+        //dayDuration = 480.0f; //14 min
+        //twilightDuration = 60.0f; //1 min
+        //nightDuration = 240.0f; //4 min
+
+        //TESTING VALUES 
+        dayDuration = 10.0f;
+        twilightDuration = 10.0f;
+        nightDuration = 10.0f;
+
+        activeCropList = new List<GameObject>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
         currentTimer += Time.deltaTime;
+        checkValidSceneForCrops();
+        growActiveCrops();
+        updateTOD(currentTimer);
+    }
+    
+    public void checkValidSceneForCrops()
+    {
+        foreach(GameObject crop in activeCropList)
+        {
+            if (SceneManager.GetActiveScene().name == "Main")
+            {
+                crop.GetComponent<SpriteRenderer>().enabled = true;
+                crop.GetComponent<BoxCollider2D>().enabled = true; 
+            }
+            else
+            {
+                crop.GetComponent<SpriteRenderer>().enabled = false;
+                crop.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+    }
+
+    public void growActiveCrops()
+    {
+        foreach (GameObject crop in activeCropList)
+        {
+            currentCropScript = crop.GetComponent<Crop>();
+            if (currentCropScript.isReadyToGrow)
+            {
+                currentCropScript.GrowCrop();
+                currentCropScript.isReadyToGrow = false; 
+            }
+        }
+    }
+
+    private void updateTOD(float timer)
+    {
         if (currentTOD == TOD.Day)
         {
-            if (currentTimer >= dayDuration)
+            if (timer >= dayDuration)
             {
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
@@ -82,7 +128,7 @@ public class WorldController : MonoBehaviour
         }
         else if (currentTOD == TOD.Twilight)
         {
-            if (currentTimer >= twilightDuration)
+            if (timer >= twilightDuration)
             {
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
@@ -91,7 +137,7 @@ public class WorldController : MonoBehaviour
         }
         else if (currentTOD == TOD.Night)
         {
-            if(currentTimer >= nightDuration)
+            if (timer >= nightDuration)
             {
                 currentTOD = TOD.Day;
                 currentTimer = 0.0f;

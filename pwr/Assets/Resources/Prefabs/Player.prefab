@@ -326,8 +326,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1312270775
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 91613e297c9fd0d47b1b91a8cb3909c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 8205332308754028203}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -717,7 +717,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8205332308754028202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -730,7 +730,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05ae40e7bf81424dbf4477493399d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemManagerObject: {fileID: 3386998514311731863, guid: 80d4d3faa083f9b42876aedfad88c66c,
+    type: 3}
+  worldControllerObject: {fileID: 0}
   inventory: []
+  activeItem: {fileID: 0}
   currentInventoryIndex: 0
   runSpeed: 7
   previousDirection: {x: 0, y: 0}
