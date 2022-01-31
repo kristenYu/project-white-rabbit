@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour
 {
@@ -79,12 +80,28 @@ public class WorldController : MonoBehaviour
     void Update()
     {
         currentTimer += Time.deltaTime;
-        updateTOD(currentTimer);
+        checkValidSceneForCrops();
         growActiveCrops();
-
-
+        updateTOD(currentTimer);
     }
     
+    public void checkValidSceneForCrops()
+    {
+        foreach(GameObject crop in activeCropList)
+        {
+            if (SceneManager.GetActiveScene().name == "Main")
+            {
+                crop.GetComponent<SpriteRenderer>().enabled = true;
+                crop.GetComponent<BoxCollider2D>().enabled = true; 
+            }
+            else
+            {
+                crop.GetComponent<SpriteRenderer>().enabled = false;
+                crop.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+    }
+
     public void growActiveCrops()
     {
         foreach (GameObject crop in activeCropList)

@@ -580,6 +580,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1061004650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3020716752809631541, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+    type: 3}
+  m_PrefabInstance: {fileID: 3020716752335871443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1189708022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,6 +1011,11 @@ PrefabInstance:
       propertyPath: TODImage
       value: 
       objectReference: {fileID: 257207033}
+    - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
+      propertyPath: TODIcons.Array.data[2]
+      value: 
+      objectReference: {fileID: 2800000, guid: 0dc3440381378c941b63f56598ba1915, type: 3}
     - target: {fileID: 3020716752809631541, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
       propertyPath: m_Name
@@ -1203,6 +1214,11 @@ PrefabInstance:
       propertyPath: itemManagerObject
       value: 
       objectReference: {fileID: 366237367}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: worldControllerObject
+      value: 
+      objectReference: {fileID: 1061004650}
     - target: {fileID: 8205332308754028206, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_Name

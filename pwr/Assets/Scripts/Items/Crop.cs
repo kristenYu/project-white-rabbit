@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Crop : MonoBehaviour
 {
@@ -35,6 +36,11 @@ public class Crop : MonoBehaviour
     private Sprite currentSprite;
     private SpriteRenderer spriteRenderer;
 
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,7 +66,6 @@ public class Crop : MonoBehaviour
     {
         if(worldController.currentDay == nextGrowthStage && worldController.currentTOD == startingTOD)
         {
-            Debug.Log("Crop is ready to grow");
             isReadyToGrow = true;
             if(nextGrowthStage < targetDay)
             {
