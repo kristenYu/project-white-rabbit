@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - planting
+  - new_scene
+  - debug_seed
+  - food
+  - seed
+  - crop
   layers:
   - Default
   - TransparentFX
@@ -43,4 +49,7 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 653167529
+    locked: 0
+  - name: Foreground
+    uniqueID: 1312270775
     locked: 0

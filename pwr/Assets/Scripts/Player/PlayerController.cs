@@ -5,8 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    //Access World Database 
+    public GameObject itemManagerObject;
+    private ItemManager itemManager;
+    public GameObject[] seedArray;
+    public GameObject cropObject;
+    public Seed seedScript;
+
     //inventory 
     public GameObject[] inventory;
+    public GameObject ActiveItem; 
     public int currentInventoryIndex;
     private int inventorySize;
     private GameObject tempObject;
@@ -20,7 +28,6 @@ public class PlayerController : MonoBehaviour
     private float moveLimiter = 0.7f;
     public float runSpeed = 7.0f;
     public Vector2 previousDirection;
-
 
     //juice
     public GameObject interactPopup;
@@ -53,7 +60,10 @@ public class PlayerController : MonoBehaviour
         currentInventoryIndex = 0; 
 
         body = GetComponent<Rigidbody2D>();
-        previousDirection = Vector2.down; 
+        previousDirection = Vector2.down;
+
+        itemManager = itemManagerObject.GetComponent<ItemManager>();
+        seedArray = itemManager.seedArray;
     }
 
     void Update()
@@ -91,10 +101,33 @@ public class PlayerController : MonoBehaviour
         if(hit)
         {
             interactPopup.SetActive(true);
-            if(Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                //assumes that the object matches the name of the scene you want to load
-                SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                Debug.Log("register E key press");
+                if (hit.transform.gameObject.tag == "new_scene")
+                {
+                    //assumes that the object matches the name of the scene you want to load
+                    SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                }
+                else if (hit.transform.gameObject.tag == "debug_seed")
+                {
+                    //Does not get added to inventory for now - will figure out flow later
+                    ActiveItem = itemManager.seedArray[0];
+                }
+                else if (hit.transform.gameObject.tag == "planting")
+                {
+                    if(ActiveItem != null)
+                    {
+                        if (ActiveItem.tag == "seed")
+                        {
+                            seedScript = ActiveItem.GetComponent<Seed>();
+                            Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
+                            //remove item from activeItem 
+                            ActiveItem = null;
+                        }
+                    }
+                }
+
             }
         }
         else

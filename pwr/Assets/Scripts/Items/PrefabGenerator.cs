@@ -121,16 +121,19 @@ public class PrefabGenerator : MonoBehaviour
 
                 //seed prefab
                 seedObject.name = spriteStrings[1] + "_seed";
+                seedObject.tag = "seed";
                 seedObject.AddComponent<Seed>();
                 seedObject.AddComponent<SpriteRenderer>(); 
                 Seed seedScript = seedObject.GetComponent<Seed>();
                 seedScript.stringName = spriteStrings[1];
                 seedScript.itemSprite = basicSeedSprite;
                 SpriteRenderer seedRenderer = seedObject.GetComponent<SpriteRenderer>();
-                seedRenderer.sprite = seedScript.itemSprite; 
+                seedRenderer.sprite = seedScript.itemSprite;
+                seedRenderer.sortingLayerName = "Foreground";
 
                 //crop prefab
                 cropObject.name = spriteStrings[1] + "_crop";
+                cropObject.tag = "crop";
                 cropObject.AddComponent<Crop>();
                 cropObject.AddComponent<BoxCollider2D>();
                 cropObject.AddComponent<SpriteRenderer>(); 
@@ -144,14 +147,16 @@ public class PrefabGenerator : MonoBehaviour
                 }
                 SpriteRenderer cropRenderer = cropObject.GetComponent <SpriteRenderer>();
                 cropRenderer.sprite = cropScript.SpriteGrowingArray[0];
-
+                cropRenderer.sortingLayerName = "Foreground";
 
                 //food prefab
                 foodObject.name = spriteStrings[1] + "_food";
+                foodObject.tag = "food";
                 foodObject.AddComponent<Food>();
                 foodObject.AddComponent<SpriteRenderer>(); 
                 Food foodScript = foodObject.GetComponent<Food>();
                 foodScript.stringName = spriteStrings[1]; ;
+
 
                 // Create the new Prefabs
                 //Food Prefab

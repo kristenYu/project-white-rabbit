@@ -50,9 +50,6 @@ public class WorldController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TODText.fontSize = 10.0f; 
-
-
         //this will have to be preloaded
         currentDay = 1;
         currentTOD = TOD.Day;

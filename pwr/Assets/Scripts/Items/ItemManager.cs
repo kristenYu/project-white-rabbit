@@ -28,17 +28,19 @@ public class ItemManager : MonoBehaviour
         // Otherwise store my reference and make me DontDestroyOnLoad
         instance = this;
         DontDestroyOnLoad(gameObject);
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         //This could slow down the game if there is too much furniture, but I think this will be okay for now 
         //if needed, can look into Resources.Async load, and storing item list in a file 
         furnitureArray = Resources.LoadAll<GameObject>("Prefabs/Furniture");
         seedArray = Resources.LoadAll<GameObject>("Prefabs/Seeds");
         cropArray = Resources.LoadAll<GameObject>("Prefabs/Crops");
         foodArray = Resources.LoadAll<GameObject>("Prefabs/Food");
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
 
     }
 
