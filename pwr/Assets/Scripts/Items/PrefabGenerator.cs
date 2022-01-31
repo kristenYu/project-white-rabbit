@@ -108,6 +108,7 @@ public class PrefabGenerator : MonoBehaviour
             {
                 //get relavent string data
                 string[] spriteStrings = groupedSpriteArray[i, 0].name.Split('_');
+                Sprite basicSeedSprite = Resources.Load<Sprite>("Sprites/Plants/seed_bag");
 
                 string seedPath = "Assets/Resources/Prefabs/Seeds/" + spriteStrings[1] + "_seed.prefab";
                 string cropPath = "Assets/Resources/Prefabs/Crops/" + spriteStrings[1] + "_crop.prefab";
@@ -121,13 +122,18 @@ public class PrefabGenerator : MonoBehaviour
                 //seed prefab
                 seedObject.name = spriteStrings[1] + "_seed";
                 seedObject.AddComponent<Seed>();
+                seedObject.AddComponent<SpriteRenderer>(); 
                 Seed seedScript = seedObject.GetComponent<Seed>();
                 seedScript.stringName = spriteStrings[1];
+                seedScript.itemSprite = basicSeedSprite;
+                SpriteRenderer seedRenderer = seedObject.GetComponent<SpriteRenderer>();
+                seedRenderer.sprite = seedScript.itemSprite; 
 
                 //crop prefab
                 cropObject.name = spriteStrings[1] + "_crop";
                 cropObject.AddComponent<Crop>();
                 cropObject.AddComponent<BoxCollider2D>();
+                cropObject.AddComponent<SpriteRenderer>(); 
                 Crop cropScript = cropObject.GetComponent<Crop>();
                 cropScript.cropname = spriteStrings[1];
                 cropScript.SpriteGrowingArray = new Sprite[groupedSpriteArray.GetLength(1)];
@@ -136,10 +142,14 @@ public class PrefabGenerator : MonoBehaviour
                 {
                     cropScript.SpriteGrowingArray[j] = groupedSpriteArray[i,j];
                 }
+                SpriteRenderer cropRenderer = cropObject.GetComponent <SpriteRenderer>();
+                cropRenderer.sprite = cropScript.SpriteGrowingArray[0];
+
 
                 //food prefab
                 foodObject.name = spriteStrings[1] + "_food";
                 foodObject.AddComponent<Food>();
+                foodObject.AddComponent<SpriteRenderer>(); 
                 Food foodScript = foodObject.GetComponent<Food>();
                 foodScript.stringName = spriteStrings[1]; ;
 
