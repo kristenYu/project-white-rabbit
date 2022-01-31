@@ -26,6 +26,10 @@ public class WorldController : MonoBehaviour
     private float twilightDuration;
     private float nightDuration;
 
+    //crop management
+    public List<GameObject> activeCropList;
+    private Crop currentCropScript; 
+
     //Singleton 
     private static WorldController instance;
     // Read-only public access
@@ -59,18 +63,46 @@ public class WorldController : MonoBehaviour
         currentTimer = 0.0f;
 
         //These might have to be balanced later
-        dayDuration = 480.0f; //14 min
-        twilightDuration = 60.0f; //1 min
-        nightDuration = 240.0f; //4 min
+        //dayDuration = 480.0f; //14 min
+        //twilightDuration = 60.0f; //1 min
+        //nightDuration = 240.0f; //4 min
+
+        //TESTING VALUES 
+        dayDuration = 10.0f;
+        twilightDuration = 10.0f;
+        nightDuration = 10.0f;
+
+        activeCropList = new List<GameObject>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
         currentTimer += Time.deltaTime;
+        updateTOD(currentTimer);
+        growActiveCrops();
+
+
+    }
+    
+    public void growActiveCrops()
+    {
+        foreach (GameObject crop in activeCropList)
+        {
+            currentCropScript = crop.GetComponent<Crop>();
+            if (currentCropScript.isReadyToGrow)
+            {
+                currentCropScript.GrowCrop();
+                currentCropScript.isReadyToGrow = false; 
+            }
+        }
+    }
+
+    private void updateTOD(float timer)
+    {
         if (currentTOD == TOD.Day)
         {
-            if (currentTimer >= dayDuration)
+            if (timer >= dayDuration)
             {
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
@@ -79,7 +111,7 @@ public class WorldController : MonoBehaviour
         }
         else if (currentTOD == TOD.Twilight)
         {
-            if (currentTimer >= twilightDuration)
+            if (timer >= twilightDuration)
             {
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
@@ -88,7 +120,7 @@ public class WorldController : MonoBehaviour
         }
         else if (currentTOD == TOD.Night)
         {
-            if(currentTimer >= nightDuration)
+            if (timer >= nightDuration)
             {
                 currentTOD = TOD.Day;
                 currentTimer = 0.0f;

@@ -717,7 +717,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &8205332308754028202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,11 +732,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemManagerObject: {fileID: 3386998514311731863, guid: 80d4d3faa083f9b42876aedfad88c66c,
     type: 3}
-  seedArray: []
-  cropObject: {fileID: 0}
-  seedScript: {fileID: 0}
+  worldControllerObject: {fileID: 0}
   inventory: []
-  ActiveItem: {fileID: 0}
+  activeItem: {fileID: 0}
   currentInventoryIndex: 0
   runSpeed: 7
   previousDirection: {x: 0, y: 0}

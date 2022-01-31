@@ -8,17 +8,21 @@ public class PlayerController : MonoBehaviour
     //Access World Database 
     public GameObject itemManagerObject;
     private ItemManager itemManager;
+    public GameObject worldControllerObject;
+    private WorldController worldController; 
+
+    //planting seeds
     public GameObject[] seedArray;
-    public GameObject cropObject;
-    public Seed seedScript;
+    private GameObject cropObject;
+    private Crop cropScript; 
+    private Seed seedScript;
 
     //inventory 
     public GameObject[] inventory;
-    public GameObject ActiveItem; 
+    public GameObject activeItem; 
     public int currentInventoryIndex;
     private int inventorySize;
     private GameObject tempObject;
-
 
     //Movement
     private Rigidbody2D body;
@@ -64,6 +68,7 @@ public class PlayerController : MonoBehaviour
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         seedArray = itemManager.seedArray;
+        worldController = worldControllerObject.GetComponent<WorldController>(); 
     }
 
     void Update()
@@ -98,12 +103,12 @@ public class PlayerController : MonoBehaviour
             hit = drawRay(previousDirection, false);
         }
 
+        //interact with objects
         if(hit)
         {
             interactPopup.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("register E key press");
                 if (hit.transform.gameObject.tag == "new_scene")
                 {
                     //assumes that the object matches the name of the scene you want to load
@@ -112,18 +117,23 @@ public class PlayerController : MonoBehaviour
                 else if (hit.transform.gameObject.tag == "debug_seed")
                 {
                     //Does not get added to inventory for now - will figure out flow later
-                    ActiveItem = itemManager.seedArray[0];
+                    activeItem = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
                 }
                 else if (hit.transform.gameObject.tag == "planting")
                 {
-                    if(ActiveItem != null)
+                    if(activeItem != null)
                     {
-                        if (ActiveItem.tag == "seed")
+                        if (activeItem.tag == "seed")
                         {
-                            seedScript = ActiveItem.GetComponent<Seed>();
-                            Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
+                            seedScript = activeItem.GetComponent<Seed>();
+                            cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
+                            //add crop object to world controller 
+                            cropScript = cropObject.GetComponent<Crop>();
+                            cropScript.worldController = this.worldControllerObject.GetComponent<WorldController>();
+                            worldController.activeCropList.Add(cropObject);
                             //remove item from activeItem 
-                            ActiveItem = null;
+                            activeItem = null;
+
                         }
                     }
                 }
