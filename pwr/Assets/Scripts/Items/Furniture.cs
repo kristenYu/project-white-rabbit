@@ -8,7 +8,7 @@ public class Furniture : Item
 
     public Sprite[] spriteArray;
     public int currentIndex; 
-    public int maxIndex = 3; 
+    public int maxIndex = 3;
 
     void Start()
     {

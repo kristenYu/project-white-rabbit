@@ -29,7 +29,12 @@ public class WorldController : MonoBehaviour
 
     //crop management
     public List<GameObject> activeCropList;
-    private Crop currentCropScript; 
+    private Crop currentCropScript;
+
+    //furniture management 
+    public List<GameObject> placedFurnitureObjects;
+    private Furniture currentFurnitureScript;
+    private GameObject currentFurnitureObject; 
 
     //Singleton 
     private static WorldController instance;
@@ -81,10 +86,28 @@ public class WorldController : MonoBehaviour
     {
         currentTimer += Time.deltaTime;
         checkValidSceneForCrops();
+        checkValidSceneForFurniture();
         growActiveCrops();
         updateTOD(currentTimer);
     }
-    
+
+    public void checkValidSceneForFurniture()
+    {
+        foreach(GameObject furniture in placedFurnitureObjects)
+        {
+            if (SceneManager.GetActiveScene().name == "Home")
+            {
+                furniture.GetComponent<SpriteRenderer>().enabled = true;
+                furniture.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            else
+            {
+                furniture.GetComponent<SpriteRenderer>().enabled = false;
+                furniture.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
+    }
+
     public void checkValidSceneForCrops()
     {
         foreach(GameObject crop in activeCropList)

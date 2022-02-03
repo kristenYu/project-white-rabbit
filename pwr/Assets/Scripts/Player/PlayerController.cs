@@ -182,6 +182,7 @@ public class PlayerController : MonoBehaviour
                     furnitureObject.transform.SetParent(this.transform);
                     furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
                     furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+                    worldController.placedFurnitureObjects.Add(furnitureObject);
 
                 }
                 //places furniture if active item is furniture
@@ -285,6 +286,7 @@ public class PlayerController : MonoBehaviour
         furnitureObject.transform.parent = null;
         furnitureObject.transform.position = hit2D.transform.position;
         furnitureObject.transform.gameObject.layer = 1; //default layer
+        //have to do clean up with active item
         activeItem = null;
     }
     private void PickUpFurniture(RaycastHit2D hit2D)
