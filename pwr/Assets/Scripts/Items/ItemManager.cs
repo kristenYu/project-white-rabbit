@@ -25,7 +25,7 @@ public class ItemManager : MonoBehaviour
             return;
         }
 
-        // Otherwise store my reference and make me DontDestroyOnLoad
+        // Otherwise store my reference and make me DontDestroyOnLoadss
         instance = this;
         DontDestroyOnLoad(gameObject);
     }

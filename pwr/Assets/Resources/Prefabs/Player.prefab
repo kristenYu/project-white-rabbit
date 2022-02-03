@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8205332307306254587}
   - component: {fileID: 8205332307306254581}
   - component: {fileID: 8205332307306254580}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Coins Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   - component: {fileID: 8205332307544167700}
   - component: {fileID: 8205332307544167707}
   - component: {fileID: 8205332307544167706}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,7 +132,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1312270775
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &8205332307544167707
@@ -186,7 +186,7 @@ GameObject:
   - component: {fileID: 8205332308015416533}
   - component: {fileID: 8205332308015416532}
   - component: {fileID: 8205332308015416539}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8205332308164691208}
   - component: {fileID: 8205332308164691209}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Interact Popup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -326,8 +326,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1312270775
-  m_SortingLayer: 2
+  m_SortingLayerID: -1512910657
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 91613e297c9fd0d47b1b91a8cb3909c7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -351,7 +351,7 @@ GameObject:
   - component: {fileID: 8205332308230389908}
   - component: {fileID: 8205332308230389910}
   - component: {fileID: 8205332308230389909}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TimeOfDay Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,7 +485,7 @@ GameObject:
   - component: {fileID: 8205332308507442869}
   - component: {fileID: 8205332308507442871}
   - component: {fileID: 8205332308507442870}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Coins Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 8205332308754028207}
   - component: {fileID: 8205332308754028202}
   - component: {fileID: 8205332308754028203}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -682,8 +682,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1312270775
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7,
     type: 3}
@@ -736,8 +736,8 @@ MonoBehaviour:
   inventory: []
   activeItem: {fileID: 0}
   currentInventoryIndex: 0
+  furnitureObject: {fileID: 0}
   runSpeed: 7
-  previousDirection: {x: 0, y: 0}
   interactPopup: {fileID: 8205332308164691215}
 --- !u!61 &8205332308754028203
 BoxCollider2D:
@@ -776,7 +776,7 @@ GameObject:
   - component: {fileID: 8205332309003898900}
   - component: {fileID: 8205332309003898902}
   - component: {fileID: 8205332309003898901}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TimeOfDayIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}

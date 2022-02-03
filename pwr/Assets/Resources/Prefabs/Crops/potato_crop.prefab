@@ -55,6 +55,13 @@ MonoBehaviour:
   - {fileID: -6350494289057922714, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   currentStage: 0
   food: {fileID: 1665871459648580979, guid: 9cacbe8c2a09ae64d826c2ea9406eb86, type: 3}
+  worldController: {fileID: 0}
+  isReadyToGrow: 0
+  startingDay: 0
+  targetDay: 0
+  startingTOD: 0
+  growRate: 0
+  nextGrowthStage: 0
 --- !u!61 &8100098990436261177
 BoxCollider2D:
   m_ObjectHideFlags: 0

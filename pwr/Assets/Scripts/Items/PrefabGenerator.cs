@@ -26,14 +26,21 @@ public class PrefabGenerator : MonoBehaviour
             //generate new prefab object
             GameObject prefabGameObject = new GameObject();
             prefabGameObject.AddComponent<Furniture>();
+            prefabGameObject.AddComponent<SpriteRenderer>();
+            prefabGameObject.AddComponent<BoxCollider2D>(); 
+            prefabGameObject.tag = "furniture";
+            SpriteRenderer spriteRenderer = prefabGameObject.GetComponent<SpriteRenderer>(); 
             Furniture furnitureScript = prefabGameObject.GetComponent<Furniture>();
+            BoxCollider2D boxCollider = prefabGameObject.GetComponent<BoxCollider2D>();
             //assumes the ordering that can be found in the chair sprites - make sure to reorder these as necessary
-            furnitureScript.backSprite = sprites[0];
-            furnitureScript.frontSprite = sprites[1];
-            furnitureScript.leftSprite = sprites[2];
-            furnitureScript.rightSprite = sprites[3];
+            furnitureScript.spriteArray = sprites; 
             furnitureScript.stringName = texture.name;
-            furnitureScript.itemSprite = furnitureScript.frontSprite;
+            furnitureScript.itemSprite = furnitureScript.spriteArray[0];
+
+            spriteRenderer.sprite = furnitureScript.spriteArray[0];
+            spriteRenderer.sortingLayerName = "Foreground";
+
+            boxCollider.size = new Vector2(1, 1);
 
             // Create the new Prefab
             bool isCreatedPrefab;
