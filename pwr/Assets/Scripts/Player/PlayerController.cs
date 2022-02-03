@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private float moveLimiter = 0.7f;
     public float runSpeed = 7.0f;
     private Vector2 previousDirection;
+    RaycastHit2D hit;
 
     //juice
     public GameObject interactPopup;
@@ -88,8 +89,7 @@ public class PlayerController : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        //raycast 
-        RaycastHit2D hit;
+
         if (horizontal < 0)
         {
             hit = drawRay(Vector2.left, false);
@@ -191,10 +191,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (activeItem.tag == "furniture")
                         {
-                            furnitureObject.transform.parent = null;
-                            furnitureObject.transform.position = hit.transform.position;
-                            furnitureObject.transform.gameObject.layer = 1; //default layer
-                            activeItem = null; 
+                            PlaceFurniture(hit);
                         }
                     }
                 }
@@ -204,10 +201,7 @@ public class PlayerController : MonoBehaviour
                     setActiveItem(hit.transform.gameObject);
                     if(activeItem != null)
                     {
-                        furnitureObject = hit.transform.gameObject;
-                        furnitureObject.transform.SetParent(this.transform);
-                        furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-                        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+                        PickUpFurniture(hit); 
                     }                    
                 }
             }
@@ -285,6 +279,20 @@ public class PlayerController : MonoBehaviour
                 furnitureObject.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
             }
         }
+    }
+    private void PlaceFurniture(RaycastHit2D hit2D)
+    {
+        furnitureObject.transform.parent = null;
+        furnitureObject.transform.position = hit2D.transform.position;
+        furnitureObject.transform.gameObject.layer = 1; //default layer
+        activeItem = null;
+    }
+    private void PickUpFurniture(RaycastHit2D hit2D)
+    {
+        furnitureObject = hit2D.transform.gameObject;
+        furnitureObject.transform.SetParent(this.transform);
+        furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
+        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
