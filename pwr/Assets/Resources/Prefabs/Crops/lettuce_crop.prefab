@@ -48,13 +48,20 @@ MonoBehaviour:
   cropname: lettuce
   daysUntilReady: 0
   SpriteGrowingArray:
-  - {fileID: -5435583864385587822, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   - {fileID: -7898732106725482511, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   - {fileID: -2344051083264379774, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   - {fileID: 5201942159505157353, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   - {fileID: -6847805452586552288, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
+  - {fileID: -5435583864385587822, guid: 6f38db3ad2b3b4941a47e4f041610840, type: 3}
   currentStage: 0
   food: {fileID: 4499680216495708586, guid: 7e0b67e263dbfa04aa5633da37bfc5f7, type: 3}
+  worldController: {fileID: 0}
+  isReadyToGrow: 0
+  startingDay: 0
+  targetDay: 0
+  startingTOD: 0
+  growRate: 0
+  nextGrowthStage: 0
 --- !u!61 &1897424423618573037
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -121,7 +128,7 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5435583864385587822, guid: 6f38db3ad2b3b4941a47e4f041610840,
+  m_Sprite: {fileID: -7898732106725482511, guid: 6f38db3ad2b3b4941a47e4f041610840,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

@@ -10,6 +10,9 @@ TagManager:
   - food
   - seed
   - crop
+  - placeable
+  - debug_furniture
+  - furniture
   layers:
   - Default
   - TransparentFX
@@ -52,4 +55,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1312270775
+    locked: 0
+  - name: UI
+    uniqueID: 2782056639
     locked: 0

@@ -925,7 +925,7 @@ TextureImporter:
     second: crops_306
   - first:
       213: -6847805452586552288
-    second: crops_lettuce_4
+    second: crops_lettuce_3
   - first:
       213: -4244828190509259554
     second: crops_308
@@ -1027,7 +1027,7 @@ TextureImporter:
     second: crops_340
   - first:
       213: -5435583864385587822
-    second: crops_lettuce_
+    second: crops_lettuce_4
   - first:
       213: -3925242094124041012
     second: crops_342
@@ -7741,7 +7741,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crops_lettuce_4
+      name: crops_lettuce_3
       rect:
         serializedVersion: 2
         x: 96
@@ -8455,7 +8455,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crops_lettuce_
+      name: crops_lettuce_4
       rect:
         serializedVersion: 2
         x: 96

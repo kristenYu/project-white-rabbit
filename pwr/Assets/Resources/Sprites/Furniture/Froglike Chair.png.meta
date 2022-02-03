@@ -4,16 +4,16 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -1540249949822026225
-    second: Froglike Chair_L
+    second: Froglike_Chair_1
   - first:
       213: 1320366972173117747
-    second: Froglike Chair_F
+    second: Froglike_Chair_0
   - first:
       213: -5964606332901434914
-    second: Froglike Chair_R
+    second: Froglike_Chair_3
   - first:
       213: -8921741276735486119
-    second: Froglike Chair_B
+    second: Froglike_Chair_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,7 +127,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Froglike Chair_L
+      name: Froglike_Chair_1
       rect:
         serializedVersion: 2
         x: 158
@@ -148,7 +148,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froglike Chair_F
+      name: Froglike_Chair_0
       rect:
         serializedVersion: 2
         x: 218
@@ -169,7 +169,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froglike Chair_R
+      name: Froglike_Chair_3
       rect:
         serializedVersion: 2
         x: 154
@@ -190,7 +190,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Froglike Chair_B
+      name: Froglike_Chair_2
       rect:
         serializedVersion: 2
         x: 218
