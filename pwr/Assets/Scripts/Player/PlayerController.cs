@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
@@ -18,10 +19,13 @@ public class PlayerController : MonoBehaviour
 
     //inventory 
     public GameObject[] inventory;
+    public Image[] inventoryHUDObjects;
     public GameObject activeItem; 
     public int currentInventoryIndex;
-    private int inventorySize;
+    private const int inventorySize = 10;
     private GameObject tempObject;
+    private Item currentItem; 
+
 
     //place furniture 
     public GameObject furnitureObject;
@@ -43,6 +47,9 @@ public class PlayerController : MonoBehaviour
     //juice
     public GameObject interactPopup;
     private int layerMask;
+
+    //Debug
+    private GameObject testObject; 
 
     //Singleton 
     private static PlayerController instance;
@@ -67,7 +74,6 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        inventorySize = 5;
         inventory = new GameObject[inventorySize];
         currentInventoryIndex = 0; 
 
@@ -76,6 +82,11 @@ public class PlayerController : MonoBehaviour
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
+
+        foreach(Image itemImage in inventoryHUDObjects)
+        {
+            itemImage.gameObject.SetActive(false);
+        }
 
         layerMask = 1 << 2;
         layerMask = ~layerMask;
@@ -138,7 +149,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
         //interact with objects
         if (hit)
         {
@@ -153,8 +163,10 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
                 {
-                    //Does not get added to inventory for now - will figure out flow later
-                    setActiveItem(itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)]);
+                    testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
+                    setActiveItem(testObject);
+                    SetNextOpenInventory(); 
+                    AddObjectToInventory(testObject);
                 }
                 //plants a seed if the active item is a seed
                 else if (hit.transform.gameObject.tag == "planting")
@@ -170,14 +182,18 @@ public class PlayerController : MonoBehaviour
                             cropScript.worldController = this.worldControllerObject.GetComponent<WorldController>();
                             worldController.activeCropList.Add(cropObject);
                             //remove item from activeItem 
+                            RemoveObjectFromInventory(activeItem);
                             activeItem = null;
+
                         }
                     }
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
                     //Does not get added to inventory for now - will figure out flow later
-                    setActiveItem(itemManager.furnitureArray[Random.Range(0, itemManager.furnitureArray.Length - 1)]);
+                    testObject = itemManager.furnitureArray[Random.Range(0, itemManager.furnitureArray.Length - 1)];
+                    setActiveItem(testObject);
+                    AddObjectToInventory(testObject);
                     furnitureObject = Instantiate(activeItem, this.transform.position, Quaternion.identity);
                     furnitureObject.transform.SetParent(this.transform);
                     furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
@@ -192,6 +208,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (activeItem.tag == "furniture")
                         {
+                            RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
                         }
                     }
@@ -202,7 +219,9 @@ public class PlayerController : MonoBehaviour
                     setActiveItem(hit.transform.gameObject);
                     if(activeItem != null)
                     {
-                        PickUpFurniture(hit); 
+                        PickUpFurniture(hit);
+                        SetNextOpenInventory();
+                        AddObjectToInventory(activeItem);
                     }                    
                 }
             }
@@ -227,12 +246,62 @@ public class PlayerController : MonoBehaviour
 
     public void setActiveItem(GameObject item)
     {
+        /*
         if(activeItem == null)
         {
             activeItem = item;
         }
+        */
+        activeItem = item; 
     }
 
+    public void SetNextOpenInventory()
+    {
+        for(int i = 0; i < inventorySize; i++)
+        {
+            if(inventory[i] ==  null)
+            {
+                currentInventoryIndex = i;
+                break;
+            }
+        }
+    }    
+    public bool AddObjectToInventory(GameObject item)
+    {
+        if(currentInventoryIndex < inventorySize)
+        {
+            if(inventory[currentInventoryIndex] == null)
+            {
+                currentItem = item.GetComponent<Item>();
+                if (currentItem == null)
+                {
+                    Debug.LogWarning(item.name + " is not an item class; Cannot add to inventory");
+                    return false; 
+                }
+                else
+                {
+                    inventory[currentInventoryIndex] = item; 
+                    inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
+                    inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
+                    if (currentInventoryIndex < inventorySize)
+                    {
+                        currentInventoryIndex++;
+                    }
+                    return true;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Inventory at CurrentInventoryIndex is not null");
+                return false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("CurrentInventoryIndex is greater than inventory Size");
+            return false;
+        }
+    }
     public bool AddObjectToInventory(GameObject item, int indexAt)
     {
         if(indexAt > inventorySize)
@@ -245,10 +314,26 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            inventory[indexAt] = item;
-            return true;
+            currentItem = item.GetComponent<Item>();
+            if (currentItem == null)
+            {
+                Debug.LogWarning(item.name + " is not an item class; Cannot add to inventory");
+                return false;
+            }
+            else
+            {
+                inventory[indexAt] = item;
+                inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
+                inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
+                if (currentInventoryIndex < inventorySize)
+                {
+                    currentInventoryIndex++;
+                }
+                return true;
+            }
         }
     }
+    //only removes the first instance of the object in the list
     public GameObject RemoveObjectFromInventory(GameObject item)
     {
         tempObject = null;
@@ -260,8 +345,11 @@ public class PlayerController : MonoBehaviour
                 tempObject = inventory[i];
                 savedIndex = i;
                 inventory[i] = null;
+                currentInventoryIndex = i;
+                break;
             }
         }
+        inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(false);
         return tempObject;
     }
 
@@ -269,6 +357,8 @@ public class PlayerController : MonoBehaviour
     {
         tempObject = inventory[indexAt];
         inventory[indexAt] = null;
+        inventoryHUDObjects[indexAt].gameObject.SetActive(false);
+        currentInventoryIndex = indexAt; 
         return tempObject;
     }
     private void ShowActiveItem()
@@ -295,6 +385,7 @@ public class PlayerController : MonoBehaviour
         furnitureObject.transform.SetParent(this.transform);
         furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
         furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+        activeItem = furnitureObject;
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
