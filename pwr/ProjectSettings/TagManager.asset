@@ -13,6 +13,7 @@ TagManager:
   - placeable
   - debug_furniture
   - furniture
+  - world_c
   layers:
   - Default
   - TransparentFX

@@ -17,6 +17,8 @@ public interface IEventListener
     public void OnEventUpdate();
 
     //Is called when the event is completed
-    public void OnEventCompleted(); 
+    public void OnEventCompleted();
 
+    //set one event listener equal to the other 
+    public void Equals();
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AEventListener : MonoBehaviour, IEventListener
+public abstract class AEventListener : MonoBehaviour
 {
 
     //Manager Variables 
@@ -27,4 +27,7 @@ public abstract class AEventListener : MonoBehaviour, IEventListener
 
     //Is called when the event is completed
     public abstract void OnEventCompleted();
+
+    //set one event listener equal to the other 
+    public abstract void Equals(AEventListener otherEventListener); 
 }

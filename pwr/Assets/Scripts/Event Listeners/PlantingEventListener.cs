@@ -9,6 +9,7 @@ public class PlantingEventListener : AEventListener
     public GameObject worldControllerObject;
     private WorldController worldController;
     private Crop currentCrop;
+    private PlantingEventListener otherPEL;
 
     //Initial number of specific target crops planted in the world
     public  int startingNumTargetCrops;
@@ -47,15 +48,21 @@ public class PlantingEventListener : AEventListener
     }
     public override void OnEndListening()
     {
-
+        Debug.Log("End Listening");
     }
     public override void OnEventUpdate()
     {
-
+        Debug.Log("Update Event");
     }
     public override void OnEventCompleted()
     {
-
+        Debug.Log("Event Has been Completed");
+    }
+    public override void Equals(AEventListener otherEventListener)
+    {
+        otherPEL = (PlantingEventListener)otherEventListener;
+        this.structToCheck.name = otherPEL.structToCheck.name;
+        this.structToCheck.targetValue = otherPEL.structToCheck.targetValue;
     }
 
     public void SetPlantSeedStruct(PlantSeedStruct targetStruct)
