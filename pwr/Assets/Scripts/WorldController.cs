@@ -20,7 +20,8 @@ public class WorldController : MonoBehaviour
     //HUD Variables
     public TextMeshProUGUI TODText;
     public RawImage TODImage;
-    public Texture[] TODIcons = new Texture[3]; 
+    public Texture[] TODIcons = new Texture[3];
+    
 
     //managing changing time of day
     private float dayDuration;
