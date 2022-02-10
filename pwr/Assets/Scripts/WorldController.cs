@@ -23,9 +23,9 @@ public class WorldController : MonoBehaviour
     public Texture[] TODIcons = new Texture[3]; 
 
     //managing changing time of day
-    private float dayDuration;
-    private float twilightDuration;
-    private float nightDuration;
+    public float dayDuration;
+    public float twilightDuration;
+    public float nightDuration;
 
     //crop management
     public List<GameObject> activeCropList;
@@ -138,7 +138,7 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private void updateTOD(float timer)
+    public void updateTOD(float timer)
     {
         if (currentTOD == TOD.Day)
         {
@@ -169,5 +169,12 @@ public class WorldController : MonoBehaviour
                 TODImage.texture = TODIcons[0];
             }
         }
+    }
+
+    public void setDurationsForTesting(float day, float twilight, float night)
+    {
+        dayDuration = day;
+        twilightDuration = twilight;
+        nightDuration = night; 
     }
 }
