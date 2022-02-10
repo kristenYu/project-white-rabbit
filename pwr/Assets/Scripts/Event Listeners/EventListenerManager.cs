@@ -13,9 +13,30 @@ public class EventListenerManager : MonoBehaviour
     public AEventListener testEventListenerType; 
 
     private AEventListener currentEventListener;
-    private GameObject eventListenerObject; 
+    private GameObject eventListenerObject;
     //private GameObject eventListenerTemplate;
     //private AEventListener eventListener; 
+
+
+    //Singleton 
+    private static EventListenerManager instance;
+    // Read-only public access
+    public static EventListenerManager Instance => instance;
+
+    private void Awake()
+    {
+        // Does another instance already exist?
+        if (instance && instance != this)
+        {
+            // Destroy myself
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise store my reference and make me DontDestroyOnLoad
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Start is called before the first frame update
     void Start()
