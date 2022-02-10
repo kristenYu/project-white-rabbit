@@ -1021,6 +1021,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WorldController
       objectReference: {fileID: 0}
+    - target: {fileID: 3020716752809631541, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 3020716752809631547, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
       propertyPath: m_RootOrder
