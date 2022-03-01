@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour
     private Crop cropScript; 
     private Seed seedScript;
 
+    //Cooking 
+    public GameObject[] knownRecipes; 
+
     //inventory 
     public GameObject[] inventory;
     public Image[] inventoryHUDObjects;
