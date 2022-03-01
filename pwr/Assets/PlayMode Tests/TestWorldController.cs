@@ -23,16 +23,17 @@ public class TestWorldController
         //START HAS NOT BEEN CALLED YET 
 
         yield return null; //wait one frame for start to be called
+
         //START IS CALLED 
         worldController.setDurationsForTesting(0.1f, 0.1f, 0.1f);
         Assert.AreEqual(1, worldController.currentDay);
         Assert.AreEqual(WorldController.TOD.Day, worldController.currentTOD);
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.11f);
         Assert.AreEqual(WorldController.TOD.Twilight, worldController.currentTOD);
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.11f);
         Assert.AreEqual(WorldController.TOD.Night, worldController.currentTOD);
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.11f);
         Assert.AreEqual(WorldController.TOD.Day, worldController.currentTOD);
         Assert.AreEqual(2, worldController.currentDay);
 

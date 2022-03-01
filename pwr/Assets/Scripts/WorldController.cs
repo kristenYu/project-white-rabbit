@@ -85,6 +85,7 @@ public class WorldController : MonoBehaviour
     void Update()
     {
         currentTimer += Time.deltaTime;
+
         checkValidSceneForCrops();
         checkValidSceneForFurniture();
         growActiveCrops();

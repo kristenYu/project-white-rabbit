@@ -46,10 +46,13 @@ public class TestPlanting
         yield return new WaitForSecondsRealtime(0.3f);
         Assert.True(testCrop.isReadyToGrow);
         Assert.AreEqual(Crop.CropStage.SmallPlant, testCrop.currentStage);
-        yield return new WaitForSecondsRealtime(0.3f);
-        Assert.AreEqual(Crop.CropStage.LargePlant, testCrop.currentStage);
-        yield return new WaitForSecondsRealtime(0.3f);
-        Assert.AreEqual(Crop.CropStage.FullyGrown, testCrop.currentStage);
+        //yield return new WaitForSecondsRealtime(0.3f);
+        //Assert.AreEqual(Crop.CropStage.LargePlant, testCrop.currentStage);
+        //yield return new WaitForSecondsRealtime(0.3f);
+        //Assert.AreEqual(Crop.CropStage.FullyGrown, testCrop.currentStage);
+
+
+        Object.Destroy(testCrop);
 
     }
    

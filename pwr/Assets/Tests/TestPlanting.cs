@@ -15,9 +15,9 @@ public class TestPlanting
 
         GameObject testCropObject = MonoBehaviour.Instantiate(Resources.Load<GameObject>("Prefabs/Crops/carrot_crop"));
         Crop testCrop = testCropObject.GetComponent<Crop>();
+       
         Assert.AreEqual(worldController.currentDay, testCrop.startingDay);
         Assert.AreEqual(Crop.CropStage.Sprout, testCrop.currentStage);
-
 
     }
 
