@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cost: 0
   stringName: lettuce
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 3046544090647025007, guid: 279cdd02f2599f342a09400c69f9a5bf,
+    type: 3}
 --- !u!212 &4151599315255742788
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -84,17 +85,18 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1312270775
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 3046544090647025007, guid: 279cdd02f2599f342a09400c69f9a5bf,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.53125, y: 0.40625}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0

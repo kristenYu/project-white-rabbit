@@ -222,6 +222,14 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 }
+                //Harvest food from a crop that is fully grown 
+                else if(hit.transform.gameObject.tag == "crop")
+                {
+                    //check if the crop can be harvested and harvests if it can 
+                    cropScript = hit.transform.gameObject.GetComponent<Crop>();
+                    AddObjectToInventory(cropScript.HarvestCrop());
+
+                }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
                     //Does not get added to inventory for now - will figure out flow later
@@ -307,6 +315,11 @@ public class PlayerController : MonoBehaviour
 	
     public bool AddObjectToInventory(GameObject item)
     {
+        if(item == null)
+        {
+            Debug.LogWarning("Attempted to add a null item");
+            return false;
+        }
         if(currentInventoryIndex < inventorySize)
         {
             if(inventory[currentInventoryIndex] == null)
