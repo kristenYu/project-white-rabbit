@@ -48,6 +48,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 previousDirection;
     RaycastHit2D hit;
 
+    //Animator
+    Animator anim; 
+
     //juice
     public GameObject interactPopup;
     private int layerMask;
@@ -79,7 +82,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         currency = 30;
-        inventorySize = 5;
         inventory = new GameObject[inventorySize];
         currentInventoryIndex = 0; 
 
@@ -88,6 +90,9 @@ public class PlayerController : MonoBehaviour
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
+
+        anim = GetComponent<Animator>(); 
+
 
         foreach(Image itemImage in inventoryHUDObjects)
         {
@@ -104,7 +109,17 @@ public class PlayerController : MonoBehaviour
         ShowActiveItem();
 
         horizontal = Input.GetAxisRaw("Horizontal");
+        anim.SetFloat("Horizontal", horizontal);
         vertical = Input.GetAxisRaw("Vertical");
+        anim.SetFloat("Vertical", vertical);
+        if (horizontal == 0 && vertical == 0)
+        {
+            anim.SetBool("IsWalking", false);
+        }
+        else
+        {
+            anim.SetBool("IsWalking", true);
+        }
 
 
         if (horizontal < 0)
