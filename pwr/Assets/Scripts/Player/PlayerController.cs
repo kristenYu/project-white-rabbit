@@ -108,10 +108,23 @@ public class PlayerController : MonoBehaviour
         //inventory
         ShowActiveItem();
 
+        //player animation
         horizontal = Input.GetAxisRaw("Horizontal");
-        anim.SetFloat("Horizontal", horizontal);
         vertical = Input.GetAxisRaw("Vertical");
-        anim.SetFloat("Vertical", vertical);
+
+        if (horizontal != 0 && vertical != 0)
+        {
+            anim.SetFloat("Horizontal", horizontal);
+            anim.SetFloat("Vertical", 0);
+        }
+        else
+        {
+            anim.SetFloat("Horizontal", horizontal);
+            anim.SetFloat("Vertical", vertical);
+        }
+
+
+
         if (horizontal == 0 && vertical == 0)
         {
             anim.SetBool("IsWalking", false);
