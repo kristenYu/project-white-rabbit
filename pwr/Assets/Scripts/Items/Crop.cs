@@ -78,6 +78,8 @@ public class Crop : MonoBehaviour
     {
         if(currentStage == CropStage.FullyGrown)
         {
+            currentStage = CropStage.Harvested;
+            RenderCropSprite(currentStage);
             return food; 
         }
         else
@@ -92,22 +94,25 @@ public class Crop : MonoBehaviour
         {
             case CropStage.Sprout:
                 currentStage = CropStage.SmallPlant;
-                currentSprite = SpriteGrowingArray[(int)currentStage];
-                spriteRenderer.sprite = currentSprite;
+                RenderCropSprite(currentStage);
                 break;
             case CropStage.SmallPlant:
                 currentStage = CropStage.LargePlant;
-                currentSprite = SpriteGrowingArray[(int)currentStage];
-                spriteRenderer.sprite = currentSprite;
+                RenderCropSprite(currentStage);
                 break;
             case CropStage.LargePlant:
                 currentStage = CropStage.FullyGrown;
-                currentSprite = SpriteGrowingArray[(int)currentStage];
-                spriteRenderer.sprite = currentSprite;
+                RenderCropSprite(currentStage);
                 break;
             default:
                 break;
         }
-    }    
+    }
+
+    private void RenderCropSprite(CropStage stage)
+    {
+        currentSprite = SpriteGrowingArray[(int)stage];
+        spriteRenderer.sprite = currentSprite;
+    }
 }
 

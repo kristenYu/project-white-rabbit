@@ -82,9 +82,11 @@ public class PrefabGenerator : MonoBehaviour
             texture = textureArray[0];
             //load in sprites
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Plants/" + texture.name);
-            List<Sprite> validSpriteList = new List<Sprite>(); 
+            List<Sprite> validSpriteList = new List<Sprite>();
+            Sprite[] foodSprites = Resources.LoadAll<Sprite>("Sprites/Plants/food");
 
-            foreach(Sprite sp in sprites)
+
+            foreach (Sprite sp in sprites)
             {
                 string[] spritestrings = sp.name.Split('_');
                 if(spritestrings.Length == 3)
@@ -116,6 +118,7 @@ public class PrefabGenerator : MonoBehaviour
                 //get relavent string data
                 string[] spriteStrings = groupedSpriteArray[i, 0].name.Split('_');
                 Sprite basicSeedSprite = Resources.Load<Sprite>("Sprites/Plants/seed_bag");
+
 
                 string seedPath = "Assets/Resources/Prefabs/Seeds/" + spriteStrings[1] + "_seed.prefab";
                 string cropPath = "Assets/Resources/Prefabs/Crops/" + spriteStrings[1] + "_crop.prefab";
@@ -163,6 +166,17 @@ public class PrefabGenerator : MonoBehaviour
                 foodObject.AddComponent<SpriteRenderer>(); 
                 Food foodScript = foodObject.GetComponent<Food>();
                 foodScript.stringName = spriteStrings[1]; ;
+                foreach(Sprite sp in foodSprites)
+                {
+                    if (sp.name == spriteStrings[1])
+                    {
+                        foodScript.itemSprite = sp; 
+                    }
+                }
+                SpriteRenderer foodRenderer = foodObject.GetComponent<SpriteRenderer>();
+                foodRenderer.sprite = foodScript.itemSprite;
+                foodRenderer.sortingLayerName = "Foreground";
+
 
 
                 // Create the new Prefabs
