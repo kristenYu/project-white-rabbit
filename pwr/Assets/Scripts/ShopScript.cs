@@ -8,13 +8,13 @@ using TMPro;
 /*Plan for script:
      * Click Item to buy to purchase and add to inventory
      * Click Item in Inventory to sell
-     * --- how to apply script to other prefabs? Make new script???
+     * --- For above two, should a little menu pop up? Or just click to buy if have funds/sell and gain money?
      * 
      * Click arrows to move between catagories 
      * --- Will need to turn panels on/off
      * 
      * Exit Shop to Main Scene
-     * -- remove HUD in background! should be able to disable it!
+     * --- Weird error where player character can move...might want to disable background?? or something??
      * 
      * Items refresh everyday!
      */
@@ -22,76 +22,30 @@ using TMPro;
 public class ShopScript : MonoBehaviour
 {
     //Exit Shop
-    public Button ExitToMainButton;
-    public Button ExitBtn;
-    
-    //Access Items Database
-    public GameObject itemManagerObject;
-    private ItemManager itemManager;
-    private List<int> CurrentItems;
-
-    //Shop item panel elements
-    public Button ItemBtn;
-    public Image ItemImage;
-    public Text ItemName;
-    public Text ItemCost;
-    public List<Button> ItemBtnList = new List<Button>();
-
-    //test object for loading random item for purchase
-    public GameObject furniture;
+    public Button ExitToMain;
 
     // Start is called before the first frame update
     void Start()
     {
-        //load the item manager
-        itemManager = itemManagerObject.GetComponent<ItemManager>();
+        //Remove movement for player
+        //GameObject.Find("Player").GetComponent(PlayerMovement).enabled = false;
 
-        //Setting Button to move back to main, put Button outside!!!
-        ExitBtn = ExitToMainButton.GetComponent<Button>();
-        ExitBtn.onClick.AddListener(ExitButtonClicked);
-
-        //load store items and set it on the store
-        int randNum = Random.Range(0, itemManager.furnitureArray.Length);
-        furniture = itemManager.furnitureArray[randNum];
-        Debug.Log(furniture.name);
-        //set items
-        ItemBtn = ItemBtn.GetComponent<Button>();
-        ItemImage.sprite = furniture.GetComponent<Item>().itemSprite;
-        ItemName.text = furniture.GetComponent<Item>().stringName;
-        ItemCost.text = furniture.GetComponent<Item>().cost.ToString();
-        /*icon = furniture.
-        ItemBtn.onClick.AddListener(ItemPurchased);*/
+        //Setting Button to move back to main
+        Button ExitBtn = ExitToMain.GetComponent<Button>();
+        ExitBtn.onClick.AddListener(ButtonClicked);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //set furniture for day
-
-        //purchase item
-
-        //sell item
-
+      
     }
 
-    void SetItemUI()
+    void ButtonClicked()
     {
-
-    }
-    void ItemPurchased()
-    {
-        Debug.Log("Pressed!");
-    }
-
-    void ItemSold()
-    {
-
-    }
-    void ExitButtonClicked()
-    {
-        //load main and enable player movement
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+        //Restart movement for player
+
     }
 
 }
