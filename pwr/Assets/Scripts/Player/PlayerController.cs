@@ -280,6 +280,14 @@ public class PlayerController : MonoBehaviour
 
         //update player currency to view in HUD
         currencyText.text = currency.ToString();
+
+        //check for shop enabled and disable player movement
+        if (SceneManager.GetActiveScene().name == "Shop")
+        {
+            this.GetComponent<PlayerController>().enabled = false;
+            //GameObject.Find("WorldController").GetComponent<WorldController>().enabled = false;
+        }
+        
     }
 	
     private void FixedUpdate()
