@@ -186,7 +186,11 @@ public class PlayerController : MonoBehaviour
         //interact with objects
         if (hit)
         {
-            interactPopup.SetActive(true);
+            if(hit.transform.tag != "water" && hit.transform.tag != "boundary")
+            {
+                interactPopup.SetActive(true);
+            }
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //transitions scenes 
