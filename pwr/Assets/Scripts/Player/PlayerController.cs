@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour
         //interact with objects
         if (hit)
         {
-            if(hit.transform.tag != "water" && hit.transform.tag != "boundary")
+            if(hit.transform.tag != "non_interact")
             {
                 interactPopup.SetActive(true);
             }

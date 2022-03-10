@@ -16,6 +16,8 @@ TagManager:
   - world_c
   - water
   - boundary
+  - fence
+  - non_interact
   layers:
   - Default
   - TransparentFX
