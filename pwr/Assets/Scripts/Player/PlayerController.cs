@@ -18,8 +18,24 @@ public class PlayerController : MonoBehaviour
     private Crop cropScript; 
     private Seed seedScript;
 
-    //Cooking 
-    public GameObject[] knownRecipes; 
+    //Recipes 
+    public List<Recipe> knownRecipes;
+    private GameObject currentRecipeUIObject; 
+    private bool isKnownRecipe;
+    private Recipe currentRecipe;
+
+    //Recipe and Cooking UI
+    public GameObject cookingUI;
+    public GameObject recipeUIPrefab;
+    private List<GameObject> knownRecipeUIObjects;
+    private const float knownRecipeUIOffset = -1.5f;
+    private GameObject cookingUIContent;
+    private Image recipeUIImage;
+    private Image recipeUIBackground;
+    private TextMeshProUGUI recipeUIText; 
+
+    //Cooking
+
 
     //inventory 
     public GameObject[] inventory;
@@ -38,8 +54,6 @@ public class PlayerController : MonoBehaviour
     public GameObject furnitureObject;
     private Furniture furnitureScript;
     private SpriteRenderer furnitureSpriteRenderer;
-    private BoxCollider2D furnitureBoxCollider;
-    
 
     //Movement
     private Rigidbody2D body;
@@ -90,6 +104,8 @@ public class PlayerController : MonoBehaviour
 
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down;
+
+        cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
@@ -194,6 +210,10 @@ public class PlayerController : MonoBehaviour
                 interactPopup.SetActive(true);
             }
 
+            if(hit.transform.tag == "cooking")
+            {
+                cookingUI.SetActive(true);
+            }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //transitions scenes 
@@ -273,12 +293,17 @@ public class PlayerController : MonoBehaviour
                         AddObjectToInventory(activeItem);
                     }                    
                 }
+                else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
+                {
+                    Debug_UnlockAllRecipes();
+                }
             }
            
         }
         else
         {
             interactPopup.SetActive(false);
+            cookingUI.SetActive(false);
         }
 
         //update player currency to view in HUD
@@ -460,6 +485,8 @@ public class PlayerController : MonoBehaviour
         return hit; 
     }
 	
+   
+
 	 //functions to add and remove currency...is this...right??? ehhHHhHHH
     public void addCurrency(int addAmount)
     {
@@ -478,7 +505,55 @@ public class PlayerController : MonoBehaviour
             return true;
         }
 	}
-	
+    //Handle Recipe Unlocks
+    public bool CheckRecipeUnlocked(Recipe recipe)
+    {
+        isKnownRecipe = false; 
+        foreach(Recipe r in knownRecipes)
+        {
+            if(r.equals(recipe))
+            {
+                isKnownRecipe = true;
+            }
+        }
+        return isKnownRecipe;
+    }
+
+    public void UnlockRecipe(Recipe recipe, int index)
+    {
+        knownRecipes.Add(recipe);
+        currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
+        currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
+        currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (2.25f + knownRecipeUIOffset*index)), 0);
+       // currentRecipeUIObject.transform.localPosition = new Vector3(2.5f, -(2.25f + knownRecipeUIOffset * index), 0);
+        SetRecipeUI(currentRecipeUIObject, recipe);
+    }
+    private void Debug_UnlockAllRecipes()
+    {
+        Debug.Log("Unlock all recipes");
+        for(int i = 0; i < itemManager.recipeArray.Length; i++)
+        {
+            currentRecipe = itemManager.recipeArray[i].GetComponent<Recipe>();
+            if (!CheckRecipeUnlocked(currentRecipe))
+            {
+                UnlockRecipe(currentRecipe, i);
+            }
+        }
+    }
+
+    private void SetRecipeUI(GameObject recipeUIObject, Recipe recipe)
+    {
+        //this matches the order in the prefab, but if the prefab changes this code will break
+        recipeUIBackground = recipeUIObject.transform.gameObject.GetComponent<Image>();
+        recipeUIImage = recipeUIObject.transform.GetChild(0).gameObject.GetComponent<Image>();
+        recipeUIText = recipeUIObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+
+        recipeUIImage.overrideSprite = recipe.cookedFood.GetComponent<CookedFood>().itemSprite;
+        recipeUIText.text = recipe.stringName;
+    }
+
+        
 }
+
 
 

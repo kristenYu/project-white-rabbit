@@ -5,7 +5,9 @@ using UnityEngine;
 public class Recipe : Item
 {
     public string[] ingredients;
-    public GameObject cookedFood; 
+    public GameObject cookedFood;
+
+    private bool isSameRecipe; 
 
     // Start is called before the first frame update
     void Start()
@@ -17,5 +19,21 @@ public class Recipe : Item
     void Update()
     {
         
+    }
+
+    public bool equals(Recipe otherRecipe)
+    {
+        isSameRecipe = false; 
+        //this is only conditioned off of string name since all objects should be made using the generator
+        //This has the potential to cause errors if recipe objects are not made using the generator
+        //TODO: Enforce better equality
+        if(this.stringName == otherRecipe.stringName)
+        {
+            return true; 
+        }
+        else
+        {
+            return false; 
+        }
     }
 }

@@ -18,6 +18,9 @@ TagManager:
   - boundary
   - fence
   - non_interact
+  - debug_unlock_recipes
+  - cooking
+  - ui_cooking
   layers:
   - Default
   - TransparentFX
