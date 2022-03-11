@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Recipe : Item
+public class CookedFood : Item
 {
-    public string[] ingredients;
-    public GameObject cookedFood; 
+    public int sellingPrice; 
 
     // Start is called before the first frame update
     void Start()
