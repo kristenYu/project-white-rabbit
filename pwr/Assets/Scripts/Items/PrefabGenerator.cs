@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using System; 
+
 
 public class PrefabGenerator : MonoBehaviour
 {
@@ -233,9 +235,13 @@ public class PrefabGenerator : MonoBehaviour
         {
             
             string data = textAsset.text;
-            string[] recipeList = data.Split('\n');
-            foreach(string recipe in recipeList)
+            //string[] recipeList = data.Split('\n');
+            char[] delims = new[] { '\r', '\n' };
+            string[] recipeList = data.Split(delims, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string recipe in recipeList)
             {
+
+
                 string[] recipeComponents = recipe.Split(',');
 
                 string cookedFoodPath = "Assets/Resources/Prefabs/Cooked Food/" + recipeComponents[0] + "_cookedFood.prefab";

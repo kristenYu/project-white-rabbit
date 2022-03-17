@@ -37,7 +37,10 @@ public class PlayerController : MonoBehaviour
     private TextMeshProUGUI recipeUIText;
 
     //Cooking
-    public int targetRecipe; 
+    private List<GameObject> targetIngredients;
+    private GameObject currentIngredient;
+    private bool isIngredientInInventory;
+    private GameObject cookedFoodObject; 
 
     //inventory 
     public GameObject[] inventory;
@@ -109,6 +112,7 @@ public class PlayerController : MonoBehaviour
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
         knownRecipeUIObjects = new List<GameObject>();
+        targetIngredients = new List<GameObject>(); 
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
@@ -224,7 +228,14 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
                 {
-                    testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
+                    foreach(GameObject seed in itemManager.seedArray)
+                    {
+                        if(seed.GetComponent<Seed>().stringName == "potato")
+                        {
+                            testObject = seed;
+                        }
+                    }
+                    //testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
                     setActiveItem(testObject);
                     SetNextOpenInventory(); 
                     AddObjectToInventory(testObject);
@@ -562,8 +573,35 @@ public class PlayerController : MonoBehaviour
 
     private bool CookRecipe(Recipe recipe)
     {
-        Debug.Log(recipe.stringName);
-        return false;
+        targetIngredients.Clear();
+        //check if the player has everything in the ingredients 
+        foreach(string ingredient in recipe.ingredients)
+        {
+            isIngredientInInventory = false; 
+            foreach(GameObject itemObject in inventory)
+            {
+                if(itemObject == null)
+                {
+                    continue; 
+                }
+                if(itemObject.GetComponent<Item>().stringName == ingredient)
+                {
+                    currentIngredient = RemoveObjectFromInventory(itemObject);
+                    isIngredientInInventory = true;
+                    break; 
+                }
+            }
+
+            if(isIngredientInInventory == false)
+            {
+                Debug.Log("Recipe Cannot be made because player does not have the correct ingredients");
+                return false; 
+            }
+        }
+        cookedFoodObject = Instantiate(recipe.cookedFood);
+        SetNextOpenInventory(); 
+        AddObjectToInventory(cookedFoodObject);
+        return true;
     }    
 
 }

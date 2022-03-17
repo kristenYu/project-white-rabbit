@@ -48,6 +48,6 @@ MonoBehaviour:
   itemSprite: {fileID: 0}
   ingredients:
   - potato
-  - "potato\r"
+  - potato
   cookedFood: {fileID: 5940251825800777307, guid: 175880639f2de8945aab0cacf48826f9,
     type: 3}
