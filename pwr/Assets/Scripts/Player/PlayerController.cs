@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-
 public class PlayerController : MonoBehaviour
 {
+    public Button testButton;
+
     //Access World Database 
     public GameObject itemManagerObject;
     private ItemManager itemManager;
@@ -32,10 +33,11 @@ public class PlayerController : MonoBehaviour
     private GameObject cookingUIContent;
     private Image recipeUIImage;
     private Image recipeUIBackground;
-    private TextMeshProUGUI recipeUIText; 
+    private Button recipeUIButton; 
+    private TextMeshProUGUI recipeUIText;
 
     //Cooking
-
+    public int targetRecipe; 
 
     //inventory 
     public GameObject[] inventory;
@@ -106,6 +108,7 @@ public class PlayerController : MonoBehaviour
         previousDirection = Vector2.down;
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
+        knownRecipeUIObjects = new List<GameObject>();
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
@@ -124,13 +127,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //inventory
         ShowActiveItem();
 
-        //player animation
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
-
+        
+        //player animation
         if (horizontal != 0 && vertical != 0)
         {
             anim.SetFloat("Horizontal", horizontal);
@@ -142,8 +144,6 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat("Vertical", vertical);
         }
 
-
-
         if (horizontal == 0 && vertical == 0)
         {
             anim.SetBool("IsWalking", false);
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("IsWalking", true);
         }
 
-
+        //Interaction raycasts
         if (horizontal < 0)
         {
             hit = drawRay(Vector2.left, false);
@@ -296,6 +296,10 @@ public class PlayerController : MonoBehaviour
                 else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
                     Debug_UnlockAllRecipes();
+                }
+                //cooking
+                {
+
                 }
             }
            
@@ -514,6 +518,7 @@ public class PlayerController : MonoBehaviour
             if(r.equals(recipe))
             {
                 isKnownRecipe = true;
+                break; 
             }
         }
         return isKnownRecipe;
@@ -525,8 +530,8 @@ public class PlayerController : MonoBehaviour
         currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
         currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
         currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (2.25f + knownRecipeUIOffset*index)), 0);
-       // currentRecipeUIObject.transform.localPosition = new Vector3(2.5f, -(2.25f + knownRecipeUIOffset * index), 0);
         SetRecipeUI(currentRecipeUIObject, recipe);
+        knownRecipeUIObjects.Add(currentRecipeUIObject);
     }
     private void Debug_UnlockAllRecipes()
     {
@@ -544,15 +549,23 @@ public class PlayerController : MonoBehaviour
     private void SetRecipeUI(GameObject recipeUIObject, Recipe recipe)
     {
         //this matches the order in the prefab, but if the prefab changes this code will break
-        recipeUIBackground = recipeUIObject.transform.gameObject.GetComponent<Image>();
-        recipeUIImage = recipeUIObject.transform.GetChild(0).gameObject.GetComponent<Image>();
-        recipeUIText = recipeUIObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
+        //recipeUIBackground = recipeUIObject.transform.gameObject.GetComponent<Image>();
+        recipeUIButton = recipeUIObject.GetComponent<Button>(); 
+        recipeUIText = recipeUIObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        recipeUIImage = recipeUIObject.transform.GetChild(1).gameObject.GetComponent<Image>();
 
         recipeUIImage.overrideSprite = recipe.cookedFood.GetComponent<CookedFood>().itemSprite;
         recipeUIText.text = recipe.stringName;
+
+        recipeUIButton.onClick.AddListener(delegate { CookRecipe(recipe); });
     }
 
-        
+    private bool CookRecipe(Recipe recipe)
+    {
+        Debug.Log(recipe.stringName);
+        return false;
+    }    
+
 }
 
 

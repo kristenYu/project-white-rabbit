@@ -624,7 +624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2421,15 +2421,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05ae40e7bf81424dbf4477493399d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testButton: {fileID: 0}
   itemManagerObject: {fileID: 3386998514311731863, guid: 80d4d3faa083f9b42876aedfad88c66c,
     type: 3}
   worldControllerObject: {fileID: 3020716752809631541, guid: 2e2b8667523abef4da1ea6bccf021c6a,
     type: 3}
   knownRecipes: []
   cookingUI: {fileID: 3504336406647667817}
-  recipeUIPrefab: {fileID: 5312039965438583746, guid: 081877dde937bce4eaed89e2b8d22db3,
+  recipeUIPrefab: {fileID: 3979257380368538511, guid: 967d97a651d731049b24c3cd2df4e1ea,
     type: 3}
-  inventory: []
+  targetRecipe: 0
+  inventory:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   inventoryHUDObjects:
   - {fileID: 4535355550107541962}
   - {fileID: 431666126508756064}
