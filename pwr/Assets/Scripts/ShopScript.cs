@@ -8,7 +8,7 @@ using TMPro;
 /*Plan for script:
      * Click Item to buy to purchase and add to inventory
      * Click Item in Inventory to sell
-     * --- For above two, should a little menu pop up? Or just click to buy if have funds/sell and gain money?
+     * --- how to apply script to other prefabs? Make new script???
      * 
      * Click arrows to move between catagories 
      * --- Will need to turn panels on/off
@@ -23,39 +23,61 @@ public class ShopScript : MonoBehaviour
 {
     //Exit Shop
     public Button ExitToMainButton;
+    public Button ExitBtn;
+    
+    //Access Items Database
+    public GameObject itemManagerObject;
+    private ItemManager itemManager;
+    private List<int> CurrentItems;
 
-    //Shop item panel button
-    public Button Item1;
-    public Button Item2;
-    public Button Item3;
+    //Shop item panel elements
+    public Button ItemBtn;
+    public Image ItemImage;
+    public Text ItemName;
+    public Text ItemCost;
+    public List<Button> ItemBtnList = new List<Button>();
+
+    //test object for loading random item for purchase
+    public GameObject furniture;
 
     // Start is called before the first frame update
     void Start()
     {
-        //Setting Button to move back to main
-        Button ExitBtn = ExitToMainButton.GetComponent<Button>();
+        //load the item manager
+        itemManager = itemManagerObject.GetComponent<ItemManager>();
+
+        //Setting Button to move back to main, put Button outside!!!
+        ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
 
+        //load store items and set it on the store
+        int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+        furniture = itemManager.furnitureArray[randNum];
+        Debug.Log(furniture.name);
         //set items
-        Button ItemBtn1 = Item1.GetComponent<Button>();
-        ItemBtn1.onClick.AddListener(ItemPurchased);
-
-       /* Button ItemBtn2 = Item2.GetComponent<Button>();
-        ItemBtn2.onClick.AddListener(ItemPurchased);
-
-        Button ItemBtn3 = Item3.GetComponent<Button>();
-        ItemBtn3.onClick.AddListener(ItemPurchased);*/
+        ItemBtn = ItemBtn.GetComponent<Button>();
+        ItemImage.sprite = furniture.GetComponent<Item>().itemSprite;
+        ItemName.text = furniture.GetComponent<Item>().stringName;
+        ItemCost.text = furniture.GetComponent<Item>().cost.ToString();
+        /*icon = furniture.
+        ItemBtn.onClick.AddListener(ItemPurchased);*/
     }
 
     // Update is called once per frame
     void Update()
     {
+        //set furniture for day
+
         //purchase item
 
         //sell item
 
     }
 
+    void SetItemUI()
+    {
+
+    }
     void ItemPurchased()
     {
         Debug.Log("Pressed!");
