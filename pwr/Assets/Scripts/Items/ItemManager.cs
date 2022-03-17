@@ -9,6 +9,7 @@ public class ItemManager : MonoBehaviour
     public GameObject[] seedArray;
     public GameObject[] cropArray;
     public GameObject[] foodArray;
+    public GameObject[] recipeArray;
 
     //Singleton 
     private static ItemManager instance;
@@ -39,6 +40,7 @@ public class ItemManager : MonoBehaviour
         seedArray = Resources.LoadAll<GameObject>("Prefabs/Seeds");
         cropArray = Resources.LoadAll<GameObject>("Prefabs/Crops");
         foodArray = Resources.LoadAll<GameObject>("Prefabs/Food");
+        recipeArray = Resources.LoadAll<GameObject>("Prefabs/Recipes");
     }
 
 }
