@@ -511,10 +511,14 @@ public class PlayerController : MonoBehaviour
         }
         if (inventory[previousInventoryIndex] != null)
         {
-            if (inventory[previousInventoryIndex].tag == "furniture")
+            if(previousInventoryIndex != currentInventoryIndex)
             {
-                inventory[previousInventoryIndex].SetActive(false);
+                if (inventory[previousInventoryIndex].tag == "furniture")
+                {
+                    inventory[previousInventoryIndex].SetActive(false);
+                }
             }
+           
         }
     }
 
