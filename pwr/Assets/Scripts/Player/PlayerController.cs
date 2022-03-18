@@ -32,7 +32,6 @@ public class PlayerController : MonoBehaviour
     private const float knownRecipeUIOffset = -1.5f;
     private GameObject cookingUIContent;
     private Image recipeUIImage;
-    private Image recipeUIBackground;
     private Button recipeUIButton; 
     private TextMeshProUGUI recipeUIText;
 
@@ -47,9 +46,11 @@ public class PlayerController : MonoBehaviour
     public Image[] inventoryHUDObjects;
     public GameObject activeItem; 
     public int currentInventoryIndex;
+    public int previousInventoryIndex; 
     private const int inventorySize = 10;
     private GameObject tempObject;
     private Item currentItem; 
+    
 
     //Currency
     public int currency;
@@ -105,6 +106,7 @@ public class PlayerController : MonoBehaviour
     {
         currency = 30;
         inventory = new GameObject[inventorySize];
+        previousInventoryIndex = 0; 
         currentInventoryIndex = 0; 
 
         body = GetComponent<Rigidbody2D>();
@@ -189,8 +191,9 @@ public class PlayerController : MonoBehaviour
             if (activeItem != null)
             {
                 if (activeItem.tag == "furniture")
-                { 
+                {
                     //TODO: This could be filled with bugs! It gets the furniture object from the last instantiated object
+                    furnitureObject = activeItem;
                     furnitureSpriteRenderer = furnitureObject.GetComponent<SpriteRenderer>();
                     furnitureScript = furnitureObject.GetComponent<Furniture>();
                     if (furnitureScript.currentIndex < furnitureScript.maxIndex)
@@ -204,6 +207,48 @@ public class PlayerController : MonoBehaviour
                     furnitureSpriteRenderer.sprite = furnitureScript.spriteArray[furnitureScript.currentIndex];
                 }
             }
+        }
+
+        //inventory QOL Update
+        if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
+        {
+            setActiveItem(0);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            setActiveItem(1);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            setActiveItem(2);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            setActiveItem(3);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            setActiveItem(4);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            setActiveItem(5);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            setActiveItem(6);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            setActiveItem(7);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            setActiveItem(8);
+        }
+        if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            setActiveItem(9);
         }
 
         //interact with objects
@@ -236,7 +281,6 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                     //testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
-                    setActiveItem(testObject);
                     AddObjectToInventory(testObject);
                 }
                 //plants a seed if the active item is a seed
@@ -252,8 +296,8 @@ public class PlayerController : MonoBehaviour
                             cropScript = cropObject.GetComponent<Crop>();
                             cropScript.worldController = this.worldControllerObject.GetComponent<WorldController>();
                             worldController.activeCropList.Add(cropObject);
-                            //remove item from activeItem 
-                            RemoveObjectFromInventory(activeItem);
+                            //remove activeitem from inventory 
+                            RemoveObjectFromInventory(currentInventoryIndex);
                             activeItem = null;
 
                         }
@@ -271,14 +315,7 @@ public class PlayerController : MonoBehaviour
                 {
                     //Does not get added to inventory for now - will figure out flow later
                     testObject = itemManager.furnitureArray[Random.Range(0, itemManager.furnitureArray.Length - 1)];
-                    setActiveItem(testObject);
-                    AddObjectToInventory(testObject);
-                    furnitureObject = Instantiate(activeItem, this.transform.position, Quaternion.identity);
-                    furnitureObject.transform.SetParent(this.transform);
-                    furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-                    furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
-                    worldController.placedFurnitureObjects.Add(furnitureObject);
-
+                    CreateFurnitureObjectAndAddToInventory(testObject);
                 }
                 //places furniture if active item is furniture
                 else if (hit.transform.gameObject.tag == "placeable")
@@ -294,13 +331,9 @@ public class PlayerController : MonoBehaviour
                 }
                 //picks up furniture
                 else if(hit.transform.gameObject.tag == "furniture")
-                {   
-                    setActiveItem(hit.transform.gameObject);
-                    if(activeItem != null)
-                    {
-                        PickUpFurniture(hit);
-                        AddObjectToInventory(activeItem);
-                    }                    
+                {
+                    PickUpFurniture(hit);
+                    AddObjectToInventory(activeItem);
                 }
                 else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
@@ -335,6 +368,14 @@ public class PlayerController : MonoBehaviour
         body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 
+    public void setActiveItem(int index)
+    {
+        previousInventoryIndex = currentInventoryIndex;
+        currentInventoryIndex = index;
+        activeItem = inventory[index];
+    }
+
+    /*
     public void setActiveItem(GameObject item)
     {
         /*
@@ -342,9 +383,10 @@ public class PlayerController : MonoBehaviour
         {
             activeItem = item;
         }
-        */
+        
         activeItem = item; 
     }
+    */
 
     public void SetNextOpenInventory()
     {
@@ -381,10 +423,7 @@ public class PlayerController : MonoBehaviour
                     inventory[currentInventoryIndex] = item; 
                     inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
                     inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
-                    if (currentInventoryIndex < inventorySize)
-                    {
-                        currentInventoryIndex++;
-                    }
+                    activeItem = inventory[currentInventoryIndex];
                     return true;
                 }
             }
@@ -403,7 +442,6 @@ public class PlayerController : MonoBehaviour
 	
     public bool AddObjectToInventory(GameObject item, int indexAt)
     {
-       
         if (indexAt > inventorySize)
         {
             return false;
@@ -425,10 +463,8 @@ public class PlayerController : MonoBehaviour
                 inventory[indexAt] = item;
                 inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
                 inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
-                if (currentInventoryIndex < inventorySize)
-                {
-                    currentInventoryIndex++;
-                }
+                currentInventoryIndex = indexAt;
+                activeItem = item;
                 return true;
             }
         }
@@ -468,16 +504,53 @@ public class PlayerController : MonoBehaviour
         if(activeItem != null)
         {
             if (activeItem.gameObject.tag == "furniture")
-            { 
-                furnitureObject.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
+            {
+                activeItem.SetActive(true);
+                activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
+            }  
+        }
+        if (inventory[previousInventoryIndex] != null)
+        {
+            if(previousInventoryIndex != currentInventoryIndex)
+            {
+                if (inventory[previousInventoryIndex].tag == "furniture")
+                {
+                    inventory[previousInventoryIndex].SetActive(false);
+                }
             }
+           
         }
     }
+
+    private void CreateFurnitureObjectAndAddToInventory(GameObject furniture)
+    {
+        furnitureObject = Instantiate(furniture, this.transform.position, Quaternion.identity);
+        furnitureObject.transform.SetParent(this.transform);
+        furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
+        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+        AddObjectToInventory(furnitureObject);
+    }
+
+    private void CreateFurnitureObject(GameObject furniture)
+    {
+        furnitureObject = Instantiate(furniture, this.transform.position, Quaternion.identity);
+        furnitureObject.transform.SetParent(this.transform);
+        furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
+        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+    }
+
+    private void DestroyFurnitureObject(GameObject furniture)
+    {
+        Destroy(furniture);
+    }
+
     private void PlaceFurniture(RaycastHit2D hit2D)
     {
+        furnitureObject = activeItem;
         furnitureObject.transform.parent = null;
         furnitureObject.transform.position = hit2D.transform.position;
         furnitureObject.transform.gameObject.layer = 1; //default layer
+        worldController.placedFurnitureObjects.Add(furnitureObject);
         //have to do clean up with active item
         activeItem = null;
     }
@@ -488,7 +561,6 @@ public class PlayerController : MonoBehaviour
         furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
         furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
         activeItem = furnitureObject;
-
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
@@ -534,7 +606,6 @@ public class PlayerController : MonoBehaviour
         }
         return isKnownRecipe;
     }
-
     public void UnlockRecipe(Recipe recipe, int index)
     {
         knownRecipes.Add(recipe);
