@@ -24,21 +24,21 @@ public class ShopScript : MonoBehaviour
     //Exit Shop
     public Button ExitToMainButton;
     public Button ExitBtn;
-    
+
     //Access Items Database
     public GameObject itemManagerObject;
     private ItemManager itemManager;
-    private List<int> CurrentItems;
 
     //Shop item panel elements
     public Button ItemBtn;
     public Image ItemImage;
     public Text ItemName;
     public Text ItemCost;
-    public List<Button> ItemBtnList = new List<Button>();
+    public Button[] ShopItem;
+    public List<GameObject> currentStoreItems = new List<GameObject>();
 
     //test object for loading random item for purchase
-    public GameObject furniture;
+    private GameObject furniture;
 
     // Start is called before the first frame update
     void Start()
@@ -50,17 +50,8 @@ public class ShopScript : MonoBehaviour
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
 
-        //load store items and set it on the store
-        int randNum = Random.Range(0, itemManager.furnitureArray.Length);
-        furniture = itemManager.furnitureArray[randNum];
-        Debug.Log(furniture.name);
-        //set items
-        ItemBtn = ItemBtn.GetComponent<Button>();
-        ItemImage.sprite = furniture.GetComponent<Item>().itemSprite;
-        ItemName.text = furniture.GetComponent<Item>().stringName;
-        ItemCost.text = furniture.GetComponent<Item>().cost.ToString();
-        /*icon = furniture.
-        ItemBtn.onClick.AddListener(ItemPurchased);*/
+        //Load store items and set it in the store 
+        SetPanels();
     }
 
     // Update is called once per frame
@@ -74,9 +65,36 @@ public class ShopScript : MonoBehaviour
 
     }
 
-    void SetItemUI()
+    //Shop Panel setup
+    void SetPanels()
     {
+        //set furniture panel
+        foreach (Button item in ShopItem)
+        {
+            int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+            while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
+            {
+                randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                print("In List");
+            }
+            currentStoreItems.Add(itemManager.furnitureArray[randNum]);
+            furniture = itemManager.furnitureArray[randNum];
+            SetItemButton(item);
+            ItemBtn = item.GetComponent<Button>();
+            ItemBtn.onClick.AddListener(ItemPurchased);
+        }
+    }
 
+    //Item setup
+    void SetItemButton(Button Item)
+    {
+        ItemImage = Item.transform.GetChild(0).GetComponent<Image>();
+        ItemName = Item.transform.GetChild(1).GetComponent<Text>();
+        ItemCost = Item.transform.GetChild(2).GetComponent<Text>();
+
+        ItemImage.sprite = furniture.GetComponent<Item>().itemSprite;
+        ItemName.text = furniture.GetComponent<Item>().stringName;
+        ItemCost.text = furniture.GetComponent<Item>().cost.ToString();
     }
     void ItemPurchased()
     {
