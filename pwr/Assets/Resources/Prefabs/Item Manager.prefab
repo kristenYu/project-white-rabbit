@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3386998514311731856}
   m_Layer: 0
   m_Name: Item Manager
-  m_TagString: Untagged
+  m_TagString: item_manager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   furnitureArray: []
+  seedArray: []
+  cropArray: []
+  foodArray: []
+  recipeArray: []

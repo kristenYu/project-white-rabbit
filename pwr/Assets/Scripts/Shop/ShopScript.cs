@@ -22,12 +22,14 @@ using TMPro;
 public class ShopScript : MonoBehaviour
 {
     //Exit Shop
-    public Button ExitToMainButton;
-    public Button ExitBtn;
+    public GameObject ExitToMainButton;
+    private Button ExitBtn;
 
-    //Access Items Database
-    public GameObject itemManagerObject;
-    private ItemManager itemManager;
+    //Access Items Database and Player Controller
+    public GameObject[] item_managerArray;
+    public ItemManager itemManager;
+    public GameObject playerControllerObject;
+    private PlayerController playerController;
 
     //Shop item panel elements
     public Button ItemBtn;
@@ -38,18 +40,24 @@ public class ShopScript : MonoBehaviour
     public List<GameObject> currentStoreItems = new List<GameObject>();
 
     //test object for loading random item for purchase
-    private GameObject furniture;
+    private GameObject obj;
 
     // Start is called before the first frame update
     void Start()
     {
-        //load the item manager
-        itemManager = itemManagerObject.GetComponent<ItemManager>();
+        //load the item manager and player controller
+        playerController = playerControllerObject.GetComponent<PlayerController>();
 
-        //Setting Button to move back to main, put Button outside!!!
+        //Setting Button to move back to main
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
 
+        //Using Tags to access itemManager...
+        item_managerArray = GameObject.FindGameObjectsWithTag("item_manager");
+        foreach(GameObject manager in item_managerArray)
+        {
+            itemManager = manager.GetComponent<ItemManager>();
+        }
         //Load store items and set it in the store 
         SetPanels();
     }
@@ -57,6 +65,8 @@ public class ShopScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         //set furniture for day
 
         //purchase item
@@ -71,33 +81,52 @@ public class ShopScript : MonoBehaviour
         //set furniture panel
         foreach (Button item in ShopItem)
         {
+            Debug.Log(itemManager.furnitureArray.Length);
             int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+            
             while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
             {
                 randNum = Random.Range(0, itemManager.furnitureArray.Length);
-                print("In List");
             }
             currentStoreItems.Add(itemManager.furnitureArray[randNum]);
-            furniture = itemManager.furnitureArray[randNum];
-            SetItemButton(item);
+            obj = itemManager.furnitureArray[randNum];
+            SetItemButton(item,obj);
             ItemBtn = item.GetComponent<Button>();
-            ItemBtn.onClick.AddListener(ItemPurchased);
+            ItemBtn.onClick.AddListener(delegate{ItemPurchased(item,obj);});
         }
     }
 
-    //Item setup
-    void SetItemButton(Button Item)
+    //Item Setup
+    void SetItemButton(Button item, GameObject obj)
     {
-        ItemImage = Item.transform.GetChild(0).GetComponent<Image>();
-        ItemName = Item.transform.GetChild(1).GetComponent<Text>();
-        ItemCost = Item.transform.GetChild(2).GetComponent<Text>();
+        ItemImage = item.transform.GetChild(0).GetComponent<Image>();
+        ItemName = item.transform.GetChild(1).GetComponent<Text>();
+        ItemCost = item.transform.GetChild(2).GetComponent<Text>();
 
-        ItemImage.sprite = furniture.GetComponent<Item>().itemSprite;
-        ItemName.text = furniture.GetComponent<Item>().stringName;
-        ItemCost.text = furniture.GetComponent<Item>().cost.ToString();
+        ItemImage.sprite = obj.GetComponent<Item>().itemSprite;
+        ItemName.text = obj.GetComponent<Item>().stringName;
+        ItemCost.text = obj.GetComponent<Item>().cost.ToString();
     }
-    void ItemPurchased()
+
+    //Item Remove
+    void RemoveItemButton(Button item)
     {
+        ItemImage = item.transform.GetChild(0).GetComponent<Image>();
+        ItemName = item.transform.GetChild(1).GetComponent<Text>();
+        ItemCost = item.transform.GetChild(2).GetComponent<Text>();
+
+        ItemImage.sprite = null;
+        ItemName.text = null;
+        ItemCost.text = null;
+    }
+    
+    void ItemPurchased(Button item, GameObject obj){
+        int cost = obj.GetComponent<Item>().cost;
+        print(playerController.GetComponent<PlayerController>().removeCurrency(cost));
+        if (playerController.GetComponent<PlayerController>().removeCurrency(cost))
+        {
+            RemoveItemButton(item);
+        }
         Debug.Log("Pressed!");
     }
 
