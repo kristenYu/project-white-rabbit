@@ -49,8 +49,13 @@ public class PlayerController : MonoBehaviour
     public int previousInventoryIndex; 
     private const int inventorySize = 10;
     private GameObject tempObject;
-    private Item currentItem; 
-    
+    private Item currentItem;
+
+    //Quests 
+    public const int maxActiveQuests = 3; 
+    public Quest[] activeQuests;
+    public int currentQuestIndex;
+    private bool isActiveQuestsAtMaximum; 
 
     //Currency
     public int currency;
@@ -119,8 +124,11 @@ public class PlayerController : MonoBehaviour
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
 
-        anim = GetComponent<Animator>(); 
+        currentQuestIndex = 0;
+        activeQuests = new Quest[maxActiveQuests];
+        Debug.Log(activeQuests.Length);
 
+        anim = GetComponent<Animator>();
 
         foreach(Image itemImage in inventoryHUDObjects)
         {
@@ -137,7 +145,7 @@ public class PlayerController : MonoBehaviour
 
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
-        
+
         //player animation
         if (horizontal != 0 && vertical != 0)
         {
@@ -157,6 +165,16 @@ public class PlayerController : MonoBehaviour
         else
         {
             anim.SetBool("IsWalking", true);
+        }
+
+        if (activeItem != null)
+        {
+            
+            anim.SetBool("IsHolding", true);
+        }
+        else
+        {
+            anim.SetBool("IsHolding", false);
         }
 
         //Interaction raycasts
@@ -521,7 +539,6 @@ public class PlayerController : MonoBehaviour
            
         }
     }
-
     private void CreateFurnitureObjectAndAddToInventory(GameObject furniture)
     {
         furnitureObject = Instantiate(furniture, this.transform.position, Quaternion.identity);
@@ -681,7 +698,36 @@ public class PlayerController : MonoBehaviour
         return true;
     }    
 
+    private void GetNextOpenQuestIndex()
+    {
+        isActiveQuestsAtMaximum = true; 
+        for(int i = 0; i < maxActiveQuests; i++)
+        {
+            if (activeQuests[i].questType == QuestBoard.QuestType.invalid) 
+            {
+                currentQuestIndex = i;
+                isActiveQuestsAtMaximum = false;
+                break; 
+            }
+        }
+    }
+
+    public void AddQuestToActiveArray(Quest quest)
+    {
+        GetNextOpenQuestIndex(); 
+        if(isActiveQuestsAtMaximum)
+        {
+            Debug.Log("Quests are maximum; cannot accept another quest");
+        }
+        else
+        {
+            activeQuests[currentQuestIndex] = quest; 
+        }    
+
+    }
 }
+
+
 
 
 

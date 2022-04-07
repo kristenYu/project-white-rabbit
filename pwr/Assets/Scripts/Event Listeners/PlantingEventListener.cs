@@ -18,12 +18,6 @@ public class PlantingEventListener : AEventListener
     //Current Number of target crop in the world 
     public int currentNumTargetCrops; 
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        OnStartListening(); 
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +27,7 @@ public class PlantingEventListener : AEventListener
     {
         worldControllerObject = GameObject.FindGameObjectWithTag("world_c");
         worldController = worldControllerObject.GetComponent<WorldController>();
+
         startingNumTargetCrops = 0; 
 
         foreach(GameObject cropObject in worldController.activeCropList)
@@ -69,6 +64,12 @@ public class PlantingEventListener : AEventListener
     {
         structToCheck.name = targetStruct.name;
         structToCheck.targetValue = targetStruct.targetValue;
+    }
+
+    public void SetPlantSeedEventListener(string name, int targetValue)
+    {
+        structToCheck.name = name;
+        structToCheck.targetValue = targetValue; 
     }
     private void CheckForSeedPlanted()
     {

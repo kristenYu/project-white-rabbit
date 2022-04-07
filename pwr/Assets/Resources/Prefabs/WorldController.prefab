@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3020716752809631540}
   m_Layer: 0
   m_Name: WorldController
-  m_TagString: Untagged
+  m_TagString: world_c
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,3 +52,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 75ca7e833e8d969428b10732e65176ce, type: 3}
   - {fileID: 2800000, guid: 2c35c78c0a0e88b45992a56e3fc7d303, type: 3}
   - {fileID: 2800000, guid: 0dc3440381378c941b63f56598ba1915, type: 3}
+  dayDuration: 0
+  twilightDuration: 0
+  nightDuration: 0
+  activeCropList: []
+  placedFurnitureObjects: []
