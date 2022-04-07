@@ -34,11 +34,16 @@ public class QuestBoard : MonoBehaviour
     private QuestAlgorithmBase currentQuestAlgorithm;
     private GameObject currentQuestGameObject;
 
+    public Quest[] questsToSubmit; 
+
     //Quest UI 
     public GameObject[] QuestUIObjects;//Should always be matching the number of quests - 0 is left most, max is right most
     private TextMeshProUGUI questName;
-    private Button questAcceptButton; 
-    
+    private Button questAcceptButton;
+    public GameObject[] submitQuestUIObjects; //Should always be matching the maximum number of quests that can be active
+    private TextMeshProUGUI submitQuestName;
+    private Button questSubmitButton; 
+
     private void Awake()
     {
         questDatabaseIndex = 0;
@@ -53,6 +58,8 @@ public class QuestBoard : MonoBehaviour
         playerController = playerObject.GetComponent<PlayerController>();
 
         questAlgorithmIndex = 0; //default value 
+
+        questsToSubmit = new Quest[PlayerController.maxActiveQuests];
         PopulateQuestBoard();
 
     }
@@ -66,6 +73,7 @@ public class QuestBoard : MonoBehaviour
     public void ExitScene()
     {
         playerController.enabled = true;
+        currentQuestAlgorithm.OnQuestClosed(); 
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
@@ -87,6 +95,7 @@ public class QuestBoard : MonoBehaviour
 
     public void PopulateQuestBoard()
     {
+        //Get Quests to show
         currentQuestAlgorithm = questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
         displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questDataBase);
 
@@ -94,6 +103,30 @@ public class QuestBoard : MonoBehaviour
         {
             Debug.Log(displayQuests[i].questName);
             SetQuestUI(QuestUIObjects[i], displayQuests[i]);
+        }
+
+        //Get quests to submit
+        for(int i = 0; i < playerController.activeQuests.Length; i++)
+        {
+            //this is going to look weird - needs a clean up pass
+            if (playerController.activeQuests[i].questType == QuestType.invalid)
+            {
+                submitQuestUIObjects[i].SetActive(false);
+            }
+            else
+            {
+                if (playerController.activeQuests[i].eventListener.IsEventCompleted)
+                {
+                    
+                    submitQuestUIObjects[i].SetActive(true);
+                    SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
+                }
+                else
+                {
+                    submitQuestUIObjects[i].SetActive(false);
+                }
+            }
+           
         }
     }
 
@@ -105,6 +138,16 @@ public class QuestBoard : MonoBehaviour
 
         questName.text = quest.questName; 
         questAcceptButton.onClick.AddListener(delegate {AcceptQuest(quest); });
+    }
+
+    public void SetSubmitQuestUI(GameObject submitQuestUIObject, Quest quest)
+    {
+        //assumes that the prefab is used to create the submit quest UI in a particular order
+        questSubmitButton = submitQuestUIObject.GetComponent<Button>(); 
+        submitQuestName = submitQuestUIObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+
+        submitQuestName.text = quest.questName;
+        questSubmitButton.onClick.AddListener(delegate { SubmitQuest(quest); });
     }
 
     public void AcceptQuest(Quest quest)
@@ -122,14 +165,24 @@ public class QuestBoard : MonoBehaviour
                 currentQuestGameObject.name = quest.questName + "_EL";
                 currentQuestGameObject.transform.SetParent(playerObject.transform); 
                 currentQuestGameObject.AddComponent<PlantingEventListener>();
+                
                 plantingEventListener = currentQuestGameObject.GetComponent<PlantingEventListener>();
                 plantingEventListener.SetPlantSeedEventListener(quest.eventListenerData[0], Int32.Parse(quest.eventListenerData[1]));
+                
                 quest.eventListener = plantingEventListener;
                 quest.eventListener.OnStartListening(); 
                 playerController.AddQuestToActiveArray(quest);
+
+                currentQuestAlgorithm.OnQuestAccepted(quest);
                 break;
             default:
                 break; 
         }
+    }
+    public void SubmitQuest(Quest quest)
+    {
+        Debug.Log("Submitted quest: " + quest.questName);
+        playerController.addCurrency(quest.reward);
+        currentQuestAlgorithm.OnQuestSubmitted(); 
     }
 }

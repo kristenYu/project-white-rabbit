@@ -167,6 +167,16 @@ public class PlayerController : MonoBehaviour
             anim.SetBool("IsWalking", true);
         }
 
+        if (activeItem != null)
+        {
+            
+            anim.SetBool("IsHolding", true);
+        }
+        else
+        {
+            anim.SetBool("IsHolding", false);
+        }
+
         //Interaction raycasts
         if (horizontal < 0)
         {

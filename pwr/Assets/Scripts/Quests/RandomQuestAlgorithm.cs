@@ -31,7 +31,7 @@ public class RandomQuestAlgorithm : QuestAlgorithmBase
 
         return questsToGive;
     }
-    public override void OnQuestAccepted()
+    public override void OnQuestAccepted(Quest quest)
     {
 
     }
