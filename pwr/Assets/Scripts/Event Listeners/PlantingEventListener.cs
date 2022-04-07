@@ -21,7 +21,8 @@ public class PlantingEventListener : AEventListener
     // Start is called before the first frame update
     void Start()
     {
-        OnStartListening(); 
+        worldControllerObject = GameObject.FindGameObjectWithTag("world_c");
+        worldController = worldControllerObject.GetComponent<WorldController>();
     }
 
     // Update is called once per frame
@@ -31,8 +32,6 @@ public class PlantingEventListener : AEventListener
     }
     public override void OnStartListening()
     {
-        worldControllerObject = GameObject.FindGameObjectWithTag("world_c");
-        worldController = worldControllerObject.GetComponent<WorldController>();
         startingNumTargetCrops = 0; 
 
         foreach(GameObject cropObject in worldController.activeCropList)

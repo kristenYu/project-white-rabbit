@@ -18,22 +18,21 @@ public class QuestBoard : MonoBehaviour
     public Button exitButton;
     public GameObject playerObject;
     private PlayerController playerController;
-    private Dictionary<Quest.QuestType, AEventListener> questtypeToEventListenerMap;
+    private Dictionary<QuestType, AEventListener> questtypeToEventListenerMap;
     private PlantingEventListener plantingEventListener;
 
     //Database loading 
     public Quest[] QuestDataBase;
-    private TextAsset questFile;
-    private string[] questList;
-    private char[] endlineDelims;
-    private string[] questComponents;
+    public Quest currentQuest;
+    public TextAsset[] questFiles;
+    public int questDatabaseIndex;
    
 
-
+    
     private void Awake()
     {
-        endlineDelims = new[] { '\r', '\n' };
-        StartCoroutine(LoadQuestDatabase("Quests.txt"));
+        questDatabaseIndex = 0;
+        StartCoroutine(LoadQuestDatabase());
     }
 
     // Start is called before the first frame update
@@ -56,26 +55,22 @@ public class QuestBoard : MonoBehaviour
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
-    private IEnumerator LoadQuestDatabase(string filename)
+    private IEnumerator LoadQuestDatabase()
     {
-        //expects that the file is in resources/data
-        //moving the file out of resources completely will cause unity to not be able to find the file at all 
-        questFile = Resources.Load<TextAsset>("Data/" + filename);
-        questList = questFile.text.Split(endlineDelims, StringSplitOptions.RemoveEmptyEntries);
+        //expects that the file is in Resources/Data/Quests
 
-        foreach (string quest in questList)
+        questFiles = Resources.LoadAll<TextAsset>("Data/Quests");
+        QuestDataBase = new Quest[questFiles.Length];
+        foreach(TextAsset questFile in questFiles)
         {
-            questComponents = quest.Split(',');
-            //order is questname, amount of reward currency, quest type (as an int), plantstruct.targetnum, plantstruct.targetname
-
+            //All quest data except for the event listener - the event listener is instantiated when the quest is accepted;
+            currentQuest = JsonUtility.FromJson<Quest>(questFile.ToString());
+            QuestDataBase[questDatabaseIndex] = currentQuest;
+            questDatabaseIndex++;
         }
 
 
-        yield return null;
-    }
 
-    private void setupQuestDictionary()
-    {
-        questtypeToEventListenerMap.Add(Quest.QuestType.plant, plantingEventListener);
+        yield return null;
     }
 }

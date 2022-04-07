@@ -3183,7 +3183,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8205332308754028206}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c05ae40e7bf81424dbf4477493399d39, type: 3}
   m_Name: 
@@ -3214,6 +3214,7 @@ MonoBehaviour:
   - {fileID: 2522727293795789514}
   activeItem: {fileID: 0}
   currentInventoryIndex: 0
+  previousInventoryIndex: 0
   currency: 0
   currencyText: {fileID: 8205332308507442870}
   furnitureObject: {fileID: 0}

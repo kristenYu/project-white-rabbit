@@ -1,5 +1,0 @@
-plant2potatoes, 100, 1, 2, potato
-plant2carrots, 100, 1, 2, carrot
-plant2lettuce, 100, 1, 2, lettuce
-plant2greenonion, 100, 1, 2, greenonion
-plant2onion, 100, 1, 2, onion

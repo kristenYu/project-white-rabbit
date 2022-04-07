@@ -9,6 +9,9 @@ public class Quest
     public QuestBoard.QuestType questType; 
     public AEventListener eventListener; //The proper event listener that should go with the quest
     public int reward; //reward is always currency 
+    public string[] eventListenerData;
+
+    public string printString;
 
     public Quest(string questName, AEventListener eventListener, int reward)
     {
@@ -22,6 +25,19 @@ public class Quest
         this.questName = "test";
         this.questType = 0;
         this.reward = 100;
+    }
+
+    public string PrintPretty()
+    {
+        printString = "";
+        printString += "Quest name: " + questName + "\n";
+        printString += "Quest type: " + questType + "\n";
+        printString += "Reward: " + reward + "\n";
+        foreach(string data in eventListenerData)
+        {
+            printString += "data 1: " + data + "\n";
+        }
+        return printString;
     }
     
 }
