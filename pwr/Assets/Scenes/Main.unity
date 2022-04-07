@@ -34580,7 +34580,7 @@ PrefabInstance:
     - target: {fileID: 3020716752809631541, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: world_c
       objectReference: {fileID: 0}
     - target: {fileID: 3020716752809631547, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
@@ -34867,6 +34867,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
       propertyPath: testUIPrefab
       value: 
       objectReference: {fileID: 908839126264181946, guid: aa983e0d4e43cfa4dad3e8bb0ac5d5d2,
@@ -34920,7 +34925,7 @@ PrefabInstance:
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.12929997
+      value: 173.82574
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd5fe9deb0a4f3148bbe882e3d47fef5, type: 3}

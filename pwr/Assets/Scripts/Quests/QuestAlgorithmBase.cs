@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class QuestAlgorithmBase : MonoBehaviour
 {
     //asks for quests from the quest algorithm
-    public abstract Quest[] GetQuests(int questNum);
+    public abstract Quest[] GetQuests(int questNum, Quest[] questDataBase);
     //notifies the quest algorithm that a quest has been accepted
     public abstract void OnQuestAccepted();
     //notifies the quest algorithm that a quest has been submitted

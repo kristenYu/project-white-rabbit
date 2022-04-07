@@ -20,14 +20,13 @@ public class RandomQuestAlgorithm : QuestAlgorithmBase
 
     
     //QuestAlgorithmBase functions
-    public override Quest[] GetQuests(int questNum)
+    public override Quest[] GetQuests(int questNum, Quest[] questDataBase)
     {
         questsToGive = null;
         questsToGive = new Quest[questNum];
         for(int i = 0; i < questNum; i++)
         {
-            Quest quest = new Quest();
-            questsToGive[i] = quest;
+           questsToGive[i] = questDataBase[Random.Range(0, questDataBase.Length)];
         }
 
         return questsToGive;
