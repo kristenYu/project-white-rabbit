@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8961186450695680276}
   - component: {fileID: 8961186450695680279}
   - component: {fileID: 8961186450695680278}
-  - component: {fileID: 8961186450695680277}
   m_Layer: 0
   m_Name: ShopItemPanel
   m_TagString: Untagged
@@ -40,7 +39,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.9517975, y: 112}
+  m_AnchoredPosition: {x: -0.9517822, y: 112}
   m_SizeDelta: {x: -51.3928, y: -369.2671}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8961186450695680276
@@ -125,18 +124,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8961186450695680277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8961186450695680272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 734b54c40409c5f4ea3ec2ae3ca52db6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8961186451144517660
 GameObject:
   m_ObjectHideFlags: 0

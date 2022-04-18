@@ -5,25 +5,11 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-/*Plan for script:
-     * Click Item to buy to purchase and add to inventory
-     * Click Item in Inventory to sell
-     * --- how to apply script to other prefabs? Make new script???
-     * 
-     * Click arrows to move between catagories 
-     * --- Will need to turn panels on/off
-     * 
-     * Exit Shop to Main Scene
-     * -- remove HUD in background! should be able to disable it!
-     * 
-     * Items refresh everyday!
-     */
-
 public class ShopScript : MonoBehaviour
 {
     //Exit Shop
-    public GameObject ExitToMainButton;
-    private Button ExitBtn;
+    public Button ExitToMainButton;
+    public Button ExitBtn;
 
     //Access Items Database and Player Controller
     public GameObject[] item_managerArray;
@@ -32,15 +18,12 @@ public class ShopScript : MonoBehaviour
     private PlayerController playerController;
 
     //Shop item panel elements
-    public Button ItemBtn;
-    public Image ItemImage;
-    public Text ItemName;
-    public Text ItemCost;
-    public Button[] ShopItem;
+    public Button itemBtn;
+    public Image itemImage;
+    public Text itemName;
+    public Text itemCost;
+    public GameObject[] ShopItem;
     public List<GameObject> currentStoreItems = new List<GameObject>();
-
-    //test object for loading random item for purchase
-    private GameObject obj;
 
     // Start is called before the first frame update
     void Start()
@@ -59,75 +42,153 @@ public class ShopScript : MonoBehaviour
             itemManager = manager.GetComponent<ItemManager>();
         }
         //Load store items and set it in the store 
-        SetPanels();
+        SetPanels(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
         //set furniture for day
 
         //purchase item
 
         //sell item
-
     }
 
     //Shop Panel setup
-    void SetPanels()
+    void SetPanels(bool itemPurchased)
     {
-        //set furniture panel
-        foreach (Button item in ShopItem)
+        if (itemPurchased == false)
         {
-            Debug.Log(itemManager.furnitureArray.Length);
-            int randNum = Random.Range(0, itemManager.furnitureArray.Length);
-            
-            while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
+            foreach (GameObject obj in ShopItem)
             {
-                randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                obj.SetActive(true);
+                Button button = obj.GetComponent<Button>();
+                int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+
+                while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
+                {
+                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                }
+
+                currentStoreItems.Add(itemManager.furnitureArray[randNum]);
+                SetItemButton(button, itemManager.furnitureArray[randNum]);
+                //itemBtn = button.GetComponent<Button>();
+                button.onClick.AddListener(delegate { ItemPurchased(button, itemManager.furnitureArray[randNum]); });
             }
-            currentStoreItems.Add(itemManager.furnitureArray[randNum]);
-            obj = itemManager.furnitureArray[randNum];
-            SetItemButton(item,obj);
-            ItemBtn = item.GetComponent<Button>();
-            ItemBtn.onClick.AddListener(delegate{ItemPurchased(item,obj);});
         }
+
+        else
+        {
+            foreach (GameObject obj in ShopItem)
+            {
+                obj.SetActive(false);
+            }
+            print("currentStoreItems = " + currentStoreItems.Count);
+            for (int i = 0; i < currentStoreItems.Count; i++)
+            {
+                Debug.Log(i);
+                if (currentStoreItems.Count > 0)
+                {
+                    print(currentStoreItems.Count);
+                    ShopItem[i].SetActive(true);
+                    itemBtn = ShopItem[i].GetComponent<Button>();
+                    Debug.Log(currentStoreItems);
+                    SetItemButton(itemBtn, currentStoreItems[i]);
+                    //ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
+                }
+            }
+            /*{
+                print("currentStoreItems = " + currentStoreItems.Count);
+                ShopItem[i].SetActive(true);
+                itemBtn = ShopItem[i].GetComponent<Button>();
+                SetItemButton(itemBtn, currentStoreItems[i]);
+                Debug.Log(i,this);
+                //ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
+            }*/
+        }
+    
+
+
+        /*//check if we are setting NEW panels or setting after purchase
+        print("Current = " + currentStoreItems.Count);
+        if (currentStoreItems.Count == 0)
+        {
+            //set furniture panel
+            foreach (GameObject obj in ShopItem)
+            {
+                obj.SetActive(true);
+                Button button = obj.GetComponent<Button>();
+                int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+
+                while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
+                {
+                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                }            
+                currentStoreItems.Add(itemManager.furnitureArray[randNum]);
+                SetItemButton(button, itemManager.furnitureArray[randNum]);
+                //itemBtn = button.GetComponent<Button>();
+                button.onClick.AddListener(delegate { ItemPurchased(button, itemManager.furnitureArray[randNum]); });
+            }
+        }
+        else
+        {
+            for (int i = 0; i < currentStoreItems.Count; i++)
+            {
+                print("currentStoreItems" + currentStoreItems.Count);
+                ShopItem[i].SetActive(true);
+                itemBtn = ShopItem[i].GetComponent<Button>();
+                SetItemButton(itemBtn, currentStoreItems[i]);
+                Debug.Log(i);
+                ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
+            }
+        }*/
     }
 
     //Item Setup
     void SetItemButton(Button item, GameObject obj)
     {
-        ItemImage = item.transform.GetChild(0).GetComponent<Image>();
-        ItemName = item.transform.GetChild(1).GetComponent<Text>();
-        ItemCost = item.transform.GetChild(2).GetComponent<Text>();
+        itemImage = item.transform.GetChild(0).GetComponent<Image>();
+        itemName = item.transform.GetChild(1).GetComponent<Text>();
+        itemCost = item.transform.GetChild(2).GetComponent<Text>();
 
-        ItemImage.sprite = obj.GetComponent<Item>().itemSprite;
-        ItemName.text = obj.GetComponent<Item>().stringName;
-        ItemCost.text = obj.GetComponent<Item>().cost.ToString();
+        itemImage.sprite = obj.GetComponent<Item>().itemSprite;
+        itemName.text = obj.GetComponent<Item>().stringName;
+        itemCost.text = obj.GetComponent<Item>().cost.ToString();
     }
 
     //Item Remove
     void RemoveItemButton(Button item)
     {
-        ItemImage = item.transform.GetChild(0).GetComponent<Image>();
-        ItemName = item.transform.GetChild(1).GetComponent<Text>();
-        ItemCost = item.transform.GetChild(2).GetComponent<Text>();
+        itemImage = item.transform.GetChild(0).GetComponent<Image>();
+        itemName = item.transform.GetChild(1).GetComponent<Text>();
+        itemCost = item.transform.GetChild(2).GetComponent<Text>();
 
-        ItemImage.sprite = null;
-        ItemName.text = null;
-        ItemCost.text = null;
+        itemImage.sprite = null;
+        itemName.text = null;
+        itemCost.text = null;
     }
     
-    void ItemPurchased(Button item, GameObject obj){
-        int cost = obj.GetComponent<Item>().cost;
-        print(playerController.GetComponent<PlayerController>().removeCurrency(cost));
-        if (playerController.GetComponent<PlayerController>().removeCurrency(cost))
+    void ItemPurchased(Button button, GameObject item){
+
+        print("item purchased = " + item);
+        //check if player can purchase item, if so remove item from store and add to player inventory
+        //GameObject item = itemManager.furnitureArray[randNum];
+        int cost = item.GetComponent<Item>().cost;
+        if (GameObject.Find("Player").GetComponent<PlayerController>().removeCurrency(cost)) 
         {
-            RemoveItemButton(item);
+            GameObject.Find("Player").GetComponent<PlayerController>().AddObjectToInventory(item);
+            RemoveItemButton(button);
+            //button.enabled = false;
+            currentStoreItems.Remove(item);
+            //item.SetActive(false);
+            SetPanels(true);
         }
-        Debug.Log("Pressed!");
+        else
+        {
+            //message saying no money :(, make into a pop up in game later?
+            print("Sorry! You don't have enough money!!");
+        }
     }
 
     void ItemSold()
@@ -137,6 +198,7 @@ public class ShopScript : MonoBehaviour
     void ExitButtonClicked()
     {
         //load main and enable player movement
+        print("Exit Clicked!");
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
         GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
     }
