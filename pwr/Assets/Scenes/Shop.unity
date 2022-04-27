@@ -238,7 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ExitToMainButton: {fileID: 1175459789}
-  ExitBtn: {fileID: 0}
   item_managerArray: []
   itemManager: {fileID: 3386998514311731856, guid: 80d4d3faa083f9b42876aedfad88c66c,
     type: 3}
@@ -248,7 +247,7 @@ MonoBehaviour:
   itemImage: {fileID: 0}
   itemName: {fileID: 0}
   itemCost: {fileID: 0}
-  ShopItem:
+  ShopItemObj:
   - {fileID: 8961186450454187187}
   - {fileID: 1057804021}
   - {fileID: 1292767762}

@@ -9,7 +9,7 @@ public class ShopScript : MonoBehaviour
 {
     //Exit Shop
     public Button ExitToMainButton;
-    public Button ExitBtn;
+    private Button ExitBtn;
 
     //Access Items Database and Player Controller
     public GameObject[] item_managerArray;
@@ -22,7 +22,7 @@ public class ShopScript : MonoBehaviour
     public Image itemImage;
     public Text itemName;
     public Text itemCost;
-    public GameObject[] ShopItem;
+    public GameObject[] ShopItemObj;
     public List<GameObject> currentStoreItems = new List<GameObject>();
 
     // Start is called before the first frame update
@@ -58,131 +58,74 @@ public class ShopScript : MonoBehaviour
     //Shop Panel setup
     void SetPanels(bool itemPurchased)
     {
-        if (itemPurchased == false)
+        foreach (GameObject obj in ShopItemObj)
         {
-            foreach (GameObject obj in ShopItem)
+            Button button = obj.GetComponent<Button>();
+            int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+
+            while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
             {
-                obj.SetActive(true);
-                Button button = obj.GetComponent<Button>();
-                int randNum = Random.Range(0, itemManager.furnitureArray.Length);
-
-                while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
-                {
-                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
-                }
-
-                currentStoreItems.Add(itemManager.furnitureArray[randNum]);
-                SetItemButton(button, itemManager.furnitureArray[randNum]);
-                //itemBtn = button.GetComponent<Button>();
-                button.onClick.AddListener(delegate { ItemPurchased(button, itemManager.furnitureArray[randNum]); });
+                randNum = Random.Range(0, itemManager.furnitureArray.Length);
             }
+            currentStoreItems.Add(itemManager.furnitureArray[randNum]);
+            SetItemButton(obj, itemManager.furnitureArray[randNum]);
+            button.onClick.AddListener(delegate { ItemPurchased(itemManager.furnitureArray[randNum]); });
         }
+    }
 
-        else
-        {
-            foreach (GameObject obj in ShopItem)
-            {
-                obj.SetActive(false);
-            }
-            print("currentStoreItems = " + currentStoreItems.Count);
-            for (int i = 0; i < currentStoreItems.Count; i++)
-            {
-                Debug.Log(i);
-                if (currentStoreItems.Count > 0)
-                {
-                    print(currentStoreItems.Count);
-                    ShopItem[i].SetActive(true);
-                    itemBtn = ShopItem[i].GetComponent<Button>();
-                    Debug.Log(currentStoreItems);
-                    SetItemButton(itemBtn, currentStoreItems[i]);
-                    //ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
-                }
-            }
-            /*{
-                print("currentStoreItems = " + currentStoreItems.Count);
-                ShopItem[i].SetActive(true);
-                itemBtn = ShopItem[i].GetComponent<Button>();
-                SetItemButton(itemBtn, currentStoreItems[i]);
-                Debug.Log(i,this);
-                //ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
-            }*/
-        }
-    
+    void UpdatePanel(GameObject objToUpdate, GameObject updateObj)
+    {
+        itemImage = objToUpdate.transform.GetChild(0).GetComponent<Image>();
+        itemName = objToUpdate.transform.GetChild(1).GetComponent<Text>();
+        itemCost = objToUpdate.transform.GetChild(2).GetComponent<Text>();
 
-
-        /*//check if we are setting NEW panels or setting after purchase
-        print("Current = " + currentStoreItems.Count);
-        if (currentStoreItems.Count == 0)
-        {
-            //set furniture panel
-            foreach (GameObject obj in ShopItem)
-            {
-                obj.SetActive(true);
-                Button button = obj.GetComponent<Button>();
-                int randNum = Random.Range(0, itemManager.furnitureArray.Length);
-
-                while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
-                {
-                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
-                }            
-                currentStoreItems.Add(itemManager.furnitureArray[randNum]);
-                SetItemButton(button, itemManager.furnitureArray[randNum]);
-                //itemBtn = button.GetComponent<Button>();
-                button.onClick.AddListener(delegate { ItemPurchased(button, itemManager.furnitureArray[randNum]); });
-            }
-        }
-        else
-        {
-            for (int i = 0; i < currentStoreItems.Count; i++)
-            {
-                print("currentStoreItems" + currentStoreItems.Count);
-                ShopItem[i].SetActive(true);
-                itemBtn = ShopItem[i].GetComponent<Button>();
-                SetItemButton(itemBtn, currentStoreItems[i]);
-                Debug.Log(i);
-                ShopItem[i].GetComponent<Button>().onClick.AddListener(delegate { ItemPurchased(itemBtn, currentStoreItems[i]); });
-            }
-        }*/
+        itemImage.sprite = updateObj.transform.GetChild(0).GetComponent<Image>().sprite;
+        itemName.text = updateObj.transform.GetChild(1).GetComponent<Text>().text;
+        itemCost.text = updateObj.transform.GetChild(2).GetComponent<Text>().text;
     }
 
     //Item Setup
-    void SetItemButton(Button item, GameObject obj)
+    void SetItemButton(GameObject obj, GameObject currentItem)
     {
-        itemImage = item.transform.GetChild(0).GetComponent<Image>();
-        itemName = item.transform.GetChild(1).GetComponent<Text>();
-        itemCost = item.transform.GetChild(2).GetComponent<Text>();
+        itemImage = obj.transform.GetChild(0).GetComponent<Image>();
+        itemName = obj.transform.GetChild(1).GetComponent<Text>();
+        itemCost = obj.transform.GetChild(2).GetComponent<Text>();
 
-        itemImage.sprite = obj.GetComponent<Item>().itemSprite;
-        itemName.text = obj.GetComponent<Item>().stringName;
-        itemCost.text = obj.GetComponent<Item>().cost.ToString();
-    }
+        itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
+        itemName.text = currentItem.GetComponent<Item>().stringName;
+        itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
+    }  
 
-    //Item Remove
-    void RemoveItemButton(Button item)
-    {
-        itemImage = item.transform.GetChild(0).GetComponent<Image>();
-        itemName = item.transform.GetChild(1).GetComponent<Text>();
-        itemCost = item.transform.GetChild(2).GetComponent<Text>();
+    void ItemPurchased(GameObject item){
 
-        itemImage.sprite = null;
-        itemName.text = null;
-        itemCost.text = null;
-    }
-    
-    void ItemPurchased(Button button, GameObject item){
-
-        print("item purchased = " + item);
         //check if player can purchase item, if so remove item from store and add to player inventory
-        //GameObject item = itemManager.furnitureArray[randNum];
         int cost = item.GetComponent<Item>().cost;
         if (GameObject.Find("Player").GetComponent<PlayerController>().removeCurrency(cost)) 
         {
             GameObject.Find("Player").GetComponent<PlayerController>().AddObjectToInventory(item);
-            RemoveItemButton(button);
-            //button.enabled = false;
-            currentStoreItems.Remove(item);
-            //item.SetActive(false);
-            SetPanels(true);
+            for(int obj = 0; obj < ShopItemObj.Length; obj++)
+            {
+                //Debug.Log();
+                if (ShopItemObj[obj].transform.GetChild(1).GetComponent<Text>().text == item.name) {
+                    for (int i = obj; i < ShopItemObj.Length; i++)
+                    {
+                        print(ShopItemObj.Length);
+                        if ((i+1) >= ShopItemObj.Length || ShopItemObj[i+1].activeSelf == false)
+                        { 
+                            ShopItemObj[i].SetActive(false);
+                            print("Removed");
+                        }   
+                        else
+                        {
+                            print("moved?");
+                            GameObject temp = ShopItemObj[i];
+                            ShopItemObj[i] = ShopItemObj[i + 1];
+                            //ShopItemObj[i + 1] = temp;
+                            UpdatePanel(temp, ShopItemObj[i]);
+                        }
+                    }
+                }
+            }
         }
         else
         {
