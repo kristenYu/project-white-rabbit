@@ -21,6 +21,9 @@ TagManager:
   - debug_unlock_recipes
   - cooking
   - ui_cooking
+  - sell_item
+  - buy_item
+  - item_manager
   layers:
   - Default
   - TransparentFX
