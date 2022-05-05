@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &567353382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 567353384}
+  - component: {fileID: 567353383}
+  m_Layer: 0
+  m_Name: RLAIDQuestAlgorithm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &567353383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567353382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a1b75b923ed9d46aaae04df6de1749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questNum: 0
+  questCategories: 0
+--- !u!4 &567353384
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567353382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.27203643, y: 0.069635235, z: -36.79385}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592024593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,7 +1326,7 @@ PrefabInstance:
     - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
         type: 3}
       propertyPath: questAlgorithms.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
         type: 3}
@@ -1303,6 +1348,11 @@ PrefabInstance:
       propertyPath: questAlgorithms.Array.data[0]
       value: 
       objectReference: {fileID: 797319095}
+    - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
+        type: 3}
+      propertyPath: questAlgorithms.Array.data[1]
+      value: 
+      objectReference: {fileID: 567353382}
     - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
         type: 3}
       propertyPath: submitQuestUIObjects.Array.size
