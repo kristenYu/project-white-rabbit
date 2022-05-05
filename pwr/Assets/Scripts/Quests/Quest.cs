@@ -23,7 +23,7 @@ public class Quest
     public Quest()
     {
         this.questName = "test";
-        this.questType = 0;
+        this.questType = QuestBoard.QuestType.invalid;
         this.reward = 100;
     }
 

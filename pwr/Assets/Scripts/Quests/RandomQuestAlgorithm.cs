@@ -4,21 +4,13 @@ using UnityEngine;
 
 public class RandomQuestAlgorithm : QuestAlgorithmBase
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    private Quest[] questsToGive;
 
+    public override void SetUpAlgorithm()
+    {
+        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    private Quest[] questsToGive; 
-
-    
     //QuestAlgorithmBase functions
     public override Quest[] GetQuests(int questNum, Quest[] questDataBase)
     {

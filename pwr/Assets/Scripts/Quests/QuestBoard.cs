@@ -8,11 +8,13 @@ using System;
 
 public class QuestBoard : MonoBehaviour
 {
-    //this enum is used for the reinforcement learning algorithm
+    //this enum is used for the reinforcement learning algorithm and for PaSSAGE
     public enum QuestType
     {
-        invalid = 0,
-        plant,
+        plant = 0,
+        harvest, 
+        place,
+        invalid, //this is always the maximum number of quest categories
     }
 
     public Button exitButton;
@@ -57,11 +59,17 @@ public class QuestBoard : MonoBehaviour
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
 
-        questAlgorithmIndex = 0; //default value 
-
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
         PopulateQuestBoard();
 
+        questAlgorithmIndex = 0; //default value 
+
+        //run set up for all algorithms 
+        for(int i = 0; i < questAlgorithms.Length; i++)
+        {
+            currentQuestAlgorithm = questAlgorithms[i].GetComponent<QuestAlgorithmBase>();
+            currentQuestAlgorithm.SetUpAlgorithm();
+        }
     }
 
     // Update is called once per frame
