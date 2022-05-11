@@ -91,6 +91,8 @@ public class PlayerController : MonoBehaviour
     // Read-only public access
     public static PlayerController Instance => instance;
 
+    //player profile for Passage 
+    public int[] actionFrequencyArray;
 
     private void Awake()
     {
@@ -108,7 +110,7 @@ public class PlayerController : MonoBehaviour
     }
 
     void Start()
-    {
+    { 
         currency = 30;
         inventory = new GameObject[inventorySize];
         previousInventoryIndex = 0; 
@@ -137,6 +139,8 @@ public class PlayerController : MonoBehaviour
 
         layerMask = 1 << 2;
         layerMask = ~layerMask;
+
+        actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
     }
 
     void Update()
@@ -318,6 +322,8 @@ public class PlayerController : MonoBehaviour
                             RemoveObjectFromInventory(currentInventoryIndex);
                             activeItem = null;
 
+                            actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1; 
+
                         }
                     }
                 }
@@ -327,6 +333,7 @@ public class PlayerController : MonoBehaviour
                     //check if the crop can be harvested and harvests if it can 
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     AddObjectToInventory(cropScript.HarvestCrop());
+                    actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
@@ -344,6 +351,7 @@ public class PlayerController : MonoBehaviour
                         {
                             RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
+                            actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
                         }
                     }
                 }
