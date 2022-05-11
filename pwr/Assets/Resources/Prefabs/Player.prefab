@@ -3215,11 +3215,14 @@ MonoBehaviour:
   activeItem: {fileID: 0}
   currentInventoryIndex: 0
   previousInventoryIndex: 0
+  activeQuests: []
+  currentQuestIndex: 0
   currency: 0
   currencyText: {fileID: 8205332308507442870}
   furnitureObject: {fileID: 0}
   runSpeed: 7
   interactPopup: {fileID: 8205332308164691215}
+  actionFrequencyArray: 
 --- !u!61 &8205332308754028203
 BoxCollider2D:
   m_ObjectHideFlags: 0

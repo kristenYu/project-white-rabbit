@@ -7,6 +7,13 @@ using TMPro;
 
 public class ShopScript : MonoBehaviour
 {
+    public enum StoreState{
+        Furniture = 0, 
+        Seeds,
+        Recipes, 
+        Sell
+    }
+
     //Exit Shop
     public Button ExitToMainButton;
     private Button ExitBtn;
@@ -16,6 +23,14 @@ public class ShopScript : MonoBehaviour
     public ItemManager itemManager;
     public GameObject playerControllerObject;
     private PlayerController playerController;
+    private int randNum;
+
+    //store state 
+    public StoreState storeState;
+    public Button FurnitureTabButton;
+    public Button SeedTabButton;
+    public Button RecipeTabButton;
+    public Button SellTabButton; 
 
     //Shop item panel elements
     public Button itemBtn;
@@ -24,6 +39,8 @@ public class ShopScript : MonoBehaviour
     public Text itemCost;
     public GameObject[] ShopItemObj;
     public List<GameObject> currentStoreItems = new List<GameObject>();
+    private GameObject[] currentItemObjectArray;
+    public const int maxStoreItems = 3; 
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +52,16 @@ public class ShopScript : MonoBehaviour
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
 
+        //store state
+        storeState = StoreState.Furniture; //default 
+        FurnitureTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Furniture); });
+        SeedTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Seeds); });
+        RecipeTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Recipes); });
+        SellTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Sell); });
+
+        //item panes 
+        currentItemObjectArray = new GameObject[maxStoreItems]; //const value of 3 
+
         //Using Tags to access itemManager...
         item_managerArray = GameObject.FindGameObjectsWithTag("item_manager");
         foreach(GameObject manager in item_managerArray)
@@ -42,7 +69,7 @@ public class ShopScript : MonoBehaviour
             itemManager = manager.GetComponent<ItemManager>();
         }
         //Load store items and set it in the store 
-        SetPanels(false);
+        UpdateStorePanels(false);
     }
 
     // Update is called once per frame
@@ -50,18 +77,31 @@ public class ShopScript : MonoBehaviour
     {
         //set furniture for day
 
+
         //purchase item
 
         //sell item
     }
 
     //Shop Panel setup
-    void SetPanels(bool itemPurchased)
+    private void UpdateStorePanels(bool itemPurchased)
     {
         foreach (GameObject obj in ShopItemObj)
         {
-            Button button = obj.GetComponent<Button>();
-            int randNum = Random.Range(0, itemManager.furnitureArray.Length);
+            if(storeState != StoreState.Sell)
+            {
+                GetItemsFromItemManager(storeState, currentItemObjectArray);
+            }
+
+            for(int i = 0; i < currentItemObjectArray.Length; i++)
+            {
+                SetItemButton(obj, currentItemObjectArray[i]);
+                itemBtn = obj.GetComponent<Button>();
+                itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[i]); });
+            }
+
+            /*--------------------------------------
+            randNum = Random.Range(0, itemManager.furnitureArray.Length);
 
             while (currentStoreItems.Contains(itemManager.furnitureArray[randNum]) == true)
             {
@@ -69,11 +109,12 @@ public class ShopScript : MonoBehaviour
             }
             currentStoreItems.Add(itemManager.furnitureArray[randNum]);
             SetItemButton(obj, itemManager.furnitureArray[randNum]);
-            button.onClick.AddListener(delegate { ItemPurchased(itemManager.furnitureArray[randNum]); });
+            itemBtn.onClick.AddListener(delegate { ItemPurchased(itemManager.furnitureArray[randNum]); });
+            */
         }
     }
 
-    void UpdatePanel(GameObject objToUpdate, GameObject updateObj)
+    private void UpdatePanel(GameObject objToUpdate, GameObject updateObj)
     {
         itemImage = objToUpdate.transform.GetChild(0).GetComponent<Image>();
         itemName = objToUpdate.transform.GetChild(1).GetComponent<Text>();
@@ -85,7 +126,7 @@ public class ShopScript : MonoBehaviour
     }
 
     //Item Setup
-    void SetItemButton(GameObject obj, GameObject currentItem)
+    private void SetItemButton(GameObject obj, GameObject currentItem)
     {
         itemImage = obj.transform.GetChild(0).GetComponent<Image>();
         itemName = obj.transform.GetChild(1).GetComponent<Text>();
@@ -96,16 +137,18 @@ public class ShopScript : MonoBehaviour
         itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
     }  
 
-    void ItemPurchased(GameObject item){
+    private void ItemPurchased(GameObject item){
 
         //check if player can purchase item, if so remove item from store and add to player inventory
         int cost = item.GetComponent<Item>().cost;
-        if (GameObject.Find("Player").GetComponent<PlayerController>().removeCurrency(cost)) 
+        //TODO: Replace with find by tag
+        playerControllerObject = GameObject.Find("Player");
+        playerController = playerControllerObject.GetComponent<PlayerController>();
+        if (playerController.removeCurrency(cost)) 
         {
-            GameObject.Find("Player").GetComponent<PlayerController>().AddObjectToInventory(item);
+            playerController.AddObjectToInventory(item);
             for(int obj = 0; obj < ShopItemObj.Length; obj++)
             {
-                //Debug.Log();
                 if (ShopItemObj[obj].transform.GetChild(1).GetComponent<Text>().text == item.name) {
                     for (int i = obj; i < ShopItemObj.Length; i++)
                     {
@@ -134,16 +177,59 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    void ItemSold()
+    private void ItemSold()
     {
 
     }
-    void ExitButtonClicked()
+    private void ExitButtonClicked()
     {
         //load main and enable player movement
         print("Exit Clicked!");
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
+        playerControllerObject = GameObject.Find("Player");
+        playerController = playerControllerObject.GetComponent<PlayerController>();
+        playerController.enabled = true;
+    }
+
+    private void GetItemsFromItemManager(StoreState state, GameObject[] itemArray)
+    {
+        switch (state)
+        {
+            case StoreState.Furniture:
+                for(int i = 0; i < itemArray.Length; i++)
+                {
+                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                    itemArray[i] = itemManager.furnitureArray[randNum];
+                }
+                break;
+            case StoreState.Recipes:
+                for (int i = 0; i < itemArray.Length; i++)
+                {
+                    randNum = Random.Range(0, itemManager.recipeArray.Length);
+                    itemArray[i] = itemManager.recipeArray[randNum];
+                }
+                break;
+            case StoreState.Seeds:
+                for (int i = 0; i < itemArray.Length; i++)
+                {
+                    randNum = Random.Range(0, itemManager.seedArray.Length);
+                    itemArray[i] = itemManager.seedArray[randNum];
+                }
+                break;
+            default:
+                for (int i = 0; i < itemArray.Length; i++)
+                {
+                    randNum = Random.Range(0, itemManager.furnitureArray.Length);
+                    itemArray[i] = itemManager.furnitureArray[randNum];
+                }
+                break;
+        }
+    }
+
+    private void SetStoreState(StoreState state)
+    {
+        storeState = state;
+        UpdateStorePanels(false);
     }
 
 }
