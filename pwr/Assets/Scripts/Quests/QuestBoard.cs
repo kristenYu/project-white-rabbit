@@ -22,6 +22,12 @@ public class QuestBoard : MonoBehaviour
     private PlayerController playerController;
     private PlantingEventListener plantingEventListener;
 
+    //Algorithm Toggles 
+    public Toggle randomToggle;
+    public Toggle cmabToggle;
+    public Toggle passageToggle; 
+
+
     //Database loading 
     public Quest[] questDataBase;
     public Quest currentQuest;
@@ -55,14 +61,14 @@ public class QuestBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        exitButton.onClick.AddListener(ExitScene);
-        playerObject = GameObject.FindGameObjectWithTag("Player");
-        playerController = playerObject.GetComponent<PlayerController>();
-
-        questsToSubmit = new Quest[PlayerController.maxActiveQuests];
-        PopulateQuestBoard();
-
-        questAlgorithmIndex = 0; //default value 
+        //default algorithm is random 
+        randomToggle.isOn = true;
+        randomToggle.onValueChanged.AddListener(delegate { OnRandomToggleChanged(randomToggle); });
+        cmabToggle.isOn = false;
+        cmabToggle.onValueChanged.AddListener(delegate { onCMABToggleChanged(cmabToggle); });
+        passageToggle.isOn = false;
+        passageToggle.onValueChanged.AddListener(delegate { onPassageToggleChanged(passageToggle); });
+        questAlgorithmIndex = 0; 
 
         //run set up for all algorithms 
         for(int i = 0; i < questAlgorithms.Length; i++)
@@ -70,6 +76,13 @@ public class QuestBoard : MonoBehaviour
             currentQuestAlgorithm = questAlgorithms[i].GetComponent<QuestAlgorithmBase>();
             currentQuestAlgorithm.SetUpAlgorithm();
         }
+
+        exitButton.onClick.AddListener(ExitScene);
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerController = playerObject.GetComponent<PlayerController>();
+        questsToSubmit = new Quest[PlayerController.maxActiveQuests];
+        PopulateQuestBoard();
+
     }
 
     // Update is called once per frame
@@ -192,5 +205,44 @@ public class QuestBoard : MonoBehaviour
         Debug.Log("Submitted quest: " + quest.questName);
         playerController.addCurrency(quest.reward);
         currentQuestAlgorithm.OnQuestSubmitted(); 
+    }
+
+    private void OnRandomToggleChanged(Toggle toggle)
+    {
+        if(toggle.isOn)
+        {
+            //turn others off 
+            cmabToggle.isOn = false;
+            passageToggle.isOn = false;
+
+            //set algorithm 
+            questAlgorithmIndex = 0; 
+        }
+    }
+
+    private void onCMABToggleChanged(Toggle toggle)
+    {
+        if (toggle.isOn)
+        {
+            //turn others off 
+            randomToggle.isOn = false;
+            passageToggle.isOn = false;
+
+            //set algorithm 
+            questAlgorithmIndex = 1;
+        }
+    }
+
+    private void onPassageToggleChanged(Toggle toggle)
+    {
+        if (toggle.isOn)
+        {
+            //turn others off 
+            randomToggle.isOn = false;
+            cmabToggle.isOn = false;
+
+            //set algorithm 
+            questAlgorithmIndex = 2;
+        }
     }
 }
