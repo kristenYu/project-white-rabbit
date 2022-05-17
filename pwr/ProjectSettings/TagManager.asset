@@ -24,6 +24,7 @@ TagManager:
   - sell_item
   - buy_item
   - item_manager
+  - bounding_box
   layers:
   - Default
   - TransparentFX
