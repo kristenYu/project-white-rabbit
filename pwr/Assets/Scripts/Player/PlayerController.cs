@@ -290,6 +290,11 @@ public class PlayerController : MonoBehaviour
                 //transitions scenes 
                 if (hit.transform.gameObject.tag == "new_scene")
                 {
+                    if(hit.transform.gameObject.name == "Home")
+                    {
+                        this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
+                    }
+                    
                     //assumes that the object matches the name of the scene you want to load
                     SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                 }
