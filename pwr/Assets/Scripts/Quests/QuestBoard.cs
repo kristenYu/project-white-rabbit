@@ -13,7 +13,6 @@ public class QuestBoard : MonoBehaviour
     {
         plant = 0,
         cook,
-        harvest, 
         place,
         invalid, //this is always the maximum number of quest categories
     }
@@ -53,7 +52,7 @@ public class QuestBoard : MonoBehaviour
     private Button questAcceptButton;
     public GameObject[] submitQuestUIObjects; //Should always be matching the maximum number of quests that can be active
     private TextMeshProUGUI submitQuestName;
-    private Button questSubmitButton; 
+    private Button questSubmitButton;
 
     private void Awake()
     {
@@ -64,6 +63,9 @@ public class QuestBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerController = playerObject.GetComponent<PlayerController>();
+
         //default algorithm is random 
         randomToggle.isOn = true;
         randomToggle.onValueChanged.AddListener(delegate { OnRandomToggleChanged(randomToggle); });
@@ -71,7 +73,8 @@ public class QuestBoard : MonoBehaviour
         cmabToggle.onValueChanged.AddListener(delegate { onCMABToggleChanged(cmabToggle); });
         passageToggle.isOn = false;
         passageToggle.onValueChanged.AddListener(delegate { onPassageToggleChanged(passageToggle); });
-        questAlgorithmIndex = 0; 
+        questAlgorithmIndex = playerController.questAlgorithm;
+        
 
         //run set up for all algorithms 
         for(int i = 0; i < questAlgorithms.Length; i++)
@@ -81,8 +84,6 @@ public class QuestBoard : MonoBehaviour
         }
 
         exitButton.onClick.AddListener(ExitScene);
-        playerObject = GameObject.FindGameObjectWithTag("Player");
-        playerController = playerObject.GetComponent<PlayerController>();
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
         PopulateQuestBoard();
 
@@ -121,12 +122,13 @@ public class QuestBoard : MonoBehaviour
     public void PopulateQuestBoard()
     {
         //Get Quests to show
+        questAlgorithmIndex = playerController.questAlgorithm;
+        SetCorrectQuestToggle(questAlgorithmIndex);
         currentQuestAlgorithm = questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
         displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questDataBase);
 
         for(int i = 0; i < displayQuests.Length; i++)
         {
-            Debug.Log(displayQuests[i].questName);
             SetQuestUI(QuestUIObjects[i], displayQuests[i]);
         }
 
@@ -256,7 +258,8 @@ public class QuestBoard : MonoBehaviour
             passageToggle.isOn = false;
 
             //set algorithm 
-            questAlgorithmIndex = 0; 
+            questAlgorithmIndex = 0;
+            playerController.questAlgorithm = questAlgorithmIndex;
         }
     }
 
@@ -270,6 +273,7 @@ public class QuestBoard : MonoBehaviour
 
             //set algorithm 
             questAlgorithmIndex = 1;
+            playerController.questAlgorithm = questAlgorithmIndex;
         }
     }
 
@@ -283,6 +287,29 @@ public class QuestBoard : MonoBehaviour
 
             //set algorithm 
             questAlgorithmIndex = 2;
+            playerController.questAlgorithm = questAlgorithmIndex;
+        }
+    }
+
+    private void SetCorrectQuestToggle(int index)
+    {
+        if(index == 0)
+        {
+            randomToggle.isOn = true;
+            cmabToggle.isOn = false;
+            passageToggle.isOn = false;
+        }
+        else if(index == 1)
+        {
+            randomToggle.isOn = false;
+            cmabToggle.isOn = true;
+            passageToggle.isOn = false;
+        }
+        else if (index == 2)
+        {
+            randomToggle.isOn = false;
+            cmabToggle.isOn = false;
+            passageToggle.isOn = true;
         }
     }
 }

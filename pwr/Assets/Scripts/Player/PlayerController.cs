@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
 
     //player profile for Passage 
     public int[] actionFrequencyArray;
+    public int questAlgorithm;
 
     private void Awake()
     {
@@ -349,7 +350,7 @@ public class PlayerController : MonoBehaviour
                     //check if the crop can be harvested and harvests if it can 
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     AddObjectToInventory(cropScript.HarvestCrop());
-                    actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
+                   // actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")

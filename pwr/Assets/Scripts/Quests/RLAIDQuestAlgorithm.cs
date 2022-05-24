@@ -37,6 +37,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     private string job;
     private Quest[] questsToGive;
     private List<Quest> questsOfType;
+    private int questTypeCatch;
 
     //set up for the algorithm as needed 
     public override void SetUpAlgorithm()
@@ -55,6 +56,8 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         banditCountDictionary = new Dictionary<string, int>();
         banditRewardDictionary = new Dictionary<string, float>();
         qValueDictionary = new Dictionary<string, float>();
+        possibleKeys = new List<string>();
+        questsOfType = new List<Quest>();
         CombinationRepetition(questCategoryArray, questCategories, questNum);
     }
     //asks for quests from the quest algorithm
@@ -63,12 +66,15 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         questsToGive = null;
         questsToGive = new Quest[questNum];
         job = generateCBAJob(time);
+        
         for(int i = 0; i < job.Length; i++)
         {
-            questsOfType = GetAllQuestsOfType((QuestBoard.QuestType)job[i], questDataBase);
+            questTypeCatch = (int)job[i] - 48;
+            questsOfType = GetAllQuestsOfType(questTypeCatch, questDataBase);
             questsToGive[i] = questsOfType[Random.Range(0, questsOfType.Count)];
-            questsOfType.Remove(questsToGive[i]);
+            //questsOfType.Remove(questsToGive[i]);
         }
+        
         return questsToGive;
     }
     //notifies the quest algorithm that a quest has been accepted
@@ -164,6 +170,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
             if (banditCountDictionary[kvp.Key] == 0)
             {
                 value = qValueDictionary[kvp.Key];
+                possibleKeys.Add(kvp.Key);
             }
             else
             {
@@ -194,12 +201,12 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         return possibleKeys[Random.Range(0, possibleKeys.Count)];
     }
 
-    private List<Quest> GetAllQuestsOfType(QuestBoard.QuestType type, Quest[] questDataBase)
+    private List<Quest> GetAllQuestsOfType(int type, Quest[] questDataBase)
     {
         questsOfType.Clear();
         foreach(Quest quest in questDataBase)
         {
-            if(quest.questType == type)
+            if((int) quest.questType == type)
             {
                 questsOfType.Add(quest);
             }

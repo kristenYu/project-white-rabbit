@@ -27,7 +27,7 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
     private List<string> possibleKeys;
     private string job;
     private List<Quest> questsOfType;
-
+    private int questTypeCatch;
 
 
     //set up for the algorithm as needed, runs at start()
@@ -45,17 +45,21 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
         }
 
         questProposalTree = new Dictionary<string, int[]>();
+        possibleKeys = new List<string>();
+        questsOfType = new List<Quest>();
         CombinationRepetition(questCategoryArray, questCategories, questNum);
 
     }
     //asks for quests from the quest algorithm
     public override Quest[] GetQuests(int questNum, Quest[] questDataBase)
     {
+        questsToGive = new Quest[questNum];
         UpdateplayerActionFrequency();
         job = SearchTreeForBestAction();
         for (int i = 0; i < job.Length; i++)
         {
-            questsOfType = GetAllQuestsOfType((QuestBoard.QuestType)job[i], questDataBase);
+            questTypeCatch = (int)job[i] - 48;
+            questsOfType = GetAllQuestsOfType(questTypeCatch, questDataBase);
             questsToGive[i] = questsOfType[Random.Range(0, questsOfType.Count)];
             questsOfType.Remove(questsToGive[i]);
         }
@@ -161,12 +165,12 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
         return currentProduct;
     }
 
-    private List<Quest> GetAllQuestsOfType(QuestBoard.QuestType type, Quest[] questDataBase)
+    private List<Quest> GetAllQuestsOfType(int type, Quest[] questDataBase)
     {
         questsOfType.Clear();
         foreach (Quest quest in questDataBase)
         {
-            if (quest.questType == type)
+            if ((int)quest.questType == type)
             {
                 questsOfType.Add(quest);
             }
