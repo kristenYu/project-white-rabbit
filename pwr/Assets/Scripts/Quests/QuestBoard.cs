@@ -99,7 +99,8 @@ public class QuestBoard : MonoBehaviour
     {
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
-        currentQuestAlgorithm.OnQuestClosed(); 
+        currentQuestAlgorithm.OnQuestClosed();
+        playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     { 
-        currency = 30;
+        currency = 500;
         inventory = new GameObject[inventorySize];
         previousInventoryIndex = 0; 
         currentInventoryIndex = 0; 

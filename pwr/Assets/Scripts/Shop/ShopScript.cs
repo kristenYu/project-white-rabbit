@@ -180,6 +180,7 @@ public class ShopScript : MonoBehaviour
         //load main and enable player movement
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
+        playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

@@ -63,7 +63,6 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     //asks for quests from the quest algorithm
     public override Quest[] GetQuests(int questNum, Quest[] questDataBase)
     {
-        questsToGive = null;
         questsToGive = new Quest[questNum];
         job = generateCBAJob(time);
         
@@ -144,7 +143,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     //update the bandit based on the current rewardArray; 
     private void rewardBandit(int[] reward)
     {
-        foreach(KeyValuePair<string, float> kvp in banditRewardDictionary)
+        foreach(KeyValuePair<string, int> kvp in banditCountDictionary)
         {
             currentReward = 0;
             for (int i = 0; i < questCategories; i++)
