@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712fcc8e4db59f54ca37034a6df312c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 10
   stringName: tomato
   itemSprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
   crop: {fileID: 8342067618130913555, guid: a9a641de0864e994199e35e72bc038b4, type: 3}

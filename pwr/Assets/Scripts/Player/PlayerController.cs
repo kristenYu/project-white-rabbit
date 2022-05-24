@@ -134,7 +134,6 @@ public class PlayerController : MonoBehaviour
 
         currentQuestIndex = 0;
         activeQuests = new Quest[maxActiveQuests];
-        Debug.Log(activeQuests.Length);
 
         anim = GetComponent<Animator>();
 

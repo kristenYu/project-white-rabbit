@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a00c9f9e51c1abc4a8227ce11f289e4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 100
   stringName: spaghetti sauce
   itemSprite: {fileID: 0}
   ingredients:
