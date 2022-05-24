@@ -1,0 +1,5 @@
+{"questName": "Cook 2 carrot recipes",
+"questType": 1, 
+"reward": 100, 
+"eventListenerData": [ "carrot", "2"]
+}

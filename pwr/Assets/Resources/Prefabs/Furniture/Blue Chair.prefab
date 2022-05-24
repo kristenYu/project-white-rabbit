@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 200
   stringName: Blue Chair
   itemSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}

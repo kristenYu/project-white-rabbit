@@ -1,0 +1,5 @@
+{"questName": "Cook 2 onion recipes",
+"questType": 1, 
+"reward": 100, 
+"eventListenerData": [ "onion", "2"]
+}

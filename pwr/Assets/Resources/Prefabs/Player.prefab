@@ -3197,6 +3197,8 @@ MonoBehaviour:
   cookingUI: {fileID: 3504336406647667817}
   recipeUIPrefab: {fileID: 3979257380368538511, guid: 967d97a651d731049b24c3cd2df4e1ea,
     type: 3}
+  cookedFoodObject: {fileID: 0}
+  CookedRecipeFlag: 0
   inventory:
   - {fileID: 0}
   - {fileID: 0}
@@ -3220,8 +3222,10 @@ MonoBehaviour:
   currency: 0
   currencyText: {fileID: 8205332308507442870}
   furnitureObject: {fileID: 0}
+  placeFurnitureFlag: 0
   runSpeed: 7
   interactPopup: {fileID: 8205332308164691215}
+  HUD: {fileID: 8205332307544167704}
   actionFrequencyArray: 
 --- !u!61 &8205332308754028203
 BoxCollider2D:

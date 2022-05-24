@@ -12,6 +12,7 @@ public class QuestBoard : MonoBehaviour
     public enum QuestType
     {
         plant = 0,
+        cook,
         harvest, 
         place,
         invalid, //this is always the maximum number of quest categories
@@ -21,6 +22,8 @@ public class QuestBoard : MonoBehaviour
     public GameObject playerObject;
     private PlayerController playerController;
     private PlantingEventListener plantingEventListener;
+    private CookingEventListener cookingEventListener;
+    private PlaceEventListener placeEventListener;
 
     //Algorithm Toggles 
     public Toggle randomToggle;
@@ -41,8 +44,8 @@ public class QuestBoard : MonoBehaviour
     public int questAlgorithmIndex; //quest algorithm to use
     private QuestAlgorithmBase currentQuestAlgorithm;
     private GameObject currentQuestGameObject;
-
-    public Quest[] questsToSubmit; 
+    public Quest[] questsToSubmit;
+    private int result;
 
     //Quest UI 
     public GameObject[] QuestUIObjects;//Should always be matching the number of quests - 0 is left most, max is right most
@@ -94,6 +97,7 @@ public class QuestBoard : MonoBehaviour
     public void ExitScene()
     {
         playerController.enabled = true;
+        playerController.HUD.SetActive(true);
         currentQuestAlgorithm.OnQuestClosed(); 
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
@@ -138,7 +142,6 @@ public class QuestBoard : MonoBehaviour
             {
                 if (playerController.activeQuests[i].eventListener.IsEventCompleted)
                 {
-                    
                     submitQuestUIObjects[i].SetActive(true);
                     SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
                 }
@@ -171,6 +174,8 @@ public class QuestBoard : MonoBehaviour
         questSubmitButton.onClick.AddListener(delegate { SubmitQuest(quest); });
     }
 
+
+    //TODO: Turn this into functions
     public void AcceptQuest(Quest quest)
     {
         //Instantiate Event Listener
@@ -178,7 +183,7 @@ public class QuestBoard : MonoBehaviour
         {
             case QuestType.plant:
                 //expects the plant event listening data to be formatted as name of plant, and target number in the format of strings
-                if(!Int32.TryParse(quest.eventListenerData[1], out int result))
+                if(!Int32.TryParse(quest.eventListenerData[1], out result))
                 {
                     Debug.LogError("Accept Quest Failed for quest " + quest.questName + "; could not instantiate PlantingEventListener. Check eventListenerData is formatted as [\"targetPlant\", \"targetValue\"]");
                 }
@@ -196,8 +201,43 @@ public class QuestBoard : MonoBehaviour
 
                 currentQuestAlgorithm.OnQuestAccepted(quest);
                 break;
+
+            case QuestType.cook:
+                //expects the cook event listening data to be formatted as type of ingredient, and target number in the format of strings
+                if (!Int32.TryParse(quest.eventListenerData[1], out result))
+                {
+                    Debug.LogError("Accept Quest Failed for quest " + quest.questName + "; could not instantiate PlantingEventListener. Check eventListenerData is formatted as [\"targetPlant\", \"targetValue\"]");
+                }
+                currentQuestGameObject = new GameObject();
+                currentQuestGameObject.name = quest.questName + "_EL";
+                currentQuestGameObject.transform.SetParent(playerObject.transform);
+                currentQuestGameObject.AddComponent<CookingEventListener>();
+
+                cookingEventListener = currentQuestGameObject.GetComponent<CookingEventListener>();
+                cookingEventListener.SetCookingEventListener(quest.eventListenerData[0], Int32.Parse(quest.eventListenerData[1]));
+
+                quest.eventListener = cookingEventListener;
+                quest.eventListener.OnStartListening();
+                playerController.AddQuestToActiveArray(quest);
+                currentQuestAlgorithm.OnQuestAccepted(quest);
+                break;
+            case QuestType.place:
+                //expects place type as an int
+                currentQuestGameObject = new GameObject();
+                currentQuestGameObject.name = quest.questName + "_EL";
+                currentQuestGameObject.transform.SetParent(playerObject.transform);
+                currentQuestGameObject.AddComponent<PlaceEventListener>();
+
+                placeEventListener = currentQuestGameObject.GetComponent<PlaceEventListener>();
+                placeEventListener.SetPlaceEventListener(Int32.Parse(quest.eventListenerData[0]));
+
+                quest.eventListener = placeEventListener;
+                quest.eventListener.OnStartListening();
+                playerController.AddQuestToActiveArray(quest);
+                currentQuestAlgorithm.OnQuestAccepted(quest);
+                break;
             default:
-                break; 
+                break;
         }
     }
     public void SubmitQuest(Quest quest)

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 200
   stringName: Yellow Chair
   itemSprite: {fileID: 7610317658813570845, guid: b9fee72152c69154faf1d57c9b593ffc,
     type: 3}

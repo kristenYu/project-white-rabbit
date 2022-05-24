@@ -39,7 +39,9 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> targetIngredients;
     private GameObject currentIngredient;
     private bool isIngredientInInventory;
-    private GameObject cookedFoodObject; 
+    public GameObject cookedFoodObject;
+    public bool CookedRecipeFlag; 
+    
 
     //inventory 
     public GameObject[] inventory;
@@ -65,6 +67,7 @@ public class PlayerController : MonoBehaviour
     public GameObject furnitureObject;
     private Furniture furnitureScript;
     private SpriteRenderer furnitureSpriteRenderer;
+    public bool placeFurnitureFlag;
 
     //Movement
     private Rigidbody2D body;
@@ -82,6 +85,7 @@ public class PlayerController : MonoBehaviour
     //juice
     public GameObject interactPopup;
     private int layerMask;
+    public GameObject HUD;
 
     //Debug
     private GameObject testObject; 
@@ -121,10 +125,12 @@ public class PlayerController : MonoBehaviour
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
         knownRecipeUIObjects = new List<GameObject>();
-        targetIngredients = new List<GameObject>(); 
+        targetIngredients = new List<GameObject>();
+        CookedRecipeFlag = false;
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
+        placeFurnitureFlag = false;
 
         currentQuestIndex = 0;
         activeQuests = new Quest[maxActiveQuests];
@@ -295,6 +301,12 @@ public class PlayerController : MonoBehaviour
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
                     }
                     
+                    //Hide hud
+                    if(hit.transform.gameObject.name == "Shop" || hit.transform.gameObject.name == "QuestBoard")
+                    {
+                        HUD.SetActive(false);
+                    }
+
                     //assumes that the object matches the name of the scene you want to load
                     SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                 }
@@ -357,6 +369,7 @@ public class PlayerController : MonoBehaviour
                             RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
+                            placeFurnitureFlag = true;
                         }
                     }
                 }
@@ -716,6 +729,7 @@ public class PlayerController : MonoBehaviour
         }
         cookedFoodObject = Instantiate(recipe.cookedFood);
         AddObjectToInventory(cookedFoodObject);
+        CookedRecipeFlag = true;
         return true;
     }    
 

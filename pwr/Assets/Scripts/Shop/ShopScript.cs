@@ -184,11 +184,11 @@ public class ShopScript : MonoBehaviour
     private void ExitButtonClicked()
     {
         //load main and enable player movement
-        print("Exit Clicked!");
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
         playerControllerObject = GameObject.Find("Player");
         playerController = playerControllerObject.GetComponent<PlayerController>();
         playerController.enabled = true;
+        playerController.HUD.SetActive(true);
     }
 
     private void GetItemsFromItemManager(StoreState state, GameObject[] itemArray)

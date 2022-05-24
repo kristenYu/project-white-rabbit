@@ -30,4 +30,16 @@ namespace EventListenerStructs
         public string name;
         public int targetValue; 
     }
+
+    [System.Serializable]
+    public struct CookingStruct
+    {
+        public string ingredientType; 
+        public int targetValue; 
+    }
+
+    public struct PlaceStruct
+    {
+        public int targetValue;
+    }
 }

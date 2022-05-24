@@ -1,0 +1,5 @@
+{"questName": "Place 15 furniture",
+"questType": 3, 
+"reward": 100, 
+"eventListenerData": [15]
+}

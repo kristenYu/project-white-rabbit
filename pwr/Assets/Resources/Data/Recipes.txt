@@ -1,2 +1,9 @@
 french fries,100,potato,potato
 potato chips,200,potato,potato,potato
+tomato soup,200,tomato,tomato,tomato 
+veggie soup,200,tomato,carrot,onion
+spaghetti sauce,100,tomato,onion
+onion soup,200,onion,onion,greenonion
+potato buns,200,potato,potato,greenonion
+veggie dumplings,200,greenonion,onion,carrot
+lettuce sandwich,200,lettuce,carrot,tomato

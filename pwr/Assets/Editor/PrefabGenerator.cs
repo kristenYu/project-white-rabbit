@@ -17,12 +17,15 @@ public class PrefabGenerator : MonoBehaviour
         {
             string localPath = "Assets/Resources/Prefabs/Furniture/" + texture.name + ".prefab";
 
+
             //load in sprites
             Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Furniture/" + texture.name);  
-            if(sprites.Length != 4)
+
+            
+            /*if(sprites.Length != 4)
             {
                 Debug.LogError("Expected 4 sprites in texture " + texture.name);
-            }
+            } */
 
             //generate new prefab object
             GameObject prefabGameObject = new GameObject();
@@ -37,6 +40,7 @@ public class PrefabGenerator : MonoBehaviour
             furnitureScript.spriteArray = sprites; 
             furnitureScript.stringName = texture.name;
             furnitureScript.itemSprite = furnitureScript.spriteArray[0];
+            furnitureScript.cost = 200; //hardcoded value 
 
             spriteRenderer.sprite = furnitureScript.spriteArray[0];
             spriteRenderer.sortingLayerName = "Foreground";
@@ -226,7 +230,6 @@ public class PrefabGenerator : MonoBehaviour
     {
         //Recipes need to be formated name of <recipe name>, <selling price>, <ingredient 1>, <ingredient 2>, <ingredient 3>
         //This script parses by new line, so to add a new recipe to the list you just need to add a new line
-
         Debug.Log("Generating Recipes from data ...");
         TextAsset[] textAssetList = Selection.GetFiltered<TextAsset>(SelectionMode.Assets);
 
