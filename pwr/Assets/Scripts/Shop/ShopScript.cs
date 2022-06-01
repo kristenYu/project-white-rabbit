@@ -44,6 +44,11 @@ public class ShopScript : MonoBehaviour
 
     int cost;
 
+
+    //recipe management
+    Recipe recipe;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +84,8 @@ public class ShopScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(playerControllerObject.transform.position);
+
         //set furniture for day
 
 
@@ -162,7 +169,17 @@ public class ShopScript : MonoBehaviour
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
         {
-            playerController.AddObjectToInventory(item);
+            if(storeState == StoreState.Recipes)
+            {
+                recipe = item.GetComponent<Recipe>();
+                playerController.UnlockRecipe(recipe, playerController.recipeIndex);
+                playerController.recipeIndex++;
+            }
+            else
+            {
+                playerController.AddObjectToInventory(item);
+            }
+            
         }
         else
         {

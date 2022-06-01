@@ -174,7 +174,7 @@ public class QuestBoard : MonoBehaviour
         submitQuestName = submitQuestUIObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
         submitQuestName.text = quest.questName;
-        questSubmitButton.onClick.AddListener(delegate { SubmitQuest(quest); });
+        questSubmitButton.onClick.AddListener(delegate { SubmitQuest(quest, submitQuestUIObject); });
     }
 
 
@@ -243,11 +243,12 @@ public class QuestBoard : MonoBehaviour
                 break;
         }
     }
-    public void SubmitQuest(Quest quest)
+    public void SubmitQuest(Quest quest, GameObject UIObject)
     {
         Debug.Log("Submitted quest: " + quest.questName);
         playerController.addCurrency(quest.reward);
-        currentQuestAlgorithm.OnQuestSubmitted(); 
+        currentQuestAlgorithm.OnQuestSubmitted();
+        UIObject.SetActive(false);
     }
 
     private void OnRandomToggleChanged(Toggle toggle)

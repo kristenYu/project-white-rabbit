@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     private bool isIngredientInInventory;
     public GameObject cookedFoodObject;
     public bool CookedRecipeFlag; 
+    public int recipeIndex; 
     
 
     //inventory 
@@ -119,7 +120,8 @@ public class PlayerController : MonoBehaviour
         currency = 500;
         inventory = new GameObject[inventorySize];
         previousInventoryIndex = 0; 
-        currentInventoryIndex = 0; 
+        currentInventoryIndex = 0;
+        recipeIndex = 0;
 
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down;
@@ -472,10 +474,23 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    inventory[currentInventoryIndex] = item; 
+                    if (item.gameObject.tag == "furniture")
+                    {
+                        tempObject = Instantiate(item, this.transform.position, Quaternion.identity);
+                        tempObject.gameObject.transform.parent = this.transform;
+                        tempObject.SetActive(false);
+
+                        inventory[currentInventoryIndex] = tempObject;
+                    }
+                    else
+                    {
+                        inventory[currentInventoryIndex] = item;
+                    }
                     inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
                     inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
                     activeItem = inventory[currentInventoryIndex];
+                   
+                    
                     return true;
                 }
             }
@@ -557,8 +572,12 @@ public class PlayerController : MonoBehaviour
         {
             if (activeItem.gameObject.tag == "furniture")
             {
-                activeItem.SetActive(true);
-                activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
+                if (SceneManager.GetActiveScene().name == "Home")
+                {
+                    activeItem.SetActive(true);
+                    activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
+                    Debug.Log(activeItem);
+                }
             }  
         }
         if (inventory[previousInventoryIndex] != null)
