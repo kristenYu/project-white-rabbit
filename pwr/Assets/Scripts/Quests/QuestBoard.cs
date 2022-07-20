@@ -247,8 +247,10 @@ public class QuestBoard : MonoBehaviour
     {
         Debug.Log("Submitted quest: " + quest.questName);
         playerController.addCurrency(quest.reward);
+        playerController.RemoveCompletedQuest(quest);
         currentQuestAlgorithm.OnQuestSubmitted();
         UIObject.SetActive(false);
+        
     }
 
     private void OnRandomToggleChanged(Toggle toggle)
