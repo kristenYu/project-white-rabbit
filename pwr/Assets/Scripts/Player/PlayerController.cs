@@ -238,7 +238,17 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
+       
+        //Option to Sprint 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            runSpeed = 9.0f;
+        }
+        else
+        {
+            runSpeed = 7.0f;
+        }
+        
         //inventory QOL Update
         if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
         {
