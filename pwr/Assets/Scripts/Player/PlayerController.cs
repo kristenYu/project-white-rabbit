@@ -239,6 +239,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+      
         //inventory QOL Update
         if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
         {
@@ -474,7 +475,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    if (item.gameObject.tag == "furniture")
+                    if (item.gameObject.tag == "furniture" || item.gameObject.tag == "crop")
                     {
                         tempObject = Instantiate(item, this.transform.position, Quaternion.identity);
                         tempObject.gameObject.transform.parent = this.transform;
@@ -778,6 +779,21 @@ public class PlayerController : MonoBehaviour
             activeQuests[currentQuestIndex] = quest; 
         }    
 
+    }
+
+    //TODO: Destroy gameobject later
+    public void RemoveCompletedQuest(Quest quest)
+    {
+        for(int i = 0; i < activeQuests.Length; i++)
+        {
+            if(activeQuests[i].questName == quest.questName)
+            {
+                if(activeQuests[i].eventListener.IsEventCompleted)
+                {
+                    activeQuests[i] = null;
+                }
+            }
+        }
     }
 }
 
