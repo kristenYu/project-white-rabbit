@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour
 {
-    public enum TOD{
+    public enum TOD
+    {
         Day = 0, //10 minutes
         Twilight, // 1 minute
         Night // 4 minutes
@@ -21,7 +22,7 @@ public class WorldController : MonoBehaviour
     public TextMeshProUGUI TODText;
     public RawImage TODImage;
     public Texture[] TODIcons = new Texture[3];
-    
+
 
     //managing changing time of day
     public float dayDuration;
@@ -35,7 +36,13 @@ public class WorldController : MonoBehaviour
     //furniture management 
     public List<GameObject> placedFurnitureObjects;
     private Furniture currentFurnitureScript;
-    private GameObject currentFurnitureObject; 
+    private GameObject currentFurnitureObject;
+
+
+    //mushroom management 
+    private GameObject newMushroom;
+    public GameObject mushroomfood;
+    public GameObject MushroomSpawnArea;
 
     //Singleton 
     private static WorldController instance;
@@ -79,7 +86,18 @@ public class WorldController : MonoBehaviour
         twilightDuration = 10.0f;
         nightDuration = 10.0f;
 
-        activeCropList = new List<GameObject>(); 
+        activeCropList = new List<GameObject>();
+
+        //Spawning Mushrooms
+
+        for (int i = 0; i < 10; i++)
+        {
+            float spawnX = UnityEngine.Random.Range(MushroomSpawnArea.gameObject.transform.position.x - (MushroomSpawnArea.gameObject.transform.localScale.x/2), MushroomSpawnArea.gameObject.transform.position.x + (MushroomSpawnArea.gameObject.transform.localScale.x/2));
+            float spawnY = UnityEngine.Random.Range(MushroomSpawnArea.gameObject.transform.position.y - (MushroomSpawnArea.gameObject.transform.localScale.y/2), MushroomSpawnArea.gameObject.transform.position.y + (MushroomSpawnArea.gameObject.transform.localScale.y/2));
+            Vector3 temporary = new Vector3(0.0f, 0.0f, 0.0f);
+            Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0.0f);
+            Instantiate(mushroomfood, temporary, Quaternion.identity);
+        }
     }
 
     // Update is called once per frame
@@ -95,7 +113,7 @@ public class WorldController : MonoBehaviour
 
     public void checkValidSceneForFurniture()
     {
-        foreach(GameObject furniture in placedFurnitureObjects)
+        foreach (GameObject furniture in placedFurnitureObjects)
         {
             if (SceneManager.GetActiveScene().name == "Home")
             {
@@ -112,12 +130,12 @@ public class WorldController : MonoBehaviour
 
     public void checkValidSceneForCrops()
     {
-        foreach(GameObject crop in activeCropList)
+        foreach (GameObject crop in activeCropList)
         {
             if (SceneManager.GetActiveScene().name == "Main")
             {
                 crop.GetComponent<SpriteRenderer>().enabled = true;
-                crop.GetComponent<BoxCollider2D>().enabled = true; 
+                crop.GetComponent<BoxCollider2D>().enabled = true;
             }
             else
             {
@@ -135,7 +153,7 @@ public class WorldController : MonoBehaviour
             if (currentCropScript.isReadyToGrow)
             {
                 currentCropScript.GrowCrop();
-                currentCropScript.isReadyToGrow = false; 
+                currentCropScript.isReadyToGrow = false;
             }
         }
     }
@@ -177,6 +195,45 @@ public class WorldController : MonoBehaviour
     {
         dayDuration = day;
         twilightDuration = twilight;
-        nightDuration = night; 
+        nightDuration = night;
     }
 }
+
+//Spawning Mushrooms 
+
+    /*public bool isTimer;
+
+
+    public object mushroomfood()
+    {
+        object x = mushroomSpawn.transform.position.x; //9.67
+        object mushroomSpawn = null;
+        _ = mushroomSpawn.transform.localScale.x; //10
+    }
+   }
+
+// spawn mushrooms during day (from code: dayDuration = 10.0f;)
+
+/*private void Update ()
+{
+timer += Time.deltaTime;
+
+if (timer >= 0)
+    {
+
+    }
+}*/
+
+//from player script (harvesting action): 
+
+/*     //check if the crop can be harvested and harvests if it can 
+                cropScript = hit.transform.gameObject.GetComponent<Crop>();
+                AddObjectToInventory(cropScript.HarvestCrop());
+               // actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;*/
+
+// pressing E to interact with mushrooms - using keycode??
+
+/*if (Input.GetKeyDown(KeyCode.E))
+{
+
+}*/
