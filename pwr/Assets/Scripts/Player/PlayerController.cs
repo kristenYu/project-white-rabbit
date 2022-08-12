@@ -19,7 +19,14 @@ public class PlayerController : MonoBehaviour
     private Crop cropScript; 
     private Seed seedScript;
 
-    //Recipes 
+    //Mushrooms
+    public GameObject mushroomfood;
+    public GameObject MushroomSpawnArea;
+    public GameObject MushroomSpawnArea2;
+    public GameObject MushroomSpawnArea3;
+    public Food foodScript;
+
+        //Recipes 
     public List<Recipe> knownRecipes;
     private GameObject currentRecipeUIObject; 
     private bool isKnownRecipe;
@@ -149,10 +156,31 @@ public class PlayerController : MonoBehaviour
         layerMask = ~layerMask;
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
+
+        //Mushrooms 
+
+        if (MushroomSpawnArea == null) 
+            MushroomSpawnArea = GameObject.FindWithTag("mushroom");
+
+        Instantiate(mushroomfood, MushroomSpawnArea.transform.position, MushroomSpawnArea.transform.rotation);
+
+
+        if (MushroomSpawnArea2 == null)
+            MushroomSpawnArea2 = GameObject.FindWithTag("mushroom");
+
+        Instantiate(mushroomfood, MushroomSpawnArea2.transform.position, MushroomSpawnArea2.transform.rotation);
+
+
+        if (MushroomSpawnArea3 == null)
+            MushroomSpawnArea3 = GameObject.FindWithTag("mushroom");
+
+        Instantiate(mushroomfood, MushroomSpawnArea3.transform.position, MushroomSpawnArea3.transform.rotation);
+
     }
 
     void Update()
     {
+
         ShowActiveItem();
 
         horizontal = Input.GetAxisRaw("Horizontal");
@@ -361,6 +389,17 @@ public class PlayerController : MonoBehaviour
                     testObject = itemManager.furnitureArray[Random.Range(0, itemManager.furnitureArray.Length - 1)];
                     CreateFurnitureObjectAndAddToInventory(testObject);
                 }
+
+                //harvests mushroom
+
+                else if(hit.transform.gameObject.tag == "mushroom")
+                {
+                    //add mushroom to inventory 
+                    foodScript = hit.transform.gameObject.GetComponent<Food>();
+                    AddObjectToInventory(hit.transform.gameObject);
+                    Destroy(hit.transform.gameObject);
+                }
+
                 //places furniture if active item is furniture
                 else if (hit.transform.gameObject.tag == "placeable")
                 {

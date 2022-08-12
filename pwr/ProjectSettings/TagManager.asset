@@ -25,6 +25,7 @@ TagManager:
   - buy_item
   - item_manager
   - bounding_box
+  - mushroom
   layers:
   - Default
   - TransparentFX
