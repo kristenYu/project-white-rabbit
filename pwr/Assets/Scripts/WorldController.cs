@@ -45,10 +45,10 @@ public class WorldController : MonoBehaviour
     public GameObject MushroomSpawnArea;
     public GameObject MushroomSpawnArea2;
     public GameObject MushroomSpawnArea3;
-    private int xposition;
-    private int yposition;
-    private string mushroomsPosition = "Mushrooms' Position";
     int index;
+    int spawnX;
+    int spawnY;
+    private float mushroomsPosition; 
 
     //Singleton 
     private static WorldController instance;
@@ -94,13 +94,13 @@ public class WorldController : MonoBehaviour
 
         activeCropList = new List<GameObject>();
 
-        //Spawning Mushrooms
+        //Randomly spawning Mushrooms
 
         for (int i = 0; i < 3; i++)
         {
             float spawnX = UnityEngine.Random.Range(MushroomSpawnArea.gameObject.transform.position.x - (MushroomSpawnArea.gameObject.transform.localScale.x/2), MushroomSpawnArea.gameObject.transform.position.x + (MushroomSpawnArea.gameObject.transform.localScale.x/2));
             float spawnY = UnityEngine.Random.Range(MushroomSpawnArea.gameObject.transform.position.y - (MushroomSpawnArea.gameObject.transform.localScale.y/2), MushroomSpawnArea.gameObject.transform.position.y + (MushroomSpawnArea.gameObject.transform.localScale.y/2));
-             Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0.0f);
+             Vector3 spawnPosition = new(spawnX, spawnY, 0.0f);
             Instantiate(mushroomfood, spawnPosition, Quaternion.identity);
         }
 
@@ -113,7 +113,7 @@ public class WorldController : MonoBehaviour
         {
             float spawnX = UnityEngine.Random.Range(MushroomSpawnArea2.gameObject.transform.position.x - (MushroomSpawnArea2.gameObject.transform.localScale.x / 2), MushroomSpawnArea2.gameObject.transform.position.x + (MushroomSpawnArea2.gameObject.transform.localScale.x / 2));
             float spawnY = UnityEngine.Random.Range(MushroomSpawnArea2.gameObject.transform.position.y - (MushroomSpawnArea2.gameObject.transform.localScale.y / 2), MushroomSpawnArea2.gameObject.transform.position.y + (MushroomSpawnArea2.gameObject.transform.localScale.y / 2));
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0.0f);
+            Vector3 spawnPosition = new(spawnX, spawnY, 0.0f);
             Instantiate(mushroomfood, spawnPosition, Quaternion.identity);
         }
 
@@ -126,7 +126,7 @@ public class WorldController : MonoBehaviour
         {
             float spawnX = UnityEngine.Random.Range(MushroomSpawnArea3.gameObject.transform.position.x - (MushroomSpawnArea3.gameObject.transform.localScale.x / 2), MushroomSpawnArea3.gameObject.transform.position.x + (MushroomSpawnArea3.gameObject.transform.localScale.x / 2));
             float spawnY = UnityEngine.Random.Range(MushroomSpawnArea3.gameObject.transform.position.y - (MushroomSpawnArea3.gameObject.transform.localScale.y / 2), MushroomSpawnArea3.gameObject.transform.position.y + (MushroomSpawnArea3.gameObject.transform.localScale.y / 2));
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0.0f);
+            Vector3 spawnPosition = new(spawnX, spawnY, 0.0f);
             Instantiate(mushroomfood, spawnPosition, Quaternion.identity);
         }
 
@@ -134,61 +134,57 @@ public class WorldController : MonoBehaviour
             MushroomSpawnArea3 = GameObject.FindWithTag("mushroom");
 
         Instantiate(mushroomfood, MushroomSpawnArea3.transform.position, MushroomSpawnArea3.transform.rotation);
-    }
 
-    //mushrooms don't spawn on top of each other
+        //mushrooms don't spawn on top of each other
 
-    class Program
-    {
-        static void Main(float[] args, int spawnX, int spawnY, float mushroomsPosition, int index)
+        PlayerPrefs.SetInt("Spawn X", spawnX);
+        PlayerPrefs.SetInt("Spawn Y", spawnY);
+        PlayerPrefs.SetFloat("Mushrooms' Position", mushroomsPosition);
+
+        _ = PlayerPrefs.GetInt("Spawn X");
+        spawnY = PlayerPrefs.GetInt("Spawn Y");
+        _ = PlayerPrefs.GetFloat("Mushrooms' Position");
+
+        GameObject[] mushroomsInTheScene = GameObject.FindGameObjectsWithTag("mushroom");
+
+        float[] mushroomsX = new float[12];
+        float[] mushroomsY = new float[12];
+
+        for (int i = 0; i < mushroomsX.Length; i++)
         {
-
-            PlayerPrefs.SetInt("Spawn X", spawnX);
-            PlayerPrefs.SetInt("Spawn Y", spawnY);
-            PlayerPrefs.SetFloat("Mushrooms' Position", mushroomsPosition);
-
-            _ = PlayerPrefs.GetInt("Spawn X");
-            spawnY = PlayerPrefs.GetInt("Spawn Y");
-            _ = PlayerPrefs.GetFloat("Mushrooms' Position");
-
-            GameObject[] mushroomsInTheScene = GameObject.FindGameObjectsWithTag("mushroom");
-
-            float[] mushroomsX = new float[12];
-            float[] mushroomsY = new float[12];
-
-            for (int i = 0; i < mushroomsX.Length; i++)
-            {
-                System.Console.WriteLine(mushroomsX[i]);
-                mushroomsInTheScene[i].gameObject.SetActive(false);
-                mushroomsInTheScene[index].gameObject.SetActive(true);
-                mushroomsY[index] = spawnY;
-            }
-
-            for (int i = 0; i < mushroomsY.Length; i++)
-            {
-                System.Console.WriteLine(mushroomsY[i]);
-                mushroomsInTheScene[i].gameObject.SetActive(false);
-                mushroomsInTheScene[index].gameObject.SetActive(true);
-                mushroomsY[index] = spawnY;
-            }
-
-            index += 1; 
-
-            Debug.Log(index);
-
-            PlayerPrefs.SetInt("index", index);
-            PlayerPrefs.Save();
+            System.Console.WriteLine(mushroomsX[i]);
+            mushroomsInTheScene[i].gameObject.SetActive(false);
+            mushroomsInTheScene[index].gameObject.SetActive(true);
+            mushroomsY[index] = spawnY;
         }
 
-        void Start()
+        for (int i = 0; i < mushroomsY.Length; i++)
         {
-            int index = PlayerPrefs.GetInt("index");
+            System.Console.WriteLine(mushroomsY[i]);
+            mushroomsInTheScene[i].gameObject.SetActive(false);
+            mushroomsInTheScene[index].gameObject.SetActive(true);
+            mushroomsY[index] = spawnY;
         }
+
+        index += 1;
+
+        Debug.Log(index);
+
+        PlayerPrefs.SetInt("index", index);
+        PlayerPrefs.Save();
+
+        if (ColliderDistance2D.mushroomsX[i] < 1)
+             Instantiate(mushroomfood);
+             Destroy(mushroomsX[i]);
+
+        if(ColliderDistance2D.mushroomsY[i] < 1)
+             Instantiate(mushroomfood);
+             Destroy(mushroomsY[i]);
 
     }
 
     //Debug.log to get value of variable
-    
+
     // Update is called once per frame
     void Update()
     {
