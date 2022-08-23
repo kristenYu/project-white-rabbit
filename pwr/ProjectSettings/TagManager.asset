@@ -25,6 +25,8 @@ TagManager:
   - buy_item
   - item_manager
   - bounding_box
+  - shop_save
+  - shop_script
   layers:
   - Default
   - TransparentFX
