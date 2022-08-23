@@ -3199,6 +3199,7 @@ MonoBehaviour:
     type: 3}
   cookedFoodObject: {fileID: 0}
   CookedRecipeFlag: 0
+  recipeIndex: 0
   inventory:
   - {fileID: 0}
   - {fileID: 0}
@@ -3225,8 +3226,14 @@ MonoBehaviour:
   placeFurnitureFlag: 0
   runSpeed: 7
   interactPopup: {fileID: 8205332308164691215}
+  interactPlantSprite: {fileID: 21300000, guid: e186cafbbbc487449964c18a55c8962b,
+    type: 3}
+  interactBasicSprite: {fileID: 21300000, guid: 91613e297c9fd0d47b1b91a8cb3909c7,
+    type: 3}
+  interactCookSprite: {fileID: 21300000, guid: 3f966d6dad5fe504aa2a92d8fe55c878, type: 3}
   HUD: {fileID: 8205332307544167704}
   actionFrequencyArray: 
+  questAlgorithm: 0
 --- !u!61 &8205332308754028203
 BoxCollider2D:
   m_ObjectHideFlags: 0

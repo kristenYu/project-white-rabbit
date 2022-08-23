@@ -85,6 +85,9 @@ public class PlayerController : MonoBehaviour
 
     //juice
     public GameObject interactPopup;
+    public Sprite interactPlantSprite;
+    public Sprite interactBasicSprite;
+    public Sprite interactCookSprite; 
     private int layerMask;
     public GameObject HUD;
 
@@ -297,12 +300,20 @@ public class PlayerController : MonoBehaviour
             if(hit.transform.tag != "non_interact")
             {
                 interactPopup.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
             }
 
             if(hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
             }
+            else if (hit.transform.tag == "planting")
+            {
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlantSprite;
+            }
+
+
             if (Input.GetKeyDown(KeyCode.E))
             {
                 //transitions scenes 
@@ -337,10 +348,10 @@ public class PlayerController : MonoBehaviour
                 //plants a seed if the active item is a seed
                 else if (hit.transform.gameObject.tag == "planting")
                 {
-                    if(activeItem != null)
+                    if (activeItem != null)
                     {
                         if (activeItem.tag == "seed")
-                        {
+                        { 
                             seedScript = activeItem.GetComponent<Seed>();
                             cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
                             //add crop object to world controller 
