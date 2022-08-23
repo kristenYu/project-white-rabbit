@@ -35,7 +35,11 @@ public class WorldController : MonoBehaviour
     //furniture management 
     public List<GameObject> placedFurnitureObjects;
     private Furniture currentFurnitureScript;
-    private GameObject currentFurnitureObject; 
+    private GameObject currentFurnitureObject;
+
+    //shop Management 
+    public ShopScript shopScript;
+    public bool isNewDay; 
 
     //Singleton 
     private static WorldController instance;
@@ -74,6 +78,8 @@ public class WorldController : MonoBehaviour
         //twilightDuration = 60.0f; //1 min
         //nightDuration = 240.0f; //4 min
 
+        isNewDay = true;
+
         //TESTING VALUES 
         dayDuration = 10.0f;
         twilightDuration = 10.0f;
@@ -91,6 +97,8 @@ public class WorldController : MonoBehaviour
         checkValidSceneForFurniture();
         growActiveCrops();
         updateTOD(currentTimer);
+
+
     }
 
     public void checkValidSceneForFurniture()
@@ -126,6 +134,15 @@ public class WorldController : MonoBehaviour
             }
         }
     }
+
+    public void checkUpdateShopItems()
+    {
+        if(SceneManager.GetActiveScene().name == "Shop")
+        {
+            shopScript = GameObject.FindGameObjectWithTag("shop_script").GetComponent<ShopScript>();
+            
+        }
+    }    
 
     public void growActiveCrops()
     {
@@ -169,6 +186,8 @@ public class WorldController : MonoBehaviour
                 currentDay++;
                 TODText.text = "Day " + currentDay;
                 TODImage.texture = TODIcons[0];
+                //set to false in the shop script
+                isNewDay = true; 
             }
         }
     }
