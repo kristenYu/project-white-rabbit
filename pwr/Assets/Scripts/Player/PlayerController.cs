@@ -70,6 +70,9 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer furnitureSpriteRenderer;
     public bool placeFurnitureFlag;
 
+    //harvestables
+    private Harvestable harvestableScript;
+
     //Movement
     private Rigidbody2D body;
     private float horizontal;
@@ -375,6 +378,13 @@ public class PlayerController : MonoBehaviour
                     AddObjectToInventory(cropScript.HarvestCrop());
                    // actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
+                }
+                else if(hit.transform.gameObject.tag == "harvestable")
+                {
+                    harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
+                    AddObjectToInventory(harvestableScript.harvestedItem);
+                    worldController.harvestableList.Remove(hit.transform.gameObject);
+                    Object.Destroy(hit.transform.gameObject);
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {

@@ -43,7 +43,8 @@ public class ShopScript : MonoBehaviour
     private GameObject[] currentItemObjectArray;
     int cost;
 
-
+    //whiteRabbit Juice
+    public Rabbit_Animator rabbitAnimator; 
    
 
     //recipe management
@@ -166,7 +167,6 @@ public class ShopScript : MonoBehaviour
 
     private void ItemPurchased(GameObject item)
     {
-        Debug.Log("Item purchased");
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
@@ -181,12 +181,14 @@ public class ShopScript : MonoBehaviour
             {
                 playerController.AddObjectToInventory(item);
             }
-            
+            rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+            rabbitAnimator.speechText.text = "Thanks for buying something!";
         }
         else
         {
             //message saying no money :(, make into a pop up in game later?
-            Debug.Log("Sorry! You don't have enough money!!");
+            rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+            rabbitAnimator.speechText.text = "Sorry you don't have enough money";
         }
     }
 

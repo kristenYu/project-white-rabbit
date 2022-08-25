@@ -39,7 +39,11 @@ public class WorldController : MonoBehaviour
 
     //shop Management 
     public ShopScript shopScript;
-    public bool isNewDay; 
+    public bool isNewDay;
+
+    //harvestable
+    public List<GameObject> harvestableList;
+    public bool shouldSpawnMushrooms; 
 
     //Singleton 
     private static WorldController instance;
@@ -78,14 +82,18 @@ public class WorldController : MonoBehaviour
         //twilightDuration = 60.0f; //1 min
         //nightDuration = 240.0f; //4 min
 
+        //bool for reseting the shop
         isNewDay = true;
+        //spawn mushrooms on start
+        shouldSpawnMushrooms = true;
 
         //TESTING VALUES 
         dayDuration = 10.0f;
         twilightDuration = 10.0f;
         nightDuration = 10.0f;
 
-        activeCropList = new List<GameObject>(); 
+        activeCropList = new List<GameObject>();
+        harvestableList = new List<GameObject>(); 
     }
 
     // Update is called once per frame
@@ -95,6 +103,7 @@ public class WorldController : MonoBehaviour
 
         checkValidSceneForCrops();
         checkValidSceneForFurniture();
+        respawnHarvestablesInValidScene();
         growActiveCrops();
         updateTOD(currentTimer);
 
@@ -135,14 +144,15 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    public void checkUpdateShopItems()
+    public void respawnHarvestablesInValidScene()
     {
-        if(SceneManager.GetActiveScene().name == "Shop")
+        foreach(GameObject harvestable in harvestableList)
         {
-            shopScript = GameObject.FindGameObjectWithTag("shop_script").GetComponent<ShopScript>();
-            
+            if (SceneManager.GetActiveScene().name == "Main")
+            {
+            }
         }
-    }    
+    }   
 
     public void growActiveCrops()
     {
@@ -187,7 +197,9 @@ public class WorldController : MonoBehaviour
                 TODText.text = "Day " + currentDay;
                 TODImage.texture = TODIcons[0];
                 //set to false in the shop script
-                isNewDay = true; 
+                isNewDay = true;
+                //set to false in the harvestable spawner script
+                shouldSpawnMushrooms = true;
             }
         }
     }

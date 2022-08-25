@@ -27,6 +27,7 @@ TagManager:
   - bounding_box
   - shop_save
   - shop_script
+  - harvestable
   layers:
   - Default
   - TransparentFX
