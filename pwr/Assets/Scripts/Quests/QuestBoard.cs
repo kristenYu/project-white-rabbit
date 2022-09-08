@@ -54,6 +54,10 @@ public class QuestBoard : MonoBehaviour
     private TextMeshProUGUI submitQuestName;
     private Button questSubmitButton;
 
+    //Quest HUD
+    public List<TextMeshProUGUI> questHudList;
+    public int currentQuestHudIndex;
+
     private void Awake()
     {
         questDatabaseIndex = 0;
@@ -65,6 +69,15 @@ public class QuestBoard : MonoBehaviour
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
+        //ASSUMES THE CANVAS IS ALWAYS THE SECOND CHILD OBJECT
+        foreach(Transform child in playerObject.transform.GetChild(1).transform)
+        {
+            if(child.gameObject.tag == "quest_hud")
+            {
+                questHudList.Add(child.GetComponent<TextMeshProUGUI>());
+            }
+        }
+        currentQuestHudIndex = 0;
 
         //default algorithm is random 
         randomToggle.isOn = true;
@@ -202,6 +215,9 @@ public class QuestBoard : MonoBehaviour
                 quest.eventListener.OnStartListening(); 
                 playerController.AddQuestToActiveArray(quest);
 
+                questHudList[currentQuestHudIndex].text = quest.questName;
+                currentQuestHudIndex++;
+
                 currentQuestAlgorithm.OnQuestAccepted(quest);
                 break;
 
@@ -223,6 +239,10 @@ public class QuestBoard : MonoBehaviour
                 quest.eventListener.OnStartListening();
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
+
+                questHudList[currentQuestHudIndex].text = quest.questName;
+                currentQuestHudIndex++;
+
                 break;
             case QuestType.place:
                 //expects place type as an int
@@ -238,6 +258,9 @@ public class QuestBoard : MonoBehaviour
                 quest.eventListener.OnStartListening();
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
+
+                questHudList[currentQuestHudIndex].text = quest.questName;
+                currentQuestHudIndex++;
                 break;
             default:
                 break;
@@ -248,6 +271,34 @@ public class QuestBoard : MonoBehaviour
         Debug.Log("Submitted quest: " + quest.questName);
         playerController.addCurrency(quest.reward);
         currentQuestAlgorithm.OnQuestSubmitted();
+
+        for(int i = 0; i < questHudList.Count; i++)
+        {
+            if(quest.questName == questHudList[i].text)
+            {
+                //This is brittle - will break if the rule that there are only 3 hud quest texts are available 
+                if(i == 0)
+                {
+                    questHudList[i].text = questHudList[i + 1].text;
+                    questHudList[i + 1].text = questHudList[i + 2].text;
+                    questHudList[i + 2].text = "";
+                    currentQuestHudIndex = i+2;
+                }    
+                else if(i == 1)
+                {
+                    questHudList[i].text = questHudList[i + 1].text;
+                    questHudList[i + 1].text = "";
+                    currentQuestHudIndex = i + 1;
+                }
+                else if(i == 2)
+                {
+                    questHudList[i].text = "";
+                    currentQuestHudIndex = i;
+                }
+                         
+            }
+        }
+
         UIObject.SetActive(false);
     }
 

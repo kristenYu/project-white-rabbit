@@ -15,7 +15,6 @@ public class HarvestableSpawner : MonoBehaviour
     void Start()
     {
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
-        RespawnExistingMushrooms();
     }
 
     private void Update()
@@ -38,6 +37,7 @@ public class HarvestableSpawner : MonoBehaviour
 
             spawnedObject = Instantiate(mushroomGameObject, new Vector3(randomX, randomY, 0.0f), Quaternion.identity);
             worldController.harvestableList.Add(spawnedObject);
+            spawnedObject.transform.parent = worldController.transform;
 
         }
     }

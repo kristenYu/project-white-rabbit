@@ -103,11 +103,9 @@ public class WorldController : MonoBehaviour
 
         checkValidSceneForCrops();
         checkValidSceneForFurniture();
-        respawnHarvestablesInValidScene();
+        checkValidSceneForHarvestables();
         growActiveCrops();
         updateTOD(currentTimer);
-
-
     }
 
     public void checkValidSceneForFurniture()
@@ -144,14 +142,22 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    public void respawnHarvestablesInValidScene()
+    public void checkValidSceneForHarvestables()
     {
         foreach(GameObject harvestable in harvestableList)
         {
             if (SceneManager.GetActiveScene().name == "Main")
             {
+                harvestable.GetComponent<SpriteRenderer>().enabled = true;
+                harvestable.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            else
+            {
+                harvestable.GetComponent<SpriteRenderer>().enabled = false;
+                harvestable.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
+       
     }   
 
     public void growActiveCrops()
