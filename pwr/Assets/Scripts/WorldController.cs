@@ -48,6 +48,8 @@ public class WorldController : MonoBehaviour
     //filters 
     public GameObject nightFilter;
     public GameObject twilightFilter;
+    public Vector3 foregroundPosition;
+    public Vector3 backgroundPosition; 
 
     //Singleton 
     private static WorldController instance;
@@ -100,9 +102,9 @@ public class WorldController : MonoBehaviour
         harvestableList = new List<GameObject>();
 
         nightFilter = GameObject.FindGameObjectWithTag("night_filter");
-        //nightFilter.SetActive(false);
         twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
-        //twilightFilter.SetActive(false);
+        foregroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, 10f);
+        backgroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, -10f);
     }
 
     // Update is called once per frame
@@ -178,23 +180,23 @@ public class WorldController : MonoBehaviour
         {
             twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
             nightFilter = GameObject.FindGameObjectWithTag("night_filter");
-           /*
+         
             if (currentTOD == TOD.Day)
             {
-                nightFilter.SetActive(false);
-                twilightFilter.SetActive(false);
+                nightFilter.transform.position = backgroundPosition;
+                twilightFilter.transform.position = backgroundPosition; 
             }
             else if (currentTOD == TOD.Twilight)
             {
-                nightFilter.SetActive(false);
-                twilightFilter.SetActive(true);
-            }
+                nightFilter.transform.position = backgroundPosition;
+                twilightFilter.transform.position = foregroundPosition; 
+             }
             else if(currentTOD == TOD.Night)
             {
-                nightFilter.SetActive(true);
-                twilightFilter.SetActive(false);
-            }
-            */
+                nightFilter.transform.position = foregroundPosition;
+                twilightFilter.transform.position = backgroundPosition; 
+             }
+            
         }
         
     }
