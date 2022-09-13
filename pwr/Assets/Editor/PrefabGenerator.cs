@@ -44,6 +44,7 @@ public class PrefabGenerator : MonoBehaviour
 
             spriteRenderer.sprite = furnitureScript.spriteArray[0];
             spriteRenderer.sortingLayerName = "Foreground";
+            spriteRenderer.sortingOrder = 1;
 
             boxCollider.size = new Vector2(1, 1);
 

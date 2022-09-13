@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class WorldController : MonoBehaviour
 {
-    public enum TOD{
+    public enum TOD {
         Day = 0, //10 minutes
         Twilight, // 1 minute
         Night // 4 minutes
@@ -21,7 +21,7 @@ public class WorldController : MonoBehaviour
     public TextMeshProUGUI TODText;
     public RawImage TODImage;
     public Texture[] TODIcons = new Texture[3];
-    
+
 
     //managing changing time of day
     public float dayDuration;
@@ -47,7 +47,7 @@ public class WorldController : MonoBehaviour
 
     //filters 
     public GameObject nightFilter;
-    public GameObject twilightFilter; 
+    public GameObject twilightFilter;
 
     //Singleton 
     private static WorldController instance;
@@ -99,8 +99,10 @@ public class WorldController : MonoBehaviour
         activeCropList = new List<GameObject>();
         harvestableList = new List<GameObject>();
 
-        nightFilter.SetActive(false);
-        twilightFilter.SetActive(false);
+        nightFilter = GameObject.FindGameObjectWithTag("night_filter");
+        //nightFilter.SetActive(false);
+        twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
+        //twilightFilter.SetActive(false);
     }
 
     // Update is called once per frame
@@ -111,13 +113,15 @@ public class WorldController : MonoBehaviour
         checkValidSceneForCrops();
         checkValidSceneForFurniture();
         checkValidSceneForHarvestables();
+        checkValidSceneForFilters();
         growActiveCrops();
         updateTOD(currentTimer);
+        
     }
 
     public void checkValidSceneForFurniture()
     {
-        foreach(GameObject furniture in placedFurnitureObjects)
+        foreach (GameObject furniture in placedFurnitureObjects)
         {
             if (SceneManager.GetActiveScene().name == "Home")
             {
@@ -134,12 +138,12 @@ public class WorldController : MonoBehaviour
 
     public void checkValidSceneForCrops()
     {
-        foreach(GameObject crop in activeCropList)
+        foreach (GameObject crop in activeCropList)
         {
             if (SceneManager.GetActiveScene().name == "Main")
             {
                 crop.GetComponent<SpriteRenderer>().enabled = true;
-                crop.GetComponent<BoxCollider2D>().enabled = true; 
+                crop.GetComponent<BoxCollider2D>().enabled = true;
             }
             else
             {
@@ -151,7 +155,7 @@ public class WorldController : MonoBehaviour
 
     public void checkValidSceneForHarvestables()
     {
-        foreach(GameObject harvestable in harvestableList)
+        foreach (GameObject harvestable in harvestableList)
         {
             if (SceneManager.GetActiveScene().name == "Main")
             {
@@ -164,8 +168,36 @@ public class WorldController : MonoBehaviour
                 harvestable.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
-       
-    }   
+
+    }
+
+    public void checkValidSceneForFilters()
+    {
+        
+        if (SceneManager.GetActiveScene().name == "Main")
+        {
+            twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
+            nightFilter = GameObject.FindGameObjectWithTag("night_filter");
+           /*
+            if (currentTOD == TOD.Day)
+            {
+                nightFilter.SetActive(false);
+                twilightFilter.SetActive(false);
+            }
+            else if (currentTOD == TOD.Twilight)
+            {
+                nightFilter.SetActive(false);
+                twilightFilter.SetActive(true);
+            }
+            else if(currentTOD == TOD.Night)
+            {
+                nightFilter.SetActive(true);
+                twilightFilter.SetActive(false);
+            }
+            */
+        }
+        
+    }
 
     public void growActiveCrops()
     {
@@ -189,8 +221,9 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[1];
-                twilightFilter.SetActive(true);
-                nightFilter.SetActive(false);
+                
+                //twilightFilter.SetActive(true);
+                //nightFilter.SetActive(false);
             }
         }
         else if (currentTOD == TOD.Twilight)
@@ -200,8 +233,8 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[2];
-                twilightFilter.SetActive(false);
-                nightFilter.SetActive(true);
+                //twilightFilter.SetActive(false);
+                //nightFilter.SetActive(true);
             }
         }
         else if (currentTOD == TOD.Night)
@@ -217,8 +250,9 @@ public class WorldController : MonoBehaviour
                 isNewDay = true;
                 //set to false in the harvestable spawner script
                 shouldSpawnMushrooms = true;
-                twilightFilter.SetActive(false);
-                nightFilter.SetActive(false);
+                
+                //twilightFilter.SetActive(false);
+                //nightFilter.SetActive(false);
             }
         }
     }

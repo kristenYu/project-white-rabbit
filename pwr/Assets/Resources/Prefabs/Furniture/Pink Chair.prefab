@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 753034611142542991}
   - component: {fileID: 5181131968057895405}
   - component: {fileID: 7703049789403923605}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Pink Chair
   m_TagString: furniture
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6241281278464662367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: -2.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7275728038665625921, guid: d4dc48ade012554489973c3e92874b00,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -409,8 +409,9 @@ public class PlayerController : MonoBehaviour
                 //picks up furniture
                 else if(hit.transform.gameObject.tag == "furniture")
                 {
+                   // PickUpFurniture(hit);
+                    AddObjectToInventory(hit.transform.gameObject);
                     PickUpFurniture(hit);
-                    AddObjectToInventory(activeItem);
                 }
                 else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
@@ -607,7 +608,6 @@ public class PlayerController : MonoBehaviour
                 {
                     activeItem.SetActive(true);
                     activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
-                    Debug.Log(activeItem);
                 }
             }  
         }
@@ -658,10 +658,19 @@ public class PlayerController : MonoBehaviour
     private void PickUpFurniture(RaycastHit2D hit2D)
     {
         furnitureObject = hit2D.transform.gameObject;
-        furnitureObject.transform.SetParent(this.transform);
-        furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
-        activeItem = furnitureObject;
+        foreach(GameObject furniture in worldController.placedFurnitureObjects)
+        {
+            if(furniture == furnitureObject)
+            {
+                worldController.placedFurnitureObjects.Remove(furnitureObject);
+                break;
+            }
+        }
+        Destroy(furnitureObject);
+        //Destroy(hit2D.transform.gameObject);
+        //furnitureObject.transform.SetParent(this.transform);
+        //furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
+        //furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
