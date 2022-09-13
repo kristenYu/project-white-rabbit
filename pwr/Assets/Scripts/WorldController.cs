@@ -43,7 +43,11 @@ public class WorldController : MonoBehaviour
 
     //harvestable
     public List<GameObject> harvestableList;
-    public bool shouldSpawnMushrooms; 
+    public bool shouldSpawnMushrooms;
+
+    //filters 
+    public GameObject nightFilter;
+    public GameObject twilightFilter; 
 
     //Singleton 
     private static WorldController instance;
@@ -93,7 +97,10 @@ public class WorldController : MonoBehaviour
         nightDuration = 10.0f;
 
         activeCropList = new List<GameObject>();
-        harvestableList = new List<GameObject>(); 
+        harvestableList = new List<GameObject>();
+
+        nightFilter.SetActive(false);
+        twilightFilter.SetActive(false);
     }
 
     // Update is called once per frame
@@ -182,6 +189,8 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[1];
+                twilightFilter.SetActive(true);
+                nightFilter.SetActive(false);
             }
         }
         else if (currentTOD == TOD.Twilight)
@@ -191,6 +200,8 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[2];
+                twilightFilter.SetActive(false);
+                nightFilter.SetActive(true);
             }
         }
         else if (currentTOD == TOD.Night)
@@ -206,6 +217,8 @@ public class WorldController : MonoBehaviour
                 isNewDay = true;
                 //set to false in the harvestable spawner script
                 shouldSpawnMushrooms = true;
+                twilightFilter.SetActive(false);
+                nightFilter.SetActive(false);
             }
         }
     }

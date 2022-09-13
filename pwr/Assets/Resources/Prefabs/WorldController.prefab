@@ -57,3 +57,11 @@ MonoBehaviour:
   nightDuration: 0
   activeCropList: []
   placedFurnitureObjects: []
+  shopScript: {fileID: 0}
+  isNewDay: 0
+  harvestableList: []
+  shouldSpawnMushrooms: 0
+  nightFilter: {fileID: 3012832033870043740, guid: 796f2ac9d85406e46a3665e0c1995c01,
+    type: 3}
+  twilightFilter: {fileID: 2491782709855706674, guid: 535601b2a291d1e4b9ce285dcbf00b57,
+    type: 3}
