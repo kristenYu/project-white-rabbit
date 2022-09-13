@@ -43,6 +43,10 @@ public class ShopScript : MonoBehaviour
     private GameObject[] currentItemObjectArray;
     int cost;
 
+    //Sold Items List 
+    public GameObject[] soldPanelArray;
+    public List<GameObject> soldItems; 
+
     //whiteRabbit Juice
     public Rabbit_Animator rabbitAnimator; 
    
@@ -52,35 +56,35 @@ public class ShopScript : MonoBehaviour
 
     //Save data 
 
-
+    private void Awake()
+    {
+      
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         //load the item manager, player controller, and save data
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerController.enabled = false;
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>(); 
 
         //store state
         storeState = StoreState.Furniture; //default 
-        currentItemObjectArray = new GameObject[shopSaveData.getMaxStoreItems()]; //const value of 3 
+        currentItemObjectArray = new GameObject[shopSaveData.getMaxStoreItems()]; //const value of 3
+
+        //Delegates
         FurnitureTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Furniture); });
         SeedTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Seeds); });
         RecipeTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Recipes); });
         SellTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Sell); });
-
-        //Exit Button
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
 
-
-
-        //Load store items and set it in the store 
-      //  GetNewItemsFromItemManager(storeState, currentItemObjectArray);
-       // SetStorePanels();
-
+        SetStorePanels();
+        SetItemSoldPanels();
     }
 
     // Update is called once per frame
@@ -89,11 +93,14 @@ public class ShopScript : MonoBehaviour
         if(checkIfShopShouldUpdate())
         {
             GetNewItemsFromItemManager(storeState, currentItemObjectArray);
+            shopSaveData.soldItemList.Clear();
             worldController.isNewDay = false;
+            setItemButtonDelegates();
         }
         else
         {
             SetStorePanels();
+            SetItemSoldPanels();
         }
     }
 
@@ -102,7 +109,7 @@ public class ShopScript : MonoBehaviour
     {
         if(storeState != StoreState.Sell)
         {
-            SetItemsFromSavedItemArray(storeState, currentItemObjectArray);
+            SetItemsFromSavedItemArray(storeState, currentItemObjectArray, soldItems);
         }
 
         /*
@@ -113,7 +120,10 @@ public class ShopScript : MonoBehaviour
             itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[j]); });
         }
         */
+    }
 
+    private void setItemButtonDelegates()
+    {
         //HACK - THERE IS AN INDEX OUT OF BOUNDS ERROR THAT WONT GO AWAY ---- USING THE FOR LOOP CAUSES AN ERROR
         SetItemButton(ShopItemObj[0], currentItemObjectArray[0]);
         itemBtn = ShopItemObj[0].GetComponent<Button>();
@@ -132,7 +142,8 @@ public class ShopScript : MonoBehaviour
     {
         if (storeState != StoreState.Sell)
         {
-            SetItemsFromSavedItemArray(storeState, currentItemObjectArray);
+            SetItemsFromSavedItemArray(storeState, currentItemObjectArray, soldItems);
+            SetItemSoldPanels();
         }
 
         for (int i = 0; i < currentItemObjectArray.Length; i++)
@@ -167,6 +178,7 @@ public class ShopScript : MonoBehaviour
 
     private void ItemPurchased(GameObject item)
     {
+        Debug.Log("item purchased clicked");
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
@@ -181,6 +193,9 @@ public class ShopScript : MonoBehaviour
             {
                 playerController.AddObjectToInventory(item);
             }
+            shopSaveData.soldItemList.Add(item);
+            soldItems.Add(item);
+            SetItemSoldPanels();
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
             rabbitAnimator.speechText.text = "Thanks for buying something!";
         }
@@ -192,21 +207,37 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    private void ItemSold()
+    private void SetItemSoldPanels()
     {
-
+        for(int i = 0; i < currentItemObjectArray.Length; i++)
+        {
+            if (soldItems.Contains(currentItemObjectArray[i]))
+            {
+                soldPanelArray[i].SetActive(true);
+            }
+            else
+            {
+                soldPanelArray[i].SetActive(false);
+            }    
+        }
     }
     private void ExitButtonClicked()
     {
         //load main and enable player movement
+        playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
-        playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
-    private void SetItemsFromSavedItemArray(StoreState state, GameObject[] itemArray)
+    private void SetItemsFromSavedItemArray(StoreState state, GameObject[] itemArray, List<GameObject> soldItemList)
     {
+        soldItemList.Clear();
+        foreach(GameObject soldItem in shopSaveData.soldItemList)
+        {
+            soldItemList.Add(soldItem);
+        }
+
         switch(state)
         {
             case StoreState.Furniture:
@@ -281,7 +312,6 @@ public class ShopScript : MonoBehaviour
                 break;
         }
     }
-
     private void SetStoreState(StoreState state)
     {
         storeState = state;

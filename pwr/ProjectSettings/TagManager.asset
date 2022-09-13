@@ -28,6 +28,7 @@ TagManager:
   - shop_save
   - shop_script
   - harvestable
+  - quest_hud
   layers:
   - Default
   - TransparentFX

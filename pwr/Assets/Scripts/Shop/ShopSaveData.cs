@@ -15,6 +15,7 @@ public class ShopSaveData : MonoBehaviour
     public GameObject[] furnitureArray;
     public GameObject[] seedArray;
     public GameObject[] recipeArray;
+    public List<GameObject> soldItemList;
     private int maxStoreItems = 3;
 
 
