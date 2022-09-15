@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CookedFood : Item
 {
-    public int sellingPrice; 
 
     // Start is called before the first frame update
     void Start()
