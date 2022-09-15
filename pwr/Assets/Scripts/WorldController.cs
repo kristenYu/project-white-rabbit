@@ -223,9 +223,6 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[1];
-                
-                //twilightFilter.SetActive(true);
-                //nightFilter.SetActive(false);
             }
         }
         else if (currentTOD == TOD.Twilight)
@@ -235,8 +232,6 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[2];
-                //twilightFilter.SetActive(false);
-                //nightFilter.SetActive(true);
             }
         }
         else if (currentTOD == TOD.Night)
@@ -252,9 +247,6 @@ public class WorldController : MonoBehaviour
                 isNewDay = true;
                 //set to false in the harvestable spawner script
                 shouldSpawnMushrooms = true;
-                
-                //twilightFilter.SetActive(false);
-                //nightFilter.SetActive(false);
             }
         }
     }

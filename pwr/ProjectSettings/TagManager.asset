@@ -29,6 +29,8 @@ TagManager:
   - shop_script
   - harvestable
   - quest_hud
+  - night_filter
+  - twilight_filter
   layers:
   - Default
   - TransparentFX
