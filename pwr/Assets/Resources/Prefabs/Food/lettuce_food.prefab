@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4882e3dc39f850a41815ad2ced5afc05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 0
+  cost: 10
+  sellingPrice: 10
   stringName: lettuce
   itemSprite: {fileID: 3046544090647025007, guid: 279cdd02f2599f342a09400c69f9a5bf,
     type: 3}

@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2526775290177863829}
-  - component: {fileID: 4108097177839714676}
   - component: {fileID: 4547113576811406634}
+  - component: {fileID: 4108097177839714676}
   m_Layer: 0
   m_Name: Mushroom_Food
   m_TagString: Untagged
@@ -32,6 +32,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4547113576811406634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013537566301020595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4882e3dc39f850a41815ad2ced5afc05, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cost: 5
+  sellingPrice: 10
+  stringName: red mushroom
+  itemSprite: {fileID: 3387735869382985258, guid: 483c702db09e51a49b40f63a23ff5bc0,
+    type: 3}
 --- !u!212 &4108097177839714676
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -84,19 +101,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4547113576811406634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2013537566301020595}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4882e3dc39f850a41815ad2ced5afc05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 5
-  stringName: red mushroom
-  itemSprite: {fileID: 3387735869382985258, guid: 483c702db09e51a49b40f63a23ff5bc0,
-    type: 3}

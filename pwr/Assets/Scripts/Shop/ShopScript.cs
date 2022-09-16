@@ -63,7 +63,6 @@ public class ShopScript : MonoBehaviour
 
     private void Awake()
     {
-      
     }
 
     // Start is called before the first frame update
@@ -71,7 +70,7 @@ public class ShopScript : MonoBehaviour
     {
         //load the item manager, player controller, and save data
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerController.enabled = false;
+        //playerController.enabled = false;
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>(); 
@@ -90,6 +89,8 @@ public class ShopScript : MonoBehaviour
 
         SetStorePanels();
         SetItemSoldPanels();
+        sellingUIPanel.SetActive(false);
+        UpdateSellingItemsPanel();
     }
 
     // Update is called once per frame
@@ -117,6 +118,10 @@ public class ShopScript : MonoBehaviour
         {
             SetItemsFromSavedItemArray(storeState, currentItemObjectArray, soldItems);
         }
+        else
+        {
+            
+        }
 
         /*
         for(int j = 0; j < currentItemObjectArray.Length; j++)
@@ -130,7 +135,9 @@ public class ShopScript : MonoBehaviour
 
     private void setItemButtonDelegates()
     {
-        //HACK - THERE IS AN INDEX OUT OF BOUNDS ERROR THAT WONT GO AWAY ---- USING THE FOR LOOP CAUSES AN ERROR
+        //THIS IS NOT A HACK. THIS IS HOW UNITY WORKS 
+        //Delegates are compiled at compile time so the argument to the delegate cannot be created using an array
+        //this results in a index out of bounds error if put in a for loop.
         SetItemButton(shopUIObjectArray[0], currentItemObjectArray[0]);
         itemBtn = shopUIObjectArray[0].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[0]); });
@@ -172,17 +179,6 @@ public class ShopScript : MonoBehaviour
             }
             sellingUIPanel.SetActive(true);
         }
-    }
-
-    private void UpdateSinglePanel(GameObject objToUpdate, GameObject updateObj)
-    {
-        itemImage = objToUpdate.transform.GetChild(0).GetComponent<Image>();
-        itemName = objToUpdate.transform.GetChild(1).GetComponent<Text>();
-        itemCost = objToUpdate.transform.GetChild(2).GetComponent<Text>();
-
-        itemImage.sprite = updateObj.transform.GetChild(0).GetComponent<Image>().sprite;
-        itemName.text = updateObj.transform.GetChild(1).GetComponent<Text>().text;
-        itemCost.text = updateObj.transform.GetChild(2).GetComponent<Text>().text;
     }
 
     //Item Setup
@@ -227,18 +223,74 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    private void ItemSold(GameObject item)
+    private void ItemSold(GameObject item, GameObject sellingUIObject)
     {
         //add currency to player
         playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
         //remove item from inventory 
         playerController.RemoveObjectFromInventory(item);
+        //hide button 
+        sellingUIObject.SetActive(false);
     }
     private void UpdateSellingItemsPanel()
     {
-        for(int i = 0; i < sellingUIObjectArray.Length; i++)
+        for(int i = 0; i < sellingUIObjectArray.Length; ++i)
         {
-            sellingUIObjectArray[i].GetComponent<Image>().sprite = playerController.inventory[i].GetComponent<Item>().itemSprite;
+            if (playerController.inventory[i] != null)
+            {
+
+                sellingUIObjectArray[i].SetActive(true);
+                sellingUIObjectArray[i].GetComponent<Image>().sprite = playerController.inventory[i].GetComponent<Item>().itemSprite;
+                sellingUIObjectArray[i].GetComponentInChildren<TextMeshProUGUI>().text = playerController.inventory[i].GetComponent<Item>().sellingPrice.ToString();
+
+                //THIS IS NOT A HACK. THIS IS HOW UNITY WORKS (See above)
+                //this is ugly but unity needs compile time arguments
+                //THIS ASSUMES THAT THE LENGTH OF THE INVENTORY IS 10. IF THAT CHANGES THIS NEEDS TO CHANGE
+                if (i == 0)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[0], sellingUIObjectArray[0]); });
+                }
+                else if (i == 1)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[1], sellingUIObjectArray[1]); });
+                }
+                else if (i == 2)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[2], sellingUIObjectArray[2]); });
+                }
+                else if (i == 3)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[3], sellingUIObjectArray[3]); });
+                }
+                else if (i == 4)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[4], sellingUIObjectArray[4]); });
+                }
+                else if (i == 5)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[5], sellingUIObjectArray[5]); });
+                }
+                else if (i == 6)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[6], sellingUIObjectArray[6]); });
+                }
+                else if (i == 7)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[7], sellingUIObjectArray[7]); });
+                }
+                else if (i == 8)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[8], sellingUIObjectArray[8]); });
+                }
+                else if (i == 9)
+                {
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[9], sellingUIObjectArray[9]); });
+                }
+            }
+            else
+            {
+                sellingUIObjectArray[i].SetActive(false);
+            }
         }
     }
 
