@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
     private Harvestable harvestableScript;
 
     //Movement
+    public bool isShouldMove;
     private Rigidbody2D body;
     private float horizontal;
     private float vertical;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
 
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down;
+        isShouldMove = true;
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
         knownRecipeUIObjects = new List<GameObject>();
@@ -444,14 +446,17 @@ public class PlayerController : MonoBehaviour
 	
     private void FixedUpdate()
     {
-        //Movemement 
-        if (horizontal != 0 && vertical != 0) // Check for diagonal movement
+        if(isShouldMove)
         {
-            // limit movement speed diagonally, so you move at 70% speed
-            horizontal *= moveLimiter;
-            vertical *= moveLimiter;
+            //Movemement 
+            if (horizontal != 0 && vertical != 0) // Check for diagonal movement
+            {
+                // limit movement speed diagonally, so you move at 70% speed
+                horizontal *= moveLimiter;
+                vertical *= moveLimiter;
+            }
+            body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
         }
-        body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
     }
 
     public void setActiveItem(int index)

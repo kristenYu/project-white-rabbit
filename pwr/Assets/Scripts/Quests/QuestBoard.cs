@@ -69,6 +69,7 @@ public class QuestBoard : MonoBehaviour
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
+        playerController.isShouldMove = false;
         //ASSUMES THE CANVAS IS ALWAYS THE SECOND CHILD OBJECT
         foreach(Transform child in playerObject.transform.GetChild(1).transform)
         {
@@ -114,6 +115,7 @@ public class QuestBoard : MonoBehaviour
         playerController.HUD.SetActive(true);
         currentQuestAlgorithm.OnQuestClosed();
         playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
+        playerController.isShouldMove = true;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

@@ -70,7 +70,7 @@ public class ShopScript : MonoBehaviour
     {
         //load the item manager, player controller, and save data
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        //playerController.enabled = false;
+        playerController.isShouldMove = false;
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>(); 
@@ -312,8 +312,9 @@ public class ShopScript : MonoBehaviour
     {
         //load main and enable player movement
         playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
-        playerController.enabled = true;
         playerController.HUD.SetActive(true);
+        playerController.enabled = true;
+        playerController.isShouldMove = true;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
