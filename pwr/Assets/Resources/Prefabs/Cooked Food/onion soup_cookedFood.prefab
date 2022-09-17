@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: onion soup
   itemSprite: {fileID: 21300000, guid: b282152885fd92f4b9a3a7486172a16b, type: 3}
-  sellingPrice: 200
 --- !u!212 &1398958495347944379
 SpriteRenderer:
   m_ObjectHideFlags: 0

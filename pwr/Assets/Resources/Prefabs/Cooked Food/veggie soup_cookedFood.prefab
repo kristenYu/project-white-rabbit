@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: veggie soup
   itemSprite: {fileID: 21300000, guid: b58800423f19ca74c981166922d91906, type: 3}
-  sellingPrice: 200
 --- !u!212 &478552632790979007
 SpriteRenderer:
   m_ObjectHideFlags: 0

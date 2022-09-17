@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: tomato soup
   itemSprite: {fileID: 21300000, guid: 64b9b731ea71e054aa5fa2036bd13636, type: 3}
-  sellingPrice: 200
 --- !u!212 &4592954259147433953
 SpriteRenderer:
   m_ObjectHideFlags: 0

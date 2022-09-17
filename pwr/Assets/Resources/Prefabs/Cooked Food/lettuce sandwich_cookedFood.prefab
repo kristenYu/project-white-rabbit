@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: lettuce sandwich
   itemSprite: {fileID: 21300000, guid: 1cc7225f1f3e5864fb545303055ce504, type: 3}
-  sellingPrice: 200
 --- !u!212 &3896838399866905098
 SpriteRenderer:
   m_ObjectHideFlags: 0

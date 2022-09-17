@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: veggie dumplings
   itemSprite: {fileID: 21300000, guid: 85b0f795bf2b20146bb01208ae52c516, type: 3}
-  sellingPrice: 200
 --- !u!212 &2116084162387919741
 SpriteRenderer:
   m_ObjectHideFlags: 0

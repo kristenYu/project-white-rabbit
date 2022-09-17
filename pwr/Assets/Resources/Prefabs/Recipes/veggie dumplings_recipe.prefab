@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 100
+  sellingPrice: 0
   stringName: veggie dumplings
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 85b0f795bf2b20146bb01208ae52c516, type: 3}
   ingredients:
   - greenonion
   - onion

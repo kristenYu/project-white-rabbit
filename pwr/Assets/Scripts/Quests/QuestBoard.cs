@@ -29,7 +29,6 @@ public class QuestBoard : MonoBehaviour
     public Toggle cmabToggle;
     public Toggle passageToggle; 
 
-
     //Database loading 
     public Quest[] questDataBase;
     public Quest currentQuest;

@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: potato buns
   itemSprite: {fileID: 21300000, guid: 8a990444a1ea6fd49bc8c48beeca33fb, type: 3}
-  sellingPrice: 200
 --- !u!212 &4832489521423413350
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 100
+  sellingPrice: 0
   stringName: lettuce sandwich
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 1cc7225f1f3e5864fb545303055ce504, type: 3}
   ingredients:
   - lettuce
   - carrot

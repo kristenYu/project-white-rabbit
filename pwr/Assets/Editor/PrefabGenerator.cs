@@ -225,8 +225,72 @@ public class PrefabGenerator : MonoBehaviour
         Debug.Log("Finished Making Crop Prefabs");
     }
 
+    [MenuItem("My Generators/Generate Recipes from Recipe JSON")]
+    static void GenerateRecipePrefabsFromJson()
+    {
+        Debug.Log("Generating Recipes from data ...");
+        TextAsset[] recipeDataFiles = Resources.LoadAll<TextAsset>("Data/Recipes/");
+        RecipeData[] recipeDatabase = new RecipeData[recipeDataFiles.Length];
+        RecipeData currentRecipeData;
 
-    [MenuItem("My Generators/Generate Recipes from Recipe Data")]
+
+
+        foreach (TextAsset recipeFile in recipeDataFiles)
+        {
+            //All quest data except for the event listener - the event listener is instantiated when the quest is accepted
+            currentRecipeData = JsonUtility.FromJson<RecipeData>(recipeFile.ToString());
+            string cookedFoodPath = "Assets/Resources/Prefabs/Cooked Food/" + currentRecipeData.stringName + "_cookedFood.prefab";
+            string recipePath = "Assets/Resources/Prefabs/Recipes/" + currentRecipeData.stringName + "_recipe.prefab";
+
+            //create cooked food prefab
+            GameObject cookedFoodObject = new GameObject();
+            cookedFoodObject.AddComponent<CookedFood>();
+            CookedFood cookedFoodScript = cookedFoodObject.GetComponent<CookedFood>();
+            cookedFoodScript.stringName = currentRecipeData.stringName;
+            cookedFoodScript.sellingPrice = currentRecipeData.cookedFoodSellingPrice;
+            Sprite cookedFoodSprite = Resources.Load<Sprite>("Sprites/CookedFood/" + currentRecipeData.stringName);
+            cookedFoodScript.itemSprite = cookedFoodSprite;
+            //expects there to be a sprite with the same name of the recipe
+            cookedFoodObject.AddComponent<SpriteRenderer>();
+            SpriteRenderer cookedFoodRenderer = cookedFoodObject.GetComponent<SpriteRenderer>();
+            cookedFoodRenderer.sprite = cookedFoodScript.itemSprite;
+            cookedFoodRenderer.sortingLayerName = "foreground";
+            //So that the cooked food can be placed and displayed
+            cookedFoodObject.tag = "furniture";
+
+            //Create Recipe Prefab
+            GameObject recipeObject = new GameObject();
+            recipeObject.AddComponent<Recipe>();
+            Recipe recipeScript = recipeObject.GetComponent<Recipe>();
+            recipeScript.stringName = currentRecipeData.stringName;
+            recipeScript.ingredients = currentRecipeData.ingredients;
+            recipeScript.cost = currentRecipeData.cost;
+            recipeScript.itemSprite = cookedFoodSprite;
+
+            // Create the new Prefabs
+            //Cooked Food Prefab
+            bool isCreatedPrefab;
+            GameObject cookedFoodPrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(cookedFoodObject, cookedFoodPath, InteractionMode.UserAction, out isCreatedPrefab);
+            if (!isCreatedPrefab)
+            {
+                Debug.LogWarning(currentRecipeData.stringName + " could not be made into a cooked food prefab");
+            }
+            //Clean up for the scene
+            DestroyImmediate(cookedFoodObject);
+
+            //recipe Prefab
+            recipeScript.cookedFood = cookedFoodPrefab; //add cooked food prefab to recipe prefab
+            GameObject recipePrefab = PrefabUtility.SaveAsPrefabAssetAndConnect(recipeObject, recipePath, InteractionMode.UserAction, out isCreatedPrefab);
+            if (!isCreatedPrefab)
+            {
+                Debug.LogWarning(currentRecipeData.stringName + " could not be made into a recipe prefab");
+            }
+            DestroyImmediate(recipeObject);
+        }
+    }
+
+
+    [MenuItem("My Generators/DONOTUSE Generate Recipes from Recipe Data")]
     static void GenerateRecipePrefabs()
     {
         //Recipes need to be formated name of <recipe name>, <selling price>, <ingredient 1>, <ingredient 2>, <ingredient 3>

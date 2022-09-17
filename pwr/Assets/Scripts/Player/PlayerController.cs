@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     private Image recipeUIImage;
     private Button recipeUIButton; 
     private TextMeshProUGUI recipeUIText;
+    private Image[] recipeUIIngredientImageArray;
 
     //Cooking
     private List<GameObject> targetIngredients;
@@ -750,6 +751,14 @@ public class PlayerController : MonoBehaviour
         recipeUIButton = recipeUIObject.GetComponent<Button>(); 
         recipeUIText = recipeUIObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         recipeUIImage = recipeUIObject.transform.GetChild(1).gameObject.GetComponent<Image>();
+        recipeUIIngredientImageArray = recipeUIObject.transform.GetChild(2).GetComponentsInChildren<Image>();
+        for(int i = 0; i < recipeUIIngredientImageArray.Length; i++)
+        {
+            //recipeUIIngredientImageArray[i].overrideSprite = recipe.ingredients[i];
+        }
+        
+        
+
 
         recipeUIImage.overrideSprite = recipe.cookedFood.GetComponent<CookedFood>().itemSprite;
         recipeUIText.text = recipe.stringName;

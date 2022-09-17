@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: spaghetti sauce
   itemSprite: {fileID: 21300000, guid: e2549591d9e52354eb6750c245e792af, type: 3}
-  sellingPrice: 100
 --- !u!212 &2394180699162286030
 SpriteRenderer:
   m_ObjectHideFlags: 0

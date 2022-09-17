@@ -44,11 +44,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 100
+  sellingPrice: 0
   stringName: tomato soup
-  itemSprite: {fileID: 0}
+  itemSprite: {fileID: 21300000, guid: 64b9b731ea71e054aa5fa2036bd13636, type: 3}
   ingredients:
   - tomato
   - tomato
-  - 'tomato '
+  - tomato
   cookedFood: {fileID: 5622886002828377732, guid: 3f51770565892bb44acd502582462961,
     type: 3}

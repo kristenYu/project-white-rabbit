@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 0
+  sellingPrice: 50
   stringName: french fries
   itemSprite: {fileID: 21300000, guid: 66a3e532f0297b340942457d56f87acd, type: 3}
-  sellingPrice: 100
 --- !u!212 &692809837451194059
 SpriteRenderer:
   m_ObjectHideFlags: 0
