@@ -272,7 +272,13 @@ public class QuestBoard : MonoBehaviour
         playerController.addCurrency(quest.reward);
         currentQuestAlgorithm.OnQuestSubmitted();
 
-        for(int i = 0; i < questHudList.Count; i++)
+        //destroy eventlistener 
+        Destroy(quest.eventListener.gameObject);
+
+
+        //remove UI elements
+        UIObject.SetActive(false);
+        for (int i = 0; i < questHudList.Count; i++)
         {
             if(quest.questName == questHudList[i].text)
             {
@@ -299,7 +305,7 @@ public class QuestBoard : MonoBehaviour
             }
         }
 
-        UIObject.SetActive(false);
+
     }
 
     private void OnRandomToggleChanged(Toggle toggle)
