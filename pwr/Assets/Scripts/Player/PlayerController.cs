@@ -34,7 +34,8 @@ public class PlayerController : MonoBehaviour
     private Image recipeUIImage;
     private Button recipeUIButton; 
     private TextMeshProUGUI recipeUIText;
-    private Image[] recipeUIIngredientImageArray;
+    public Image[] recipeUIIngredientImageArray;
+    public Item recipeIngredientItem;
 
     //Cooking
     private List<GameObject> targetIngredients;
@@ -748,21 +749,27 @@ public class PlayerController : MonoBehaviour
     {
         //this matches the order in the prefab, but if the prefab changes this code will break
         //recipeUIBackground = recipeUIObject.transform.gameObject.GetComponent<Image>();
-        recipeUIButton = recipeUIObject.GetComponent<Button>(); 
+        recipeUIButton = recipeUIObject.GetComponent<Button>();
         recipeUIText = recipeUIObject.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         recipeUIImage = recipeUIObject.transform.GetChild(1).gameObject.GetComponent<Image>();
         recipeUIIngredientImageArray = recipeUIObject.transform.GetChild(2).GetComponentsInChildren<Image>();
-        for(int i = 0; i < recipeUIIngredientImageArray.Length; i++)
+        
+        for (int i = 0; i < recipe.ingredients.Length; i++)
         {
-            //recipeUIIngredientImageArray[i].overrideSprite = recipe.ingredients[i];
+            Debug.Log(recipe.ingredients[i]);
+            for (int j = 0; j < itemManager.foodArray.Length; j++)
+            {
+                if (recipe.ingredients[i].Equals(itemManager.foodArray[j].GetComponent<Item>().stringName))
+                {
+                    recipeIngredientItem = itemManager.foodArray[j].GetComponent<Item>();
+                    break;
+                }
+            }
+            recipeUIIngredientImageArray[i].overrideSprite = recipeIngredientItem.itemSprite;
         }
-        
-        
 
-
-        recipeUIImage.overrideSprite = recipe.cookedFood.GetComponent<CookedFood>().itemSprite;
+        recipeUIImage.overrideSprite = recipe.itemSprite;
         recipeUIText.text = recipe.stringName;
-
         recipeUIButton.onClick.AddListener(delegate { CookRecipe(recipe); });
     }
 
