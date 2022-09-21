@@ -69,6 +69,8 @@ public class ShopScript : MonoBehaviour
 
     private void Awake()
     {
+        Debug.Log(playerControllerObject.GetComponent<Rigidbody2D>().velocity);
+        playerControllerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
     }
 
     // Start is called before the first frame update
@@ -81,7 +83,7 @@ public class ShopScript : MonoBehaviour
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>(); 
 
-        //store state
+        //store state 
         storeState = StoreState.Furniture; //default 
         currentItemObjectArray = new GameObject[shopSaveData.getMaxStoreItems()]; //const value of 3
 
@@ -99,6 +101,8 @@ public class ShopScript : MonoBehaviour
         SetItemSoldPanels();
         sellingUIPanel.SetActive(false);
         UpdateSellingItemsPanel();
+
+        playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
     }
 
     // Update is called once per frame
@@ -344,8 +348,8 @@ public class ShopScript : MonoBehaviour
         playerController.HUD.SetActive(true);
         playerController.enabled = true;
         playerController.isShouldMove = true;
-
         shopSaveData.mortage = moneyOwed;
+        Debug.Log("Shop Script Player Location: " + playerControllerObject.transform.position);
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

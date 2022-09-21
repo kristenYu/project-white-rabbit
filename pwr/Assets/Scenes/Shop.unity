@@ -2057,7 +2057,7 @@ MonoBehaviour:
   seedArray: []
   recipeArray: []
   soldItemList: []
-  mortage: 0
+  mortage: 1000
 --- !u!4 &820911116
 Transform:
   m_ObjectHideFlags: 0

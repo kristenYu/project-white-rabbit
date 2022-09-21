@@ -134,7 +134,6 @@ public class PlayerController : MonoBehaviour
 
         body = GetComponent<Rigidbody2D>();
         previousDirection = Vector2.down;
-        isShouldMove = true;
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
         knownRecipeUIObjects = new List<GameObject>();
@@ -159,15 +158,18 @@ public class PlayerController : MonoBehaviour
         layerMask = ~layerMask;
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
+        isShouldMove = true;
     }
 
     void Update()
     {
         ShowActiveItem();
 
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
+        if(isShouldMove)
+        {
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
+        }
         //player animation
         if (horizontal != 0 && vertical != 0)
         {
@@ -334,6 +336,7 @@ public class PlayerController : MonoBehaviour
                     //Hide hud
                     if(hit.transform.gameObject.name == "Shop" || hit.transform.gameObject.name == "QuestBoard")
                     {
+                        body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
                     }
 
@@ -448,6 +451,7 @@ public class PlayerController : MonoBehaviour
 	
     private void FixedUpdate()
     {
+        
         if(isShouldMove)
         {
             //Movemement 
@@ -458,6 +462,10 @@ public class PlayerController : MonoBehaviour
                 vertical *= moveLimiter;
             }
             body.velocity = new Vector2(horizontal * runSpeed, vertical * runSpeed);
+        }
+        else
+        {
+            body.velocity = new Vector2(0.0f, 0.0f);
         }
     }
 
