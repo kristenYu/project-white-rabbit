@@ -53,8 +53,14 @@ public class ShopScript : MonoBehaviour
     public GameObject sellingUIPanel;
 
     //whiteRabbit Juice
-    public Rabbit_Animator rabbitAnimator; 
-   
+    public Rabbit_Animator rabbitAnimator;
+
+    //Mortage 
+    public TextMeshProUGUI moneyOwedText;
+    public Button payMortageButton;
+    public TMP_InputField amountToPayInput;
+    private int amountToPay;
+    public int moneyOwed; 
 
     //recipe management
     Recipe recipe;
@@ -86,6 +92,8 @@ public class ShopScript : MonoBehaviour
         SellTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Sell); });
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
+        payMortageButton.onClick.AddListener(PayMortage);
+        moneyOwedText.text = shopSaveData.mortage.ToString();
 
         SetStorePanels();
         SetItemSoldPanels();
@@ -294,6 +302,27 @@ public class ShopScript : MonoBehaviour
         }
     }
 
+    private void PayMortage()
+    {
+        if(int.TryParse(amountToPayInput.text.ToString(), out amountToPay))
+        {
+            if(amountToPay < playerController.currency)
+            {
+                if(amountToPay < moneyOwed)
+                {
+                    moneyOwed -= amountToPay;
+                    playerController.currency -= amountToPay;
+                    moneyOwedText.text = moneyOwed.ToString();
+                }
+                else
+                {
+                    moneyOwed = 0;
+                    playerController.currency -= moneyOwed;
+                    moneyOwedText.text = moneyOwed.ToString();
+                }
+            }
+        }
+    }
     private void SetItemSoldPanels()
     {
         for(int i = 0; i < currentItemObjectArray.Length; i++)
@@ -315,6 +344,8 @@ public class ShopScript : MonoBehaviour
         playerController.HUD.SetActive(true);
         playerController.enabled = true;
         playerController.isShouldMove = true;
+
+        shopSaveData.mortage = moneyOwed;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 

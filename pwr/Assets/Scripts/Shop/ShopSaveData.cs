@@ -17,7 +17,7 @@ public class ShopSaveData : MonoBehaviour
     public GameObject[] recipeArray;
     public List<GameObject> soldItemList;
     private int maxStoreItems = 3;
-
+    public int mortage;
 
     private void Awake()
     {
