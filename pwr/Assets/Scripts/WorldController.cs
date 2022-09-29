@@ -84,20 +84,15 @@ public class WorldController : MonoBehaviour
 
         currentTimer = 0.0f;
 
-        //These might have to be balanced later
-        //dayDuration = 480.0f; //14 min
-        //twilightDuration = 60.0f; //1 min
-        //nightDuration = 240.0f; //4 min
-
         //bool for reseting the shop
         isNewDay = true;
         //spawn mushrooms on start
         shouldSpawnMushrooms = true;
 
-        //TESTING VALUES 
-        dayDuration = 10.0f;
+        //Days are one minute total to complete
+        dayDuration = 30.0f;
         twilightDuration = 10.0f;
-        nightDuration = 10.0f;
+        nightDuration = 20.0f;
 
         activeCropList = new List<GameObject>();
         destroyCropList = new List<GameObject>();

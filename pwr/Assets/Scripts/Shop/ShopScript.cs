@@ -318,7 +318,7 @@ public class ShopScript : MonoBehaviour
     {
         if(int.TryParse(amountToPayInput.text.ToString(), out amountToPay))
         {
-            if(amountToPay < playerController.currency)
+            if(amountToPay < playerController.currency && amountToPay > 0)
             {
                 if(amountToPay < moneyOwed)
                 {
