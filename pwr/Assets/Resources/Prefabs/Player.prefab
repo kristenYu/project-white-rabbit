@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -23.598, y: 0}
+  m_SizeDelta: {x: 152.8, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7849548185614336368
 CanvasRenderer:
@@ -246,7 +246,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -255.00003, y: 2}
+  m_AnchoredPosition: {x: -255, y: 2}
   m_SizeDelta: {x: -509.99994, y: -361.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2395948082920913904
@@ -551,7 +551,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -255.49997, y: 51.999985}
+  m_AnchoredPosition: {x: -255.5, y: 51.999985}
   m_SizeDelta: {x: -509.99994, y: -361.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &430968963596317639
@@ -1151,8 +1151,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -18.808, y: 0}
+  m_SizeDelta: {x: 162.39, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &707345681443958835
 CanvasRenderer:
@@ -2251,8 +2251,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -18.808, y: 0}
+  m_SizeDelta: {x: 162.39, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8837931351280918652
 CanvasRenderer:
@@ -2463,7 +2463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -254.99997, y: 101.999985}
+  m_AnchoredPosition: {x: -255, y: 101.999985}
   m_SizeDelta: {x: -509.99994, y: -361.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6489610429865813973
@@ -4492,6 +4492,7 @@ MonoBehaviour:
   - {fileID: 4591996998737912682}
   - {fileID: 1192684111904952019}
   - {fileID: 233539103787229655}
+  questHudCurrentIndex: 0
   currency: 0
   currencyText: {fileID: 8205332308507442870}
   furnitureObject: {fileID: 0}

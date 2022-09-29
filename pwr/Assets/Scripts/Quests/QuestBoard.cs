@@ -232,15 +232,13 @@ public class QuestBoard : MonoBehaviour
                 quest.eventListener.OnStartListening(); 
                 playerController.AddQuestToActiveArray(quest);
 
-                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
                 //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
-                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                 questHudTMP.text = quest.questName;
-                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 questHudReward.text = quest.reward.ToString();
-                currentQuestHudIndex++;
-
-                currentQuestAlgorithm.OnQuestAccepted(quest);
+                playerController.questHudCurrentIndex++;
                 break;
 
             case QuestType.cook:
@@ -262,16 +260,14 @@ public class QuestBoard : MonoBehaviour
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
 
-                Debug.Log(currentQuestHudIndex);
-                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                Debug.Log(playerController.questHudCurrentIndex);
+                questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
                 //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
-                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-                Debug.Log(questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0));
-                Debug.Log(questHudTMP);
+                questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                 questHudTMP.text = quest.questName;
-                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 questHudReward.text = quest.reward.ToString();
-                currentQuestHudIndex++;
+                playerController.questHudCurrentIndex++;
 
                 break;
             case QuestType.place:
@@ -289,13 +285,13 @@ public class QuestBoard : MonoBehaviour
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
 
-                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
                 //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
-                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
                 questHudTMP.text = quest.questName;
-                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
                 questHudReward.text = quest.reward.ToString();
-                currentQuestHudIndex++;
+                playerController.questHudCurrentIndex++;
                 break;
             default:
                 break;
