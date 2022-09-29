@@ -348,18 +348,25 @@ public class PlayerController : MonoBehaviour
                 {
                     if(hit.transform.gameObject.name == "Home")
                     {
+                        //assumes that the object matches the name of the scene you want to load
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
+                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                     }
+                    if(hit.transform.gameObject.name == "Main")
+                    {
+                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        this.transform.position = new Vector3(-13.5f, 3.5f, 0f);
+                    }    
                     
                     //Hide hud
                     if(hit.transform.gameObject.name == "Shop" || hit.transform.gameObject.name == "QuestBoard")
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
+                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                     }
 
-                    //assumes that the object matches the name of the scene you want to load
-                    SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
                 {
