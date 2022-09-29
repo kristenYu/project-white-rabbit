@@ -41,7 +41,9 @@ public class ShopScript : MonoBehaviour
     public GameObject[] shopUIObjectArray;
     public List<GameObject> currentStoreItems = new List<GameObject>();
     private GameObject[] currentItemObjectArray;
-    int cost;
+    private int cost;
+    private const int maxSeedPurchased = 3; 
+
 
     //Sold Items List 
     public GameObject[] soldPanelArray;
@@ -69,7 +71,6 @@ public class ShopScript : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log(playerControllerObject.GetComponent<Rigidbody2D>().velocity);
         playerControllerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
     }
 
@@ -217,6 +218,13 @@ public class ShopScript : MonoBehaviour
                 playerController.UnlockRecipe(recipe, playerController.recipeIndex);
                 playerController.recipeIndex++;
             }
+            else if(storeState == StoreState.Seeds)
+            {
+                for(int i = 0; i < maxSeedPurchased; i ++)
+                {
+                    playerController.AddObjectToInventory(item);
+                }
+            }
             else
             {
                 playerController.AddObjectToInventory(item);
@@ -349,7 +357,6 @@ public class ShopScript : MonoBehaviour
         playerController.enabled = true;
         playerController.isShouldMove = true;
         shopSaveData.mortage = moneyOwed;
-        Debug.Log("Shop Script Player Location: " + playerControllerObject.transform.position);
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
