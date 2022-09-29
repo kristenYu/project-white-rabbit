@@ -47,11 +47,14 @@ public class QuestBoard : MonoBehaviour
 
     //Quest UI 
     public GameObject[] QuestUIObjects;//Should always be matching the number of quests - 0 is left most, max is right most
+    public GameObject[] QuestAcceptPanelObjects; //Should always be matching the number of quests - 0 is the left most, max is the right most
     private TextMeshProUGUI questName;
     private Button questAcceptButton;
     public GameObject[] submitQuestUIObjects; //Should always be matching the maximum number of quests that can be active
     private TextMeshProUGUI submitQuestName;
     private Button questSubmitButton;
+    private TextMeshProUGUI rewardText; 
+
 
     //Quest HUD
     public List<TextMeshProUGUI> questHudList;
@@ -100,6 +103,11 @@ public class QuestBoard : MonoBehaviour
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
         PopulateQuestBoard();
 
+        //Set up accepted panels 
+        for(int i = 0; i < QuestAcceptPanelObjects.Length; i++)
+        {
+            QuestAcceptPanelObjects[i].SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -144,7 +152,7 @@ public class QuestBoard : MonoBehaviour
 
         for(int i = 0; i < displayQuests.Length; i++)
         {
-            SetQuestUI(QuestUIObjects[i], displayQuests[i]);
+            SetQuestUI(QuestUIObjects[i], displayQuests[i], i);
         }
 
         //Get quests to submit
@@ -171,14 +179,16 @@ public class QuestBoard : MonoBehaviour
         }
     }
 
-    public void SetQuestUI(GameObject questUIObject, Quest quest)
+    public void SetQuestUI(GameObject questUIObject, Quest quest, int UIObjectPosition)
     {
         //assumes that the prefab is used to create the quest UI in a particular order
         questAcceptButton = questUIObject.GetComponent<Button>();
         questName = questUIObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        rewardText = questUIObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        rewardText.text = quest.reward.ToString();
 
         questName.text = quest.questName; 
-        questAcceptButton.onClick.AddListener(delegate {AcceptQuest(quest); });
+        questAcceptButton.onClick.AddListener(delegate {AcceptQuest(quest, UIObjectPosition); });
     }
 
     public void SetSubmitQuestUI(GameObject submitQuestUIObject, Quest quest)
@@ -193,7 +203,7 @@ public class QuestBoard : MonoBehaviour
 
 
     //TODO: Turn this into functions
-    public void AcceptQuest(Quest quest)
+    public void AcceptQuest(Quest quest, int UIObjectPosition)
     {
         //Instantiate Event Listener
         switch(quest.questType)
@@ -266,6 +276,8 @@ public class QuestBoard : MonoBehaviour
             default:
                 break;
         }
+        QuestAcceptPanelObjects[UIObjectPosition].SetActive(true);
+       
     }
     public void SubmitQuest(Quest quest, GameObject UIObject)
     {
