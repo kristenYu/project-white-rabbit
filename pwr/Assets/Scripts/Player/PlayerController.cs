@@ -311,7 +311,6 @@ public class PlayerController : MonoBehaviour
                 interactPopup.SetActive(true);
                 interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
             }
-
             if(hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
@@ -319,7 +318,26 @@ public class PlayerController : MonoBehaviour
             }
             else if (hit.transform.tag == "planting")
             {
-                interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlantSprite;
+                if (activeItem != null && activeItem.tag == "seed")
+                {
+                    interactPopup.SetActive(true);
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlantSprite;
+                }
+                else
+                {
+                    interactPopup.SetActive(false);
+                }
+            }
+            else if(hit.transform.tag == "crop")
+            {
+                if(hit.transform.gameObject.GetComponent<Crop>().currentStage == Crop.CropStage.FullyGrown)
+                {
+                    interactPopup.SetActive(true);
+                }
+                else
+                {
+                    interactPopup.SetActive(false);
+                }    
             }
 
 
