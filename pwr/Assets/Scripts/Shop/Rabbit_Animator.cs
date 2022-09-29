@@ -26,7 +26,8 @@ public class Rabbit_Animator : MonoBehaviour
 
     public AnimState animState;
     private Image image;
-    
+
+    public bool isContextScene;
 
 
     private float switchFrame;
@@ -38,6 +39,7 @@ public class Rabbit_Animator : MonoBehaviour
         switchFrame = 0.9f; // 1 second between frames
         timer = 0.0f; //start at 0
         image = GetComponent<Image>();
+        Debug.Log(image);
         animIndex = 0;
         setAnimation(animState);
     }
@@ -62,6 +64,10 @@ public class Rabbit_Animator : MonoBehaviour
 
             //reset timer
             timer = 0.0f;
+        }
+        if(isContextScene)
+        {
+            setAnimation(AnimState.wave);
         }
         
     }
