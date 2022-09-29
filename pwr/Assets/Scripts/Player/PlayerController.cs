@@ -65,7 +65,8 @@ public class PlayerController : MonoBehaviour
     public int currentQuestIndex;
     private bool isActiveQuestsAtMaximum;
     public GameObject[] questHudObjectArray;
-    public int questHudCurrentIndex; 
+    public int questHudCurrentIndex;
+    private int activeQuestNum;
 
     //Currency
     public int currency;
@@ -884,6 +885,31 @@ public class PlayerController : MonoBehaviour
             activeQuests[currentQuestIndex] = quest; 
         }    
 
+    }
+
+    public int CountNumberOfActiveQuests()
+    {
+        activeQuestNum = 0; 
+        for(int i = 0; i < activeQuests.Length; i++)
+        {
+            if(activeQuests[i] != null && activeQuests[i].questType != QuestBoard.QuestType.invalid)
+            {
+                activeQuestNum++;
+            }
+        }
+        return activeQuestNum;
+    }
+
+    public void RemoveQuestFromActiveQuestsArray(Quest quest)
+    {
+        for(int i = 0; i < activeQuests.Length; i++)
+        {
+            if(activeQuests[i].questName == quest.questName)
+            {
+                activeQuests[i] = null;
+                break;
+            }
+        }
     }
 }
 
