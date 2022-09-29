@@ -48,8 +48,11 @@ public class PlayerController : MonoBehaviour
 
     //inventory 
     public GameObject[] inventory;
-    public Image[] inventoryHUDObjects;
-    public GameObject activeItem; 
+    public Image[] inventoryItemImageArray;
+    public Image[] inventoryHudImageArray; 
+    public GameObject activeItem;
+    public Sprite activeItemSprite;
+    public Sprite inventorySprite;
     public int currentInventoryIndex;
     public int previousInventoryIndex; 
     private const int inventorySize = 10;
@@ -156,7 +159,7 @@ public class PlayerController : MonoBehaviour
 
         anim = GetComponent<Animator>();
 
-        foreach(Image itemImage in inventoryHUDObjects)
+        foreach(Image itemImage in inventoryItemImageArray)
         {
             itemImage.gameObject.SetActive(false);
         }
@@ -506,6 +509,8 @@ public class PlayerController : MonoBehaviour
         previousInventoryIndex = currentInventoryIndex;
         currentInventoryIndex = index;
         activeItem = inventory[index];
+        inventoryHudImageArray[previousInventoryIndex].GetComponent<Image>().sprite = inventorySprite;
+        inventoryHudImageArray[currentInventoryIndex].GetComponent<Image>().sprite = activeItemSprite;
     }
 
     /*
@@ -565,8 +570,8 @@ public class PlayerController : MonoBehaviour
                     {
                         inventory[currentInventoryIndex] = item;
                     }
-                    inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
-                    inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
+                    inventoryItemImageArray[currentInventoryIndex].sprite = currentItem.itemSprite;
+                    inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(true);
                     activeItem = inventory[currentInventoryIndex];
                    
                     
@@ -607,8 +612,8 @@ public class PlayerController : MonoBehaviour
             else
             {
                 inventory[indexAt] = item;
-                inventoryHUDObjects[currentInventoryIndex].sprite = currentItem.itemSprite;
-                inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(true);
+                inventoryItemImageArray[currentInventoryIndex].sprite = currentItem.itemSprite;
+                inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(true);
                 currentInventoryIndex = indexAt;
                 activeItem = item;
                 return true;
@@ -632,7 +637,7 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
-        inventoryHUDObjects[currentInventoryIndex].gameObject.SetActive(false);
+        inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(false);
         return tempObject;
     }
 
@@ -640,7 +645,7 @@ public class PlayerController : MonoBehaviour
     {
         tempObject = inventory[indexAt];
         inventory[indexAt] = null;
-        inventoryHUDObjects[indexAt].gameObject.SetActive(false);
+        inventoryItemImageArray[indexAt].gameObject.SetActive(false);
         currentInventoryIndex = indexAt; 
         return tempObject;
     }

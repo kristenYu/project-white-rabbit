@@ -4472,7 +4472,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  inventoryHUDObjects:
+  inventoryItemImageArray:
   - {fileID: 4535355550107541962}
   - {fileID: 431666126508756064}
   - {fileID: 8371443238410082271}
@@ -4483,7 +4483,20 @@ MonoBehaviour:
   - {fileID: 7672097820246578151}
   - {fileID: 7199798775568508687}
   - {fileID: 2522727293795789514}
+  inventoryHudImageArray:
+  - {fileID: 5897419718397493376}
+  - {fileID: 1087279720852221519}
+  - {fileID: 7191741902290735953}
+  - {fileID: 344824966597978417}
+  - {fileID: 808837645440685861}
+  - {fileID: 3255594626913546729}
+  - {fileID: 7460711642184421442}
+  - {fileID: 2333632239635959744}
+  - {fileID: 370969814366501689}
+  - {fileID: 8819703679554969181}
   activeItem: {fileID: 0}
+  activeItemSprite: {fileID: 21300000, guid: 3e419ddd54006ad429755979ea3d5f55, type: 3}
+  inventorySprite: {fileID: 21300000, guid: b75aac0364303214e95ab2f9561a3ca2, type: 3}
   currentInventoryIndex: 0
   previousInventoryIndex: 0
   activeQuests: []
