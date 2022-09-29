@@ -31,6 +31,7 @@ public class WorldController : MonoBehaviour
     //crop management
     public List<GameObject> activeCropList;
     private Crop currentCropScript;
+    private List<GameObject> destroyCropList; 
 
     //furniture management 
     public List<GameObject> placedFurnitureObjects;
@@ -99,6 +100,7 @@ public class WorldController : MonoBehaviour
         nightDuration = 10.0f;
 
         activeCropList = new List<GameObject>();
+        destroyCropList = new List<GameObject>();
         harvestableList = new List<GameObject>();
 
         nightFilter = GameObject.FindGameObjectWithTag("night_filter");
@@ -203,6 +205,7 @@ public class WorldController : MonoBehaviour
 
     public void growActiveCrops()
     {
+
         foreach (GameObject crop in activeCropList)
         {
             currentCropScript = crop.GetComponent<Crop>();
@@ -211,7 +214,17 @@ public class WorldController : MonoBehaviour
                 currentCropScript.GrowCrop();
                 currentCropScript.isReadyToGrow = false; 
             }
+            else if(crop.GetComponent<Crop>().currentStage == Crop.CropStage.Harvested)
+            {
+                destroyCropList.Add(crop);
+            }
         }
+        for(int i = 0; i < destroyCropList.Count; i++)
+        {
+            activeCropList.Remove(destroyCropList[i]);
+            Destroy(destroyCropList[i]);
+        }
+        destroyCropList.Clear();
     }
 
     public void updateTOD(float timer)
