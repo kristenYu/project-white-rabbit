@@ -53,11 +53,14 @@ public class QuestBoard : MonoBehaviour
     public GameObject[] submitQuestUIObjects; //Should always be matching the maximum number of quests that can be active
     private TextMeshProUGUI submitQuestName;
     private Button questSubmitButton;
-    private TextMeshProUGUI rewardText; 
-
+    private TextMeshProUGUI rewardText;
+    private int questHudIndexToRemove;
+    private int questHudIndex;
 
     //Quest HUD
-    public List<TextMeshProUGUI> questHudList;
+    public GameObject[] questHudGameobjectArray;
+    private TextMeshProUGUI questHudTMP;
+    private TextMeshProUGUI questHudReward;
     public int currentQuestHudIndex;
 
     private void Awake()
@@ -71,15 +74,18 @@ public class QuestBoard : MonoBehaviour
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
-        playerController.isShouldMove = false;
-        //ASSUMES THE CANVAS IS ALWAYS THE SECOND CHILD OBJECT
+        //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
+        questHudIndex = 0;
+        questHudGameobjectArray = new GameObject[numberOfQuests];
         foreach(Transform child in playerObject.transform.GetChild(1).transform)
         {
             if(child.gameObject.tag == "quest_hud")
             {
-                questHudList.Add(child.GetComponent<TextMeshProUGUI>());
+                questHudGameobjectArray[questHudIndex] = child.gameObject;
+                questHudIndex++;
             }
         }
+        playerController.isShouldMove = false;
         currentQuestHudIndex = 0;
 
         //default algorithm is random 
@@ -226,7 +232,12 @@ public class QuestBoard : MonoBehaviour
                 quest.eventListener.OnStartListening(); 
                 playerController.AddQuestToActiveArray(quest);
 
-                questHudList[currentQuestHudIndex].text = quest.questName;
+                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
+                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                questHudTMP.text = quest.questName;
+                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward.text = quest.reward.ToString();
                 currentQuestHudIndex++;
 
                 currentQuestAlgorithm.OnQuestAccepted(quest);
@@ -251,7 +262,15 @@ public class QuestBoard : MonoBehaviour
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
 
-                questHudList[currentQuestHudIndex].text = quest.questName;
+                Debug.Log(currentQuestHudIndex);
+                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
+                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                Debug.Log(questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0));
+                Debug.Log(questHudTMP);
+                questHudTMP.text = quest.questName;
+                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward.text = quest.reward.ToString();
                 currentQuestHudIndex++;
 
                 break;
@@ -270,7 +289,12 @@ public class QuestBoard : MonoBehaviour
                 playerController.AddQuestToActiveArray(quest);
                 currentQuestAlgorithm.OnQuestAccepted(quest);
 
-                questHudList[currentQuestHudIndex].text = quest.questName;
+                questHudGameobjectArray[currentQuestHudIndex].SetActive(true);
+                //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
+                questHudTMP = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+                questHudTMP.text = quest.questName;
+                questHudReward = questHudGameobjectArray[currentQuestHudIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                questHudReward.text = quest.reward.ToString();
                 currentQuestHudIndex++;
                 break;
             default:
@@ -289,36 +313,17 @@ public class QuestBoard : MonoBehaviour
         Destroy(quest.eventListener.gameObject);
 
 
+
         //remove UI elements
         UIObject.SetActive(false);
-        for (int i = 0; i < questHudList.Count; i++)
+        for (int i = 0; i < questHudGameobjectArray.Length; i++)
         {
-            if(quest.questName == questHudList[i].text)
+           if(questHudGameobjectArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == quest.questName)
             {
-                //This is brittle - will break if the rule that there are only 3 hud quest texts are available 
-                if(i == 0)
-                {
-                    questHudList[i].text = questHudList[i + 1].text;
-                    questHudList[i + 1].text = questHudList[i + 2].text;
-                    questHudList[i + 2].text = "";
-                    currentQuestHudIndex = i+2;
-                }    
-                else if(i == 1)
-                {
-                    questHudList[i].text = questHudList[i + 1].text;
-                    questHudList[i + 1].text = "";
-                    currentQuestHudIndex = i + 1;
-                }
-                else if(i == 2)
-                {
-                    questHudList[i].text = "";
-                    currentQuestHudIndex = i;
-                }
-                         
+                questHudIndexToRemove = i; 
             }
         }
-
-
+        questHudGameobjectArray[questHudIndexToRemove].SetActive(false);
     }
 
     private void OnRandomToggleChanged(Toggle toggle)

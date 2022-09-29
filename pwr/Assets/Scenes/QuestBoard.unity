@@ -2700,6 +2700,11 @@ PrefabInstance:
       objectReference: {fileID: 378247670}
     - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
         type: 3}
+      propertyPath: questHudList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
+        type: 3}
       propertyPath: questAlgorithms.Array.size
       value: 3
       objectReference: {fileID: 0}

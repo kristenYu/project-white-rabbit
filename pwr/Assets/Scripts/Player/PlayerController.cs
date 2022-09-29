@@ -60,7 +60,8 @@ public class PlayerController : MonoBehaviour
     public const int maxActiveQuests = 3; 
     public Quest[] activeQuests;
     public int currentQuestIndex;
-    private bool isActiveQuestsAtMaximum; 
+    private bool isActiveQuestsAtMaximum;
+    public GameObject[] questHudObjectArray;
 
     //Currency
     public int currency;
@@ -146,6 +147,10 @@ public class PlayerController : MonoBehaviour
 
         currentQuestIndex = 0;
         activeQuests = new Quest[maxActiveQuests];
+        for(int i = 0; i < questHudObjectArray.Length; i++)
+        {
+            questHudObjectArray[i].SetActive(false);
+        }
 
         anim = GetComponent<Animator>();
 
