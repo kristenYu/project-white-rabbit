@@ -243,12 +243,12 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    private void ItemSold(GameObject item, GameObject sellingUIObject)
+    private void ItemSold(GameObject item, GameObject sellingUIObject, int index)
     {
         //add currency to player
         playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
         //remove item from inventory 
-        playerController.RemoveObjectFromInventory(item);
+        playerController.RemoveObjectFromInventory(index);
         //hide button 
         sellingUIObject.SetActive(false);
     }
@@ -268,43 +268,43 @@ public class ShopScript : MonoBehaviour
                 //THIS ASSUMES THAT THE LENGTH OF THE INVENTORY IS 10. IF THAT CHANGES THIS NEEDS TO CHANGE
                 if (i == 0)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[0], sellingUIObjectArray[0]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[0], sellingUIObjectArray[0], 0); });
                 }
                 else if (i == 1)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[1], sellingUIObjectArray[1]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[1], sellingUIObjectArray[1], 1); });
                 }
                 else if (i == 2)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[2], sellingUIObjectArray[2]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[2], sellingUIObjectArray[2], 2); });
                 }
                 else if (i == 3)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[3], sellingUIObjectArray[3]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[3], sellingUIObjectArray[3], 3); });
                 }
                 else if (i == 4)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[4], sellingUIObjectArray[4]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[4], sellingUIObjectArray[4], 4); });
                 }
                 else if (i == 5)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[5], sellingUIObjectArray[5]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[5], sellingUIObjectArray[5], 5); });
                 }
                 else if (i == 6)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[6], sellingUIObjectArray[6]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[6], sellingUIObjectArray[6], 6); });
                 }
                 else if (i == 7)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[7], sellingUIObjectArray[7]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[7], sellingUIObjectArray[7], 7); });
                 }
                 else if (i == 8)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[8], sellingUIObjectArray[8]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[8], sellingUIObjectArray[8], 8); });
                 }
                 else if (i == 9)
                 {
-                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[9], sellingUIObjectArray[9]); });
+                    sellingUIObjectArray[i].GetComponent<Button>().onClick.AddListener(delegate { ItemSold(playerController.inventory[9], sellingUIObjectArray[9], 9); });
                 }
             }
             else

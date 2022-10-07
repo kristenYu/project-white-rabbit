@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 5
-  sellingPrice: 10
+  sellingPrice: 2
   stringName: red mushroom
   itemSprite: {fileID: 3387735869382985258, guid: 483c702db09e51a49b40f63a23ff5bc0,
     type: 3}
