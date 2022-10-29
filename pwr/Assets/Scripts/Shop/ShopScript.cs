@@ -24,6 +24,7 @@ public class ShopScript : MonoBehaviour
     private PlayerController playerController;
     public ShopSaveData shopSaveData;
     private int randNum;
+    private int previousRandNum;
     public WorldController worldController; 
 
     //store state 
@@ -133,7 +134,7 @@ public class ShopScript : MonoBehaviour
         }
         else
         {
-            
+                   
         }
 
         /*
@@ -368,7 +369,6 @@ public class ShopScript : MonoBehaviour
         {
             soldItemList.Add(soldItem);
         }
-
         switch(state)
         {
             case StoreState.Furniture:
@@ -397,23 +397,38 @@ public class ShopScript : MonoBehaviour
     private void GetNewItemsFromItemManager(StoreState state, GameObject[] itemArray)
     {
         //TODO: Make sure the same item doesn't load twice
-
+        previousRandNum = -1; 
         //load a new furniture Array
         for(int i = 0; i < shopSaveData.furnitureArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.furnitureArray.Length);
+            while(randNum == previousRandNum)
+            {
+                randNum = Random.Range(0, itemManager.furnitureArray.Length);
+            }
+            previousRandNum = randNum;
             shopSaveData.furnitureArray[i] = itemManager.furnitureArray[randNum];
         }
         //load a new seeds array 
         for(int i = 0; i < shopSaveData.seedArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.seedArray.Length);
+            while (randNum == previousRandNum)
+            {
+                randNum = Random.Range(0, itemManager.seedArray.Length);
+            }
+            previousRandNum = randNum;
             shopSaveData.seedArray[i] = itemManager.seedArray[randNum];
         }
         //load a new recipes array 
         for(int i = 0; i < shopSaveData.recipeArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.recipeArray.Length);
+            while (randNum == previousRandNum)
+            {
+                randNum = Random.Range(0, itemManager.recipeArray.Length);
+            }
+            previousRandNum = randNum;
             shopSaveData.recipeArray[i] = itemManager.recipeArray[randNum];
         }
 
