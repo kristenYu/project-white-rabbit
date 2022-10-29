@@ -19037,7 +19037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920fb4dfba25c63458894173f5cd1205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mushroomGameObject: {fileID: 797652346372875797, guid: f80980ddf37b4ff43bdaf56b06ed19ac,
+  mushroomGameObject: {fileID: 6548234305049978767, guid: 8c54ebe51d5c56a4bb7c916715684266,
     type: 3}
   worldController: {fileID: 0}
 --- !u!1 &1591366903
@@ -36737,6 +36737,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8205332307544167700, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205332307544167700, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
       propertyPath: m_SortingLayerID
       value: -1512910657
       objectReference: {fileID: 0}
@@ -36927,7 +36932,7 @@ PrefabInstance:
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000007695388
+      value: -0.000002882659
       objectReference: {fileID: 0}
     - target: {fileID: 9126032421763068891, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}

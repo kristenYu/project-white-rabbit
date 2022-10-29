@@ -774,9 +774,11 @@ public class PlayerController : MonoBehaviour
         knownRecipes.Add(recipe);
         currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
         currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
-        currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (2.25f + knownRecipeUIOffset*index)), 0);
+        currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (1.0f + knownRecipeUIOffset*index)), 90.0f);
         SetRecipeUI(currentRecipeUIObject, recipe);
         knownRecipeUIObjects.Add(currentRecipeUIObject);
+        Debug.Log("UI Object:" + currentRecipeUIObject.transform.position);
+        Debug.Log("Content Object:" + cookingUIContent.transform.position);
     }
     private void Debug_UnlockAllRecipes()
     {
@@ -802,7 +804,6 @@ public class PlayerController : MonoBehaviour
         
         for (int i = 0; i < recipe.ingredients.Length; i++)
         {
-            Debug.Log(recipe.ingredients[i]);
             for (int j = 0; j < itemManager.foodArray.Length; j++)
             {
                 if (recipe.ingredients[i].Equals(itemManager.foodArray[j].GetComponent<Item>().stringName))
