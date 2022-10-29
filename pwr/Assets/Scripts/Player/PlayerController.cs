@@ -777,8 +777,6 @@ public class PlayerController : MonoBehaviour
         currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (1.0f + knownRecipeUIOffset*index)), 90.0f);
         SetRecipeUI(currentRecipeUIObject, recipe);
         knownRecipeUIObjects.Add(currentRecipeUIObject);
-        Debug.Log("UI Object:" + currentRecipeUIObject.transform.position);
-        Debug.Log("Content Object:" + cookingUIContent.transform.position);
     }
     private void Debug_UnlockAllRecipes()
     {
@@ -865,7 +863,14 @@ public class PlayerController : MonoBehaviour
         isActiveQuestsAtMaximum = true; 
         for(int i = 0; i < maxActiveQuests; i++)
         {
-            if (activeQuests[i].questType == QuestBoard.QuestType.invalid) 
+            if(activeQuests[i] == null)
+            {
+                currentQuestIndex = i;
+                isActiveQuestsAtMaximum = false;
+                Debug.Log("PlayerController.CurrentQuestIndex: " + i);
+                break;
+            }
+            else if (activeQuests[i].questType == QuestBoard.QuestType.invalid) 
             {
                 currentQuestIndex = i;
                 isActiveQuestsAtMaximum = false;
@@ -912,6 +917,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
 }
 
 
