@@ -111,7 +111,7 @@ public class ShopScript : MonoBehaviour
             LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
         }
         updateStorePanels();
-        SetItemSoldPanels();
+        SetItemSoldPanels(storeState);
         sellingUIPanel.SetActive(false);
         UpdateSellingItemsPanel();
 
@@ -132,7 +132,7 @@ public class ShopScript : MonoBehaviour
         else
         {
             //SetStorePanels();
-            SetItemSoldPanels();
+            //SetItemSoldPanels(storeState);
         }
     }
 
@@ -141,15 +141,15 @@ public class ShopScript : MonoBehaviour
         //THIS IS NOT A HACK. THIS IS HOW UNITY WORKS 
         //Delegates are compiled at compile time so the argument to the delegate cannot be created using an array
         //this results in a index out of bounds error if put in a for loop.
-        SetItemButton(shopUIObjectArray[0], currentItemObjectArray[0]);
+        SetItemButtonUI(shopUIObjectArray[0], currentItemObjectArray[0]);
         itemBtn = shopUIObjectArray[0].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[0]); });
 
-        SetItemButton(shopUIObjectArray[1], currentItemObjectArray[1]);
+        SetItemButtonUI(shopUIObjectArray[1], currentItemObjectArray[1]);
         itemBtn = shopUIObjectArray[1].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[1]); });
 
-        SetItemButton(shopUIObjectArray[2], currentItemObjectArray[2]);
+        SetItemButtonUI(shopUIObjectArray[2], currentItemObjectArray[2]);
         itemBtn = shopUIObjectArray[2].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[2]); });
     }
@@ -165,11 +165,11 @@ public class ShopScript : MonoBehaviour
             }
             sellingUIPanel.SetActive(false);
             LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
-            SetItemSoldPanels();
+            SetItemSoldPanels(storeState);
 
             for (int i = 0; i < currentItemObjectArray.Length; i++)
             {
-                SetItemButton(shopUIObjectArray[i], currentItemObjectArray[i]);
+                SetItemButtonUI(shopUIObjectArray[i], currentItemObjectArray[i]);
                 itemBtn = shopUIObjectArray[i].GetComponent<Button>();
             }
         }
@@ -185,13 +185,12 @@ public class ShopScript : MonoBehaviour
     }
 
     //Item Setup
-    private void SetItemButton(GameObject obj, GameObject currentItem)
+    private void SetItemButtonUI(GameObject obj, GameObject currentItem)
     {
         itemImage = obj.transform.GetChild(0).GetComponent<Image>();
         itemName = obj.transform.GetChild(1).GetComponent<Text>();
         itemCost = obj.transform.GetChild(2).GetComponent<Text>();
 
-        Debug.Log(currentItem);
         itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
         itemName.text = currentItem.GetComponent<Item>().stringName;
         itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
@@ -199,6 +198,7 @@ public class ShopScript : MonoBehaviour
 
     private void ItemPurchased(GameObject item)
     {
+        Debug.Log("Item Purchased Fired");
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
@@ -222,7 +222,7 @@ public class ShopScript : MonoBehaviour
             }
             shopSaveData.soldItemList.Add(item);
             soldItems.Add(item);
-            SetItemSoldPanels();
+            SetItemSoldPanels(storeState);
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
             rabbitAnimator.speechText.text = "Thanks for buying something!";
         }
@@ -326,11 +326,15 @@ public class ShopScript : MonoBehaviour
             }
         }
     }
-    private void SetItemSoldPanels()
+    private void SetItemSoldPanels(StoreState state)
     {
         for(int i = 0; i < currentItemObjectArray.Length; i++)
         {
-            if (soldItems.Contains(currentItemObjectArray[i]))
+            if(state == StoreState.Sell)
+            {
+                soldPanelArray[i].SetActive(false);
+            }
+            else if (soldItems.Contains(currentItemObjectArray[i]))
             {
                 soldPanelArray[i].SetActive(true);
             }
