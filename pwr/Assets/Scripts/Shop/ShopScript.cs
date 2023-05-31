@@ -111,6 +111,7 @@ public class ShopScript : MonoBehaviour
             LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
         }
         updateStorePanels();
+        setItemButtonDelegates();
         SetItemSoldPanels(storeState);
         sellingUIPanel.SetActive(false);
         UpdateSellingItemsPanel();
@@ -124,15 +125,12 @@ public class ShopScript : MonoBehaviour
         coinText.text = playerController.currency.ToString();
         if (checkIfShopShouldUpdate())
         {
+            Debug.Log(checkIfShopShouldUpdate());
             PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
             shopSaveData.soldItemList.Clear();
             worldController.isNewDay = false;
+            updateStorePanels();
             setItemButtonDelegates();
-        }
-        else
-        {
-            //SetStorePanels();
-            //SetItemSoldPanels(storeState);
         }
     }
 
@@ -141,6 +139,8 @@ public class ShopScript : MonoBehaviour
         //THIS IS NOT A HACK. THIS IS HOW UNITY WORKS 
         //Delegates are compiled at compile time so the argument to the delegate cannot be created using an array
         //this results in a index out of bounds error if put in a for loop.
+
+        Debug.Log("Set Item Button Delegates");
         SetItemButtonUI(shopUIObjectArray[0], currentItemObjectArray[0]);
         itemBtn = shopUIObjectArray[0].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[0]); });
