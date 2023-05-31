@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 using System;
+using UnityEngine.Networking;
+
 
 public class QuestBoard : MonoBehaviour
 {
@@ -116,6 +118,11 @@ public class QuestBoard : MonoBehaviour
         {
             QuestAcceptPanelObjects[i].SetActive(false);
         }
+
+        //telemetry
+       //StartCoroutine(GetAssetBundle());
+        //StartCoroutine(PostData("test"));
+
     }
 
     // Update is called once per frame
@@ -397,5 +404,53 @@ public class QuestBoard : MonoBehaviour
         questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         questHudReward.text = quest.reward.ToString();
         playerController.questHudCurrentIndex++;
+    }
+
+    //Telemetry function 
+    IEnumerator GetAssetBundle()
+    {
+        //hack to force validate certificate 
+        var cert = new CertificateValidator();
+
+        UnityWebRequest www = UnityWebRequest.Get("https://localhost:8000");
+        www.certificateHandler = cert;
+        yield return www.SendWebRequest();
+
+        Debug.Log("Request recieved");
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+        }
+    }
+
+    IEnumerator PostData(string msg)
+    {
+        Debug.Log("Starting Post Request");
+        var cert = new CertificateValidator();
+
+        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
+        formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
+
+
+        UnityWebRequest www = UnityWebRequest.Post("https://localhost:8000", formData);
+        //NEEDED TO AVOID CERTIFICATE VALIDATION ERROR
+        www.certificateHandler = cert;
+        yield return www.SendWebRequest();
+
+        Debug.Log("Post Request Recieved");
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("Form upload complete!");
+        }
     }
 }
