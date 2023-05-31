@@ -43,7 +43,7 @@ public class WorldController : MonoBehaviour
 
     //harvestable
     public List<GameObject> harvestableList;
-    private const int maxMushroomSpawn = 5; 
+    public const int maxMushroomSpawn = 5; 
     public bool shouldSpawnMushrooms;
 
     //filters 
