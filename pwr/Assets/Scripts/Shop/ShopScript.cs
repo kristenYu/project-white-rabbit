@@ -68,7 +68,8 @@ public class ShopScript : MonoBehaviour
     //recipe management
     Recipe recipe;
 
-    //Save data 
+    //SaveData
+    private List<int> randomNumberList; 
 
     private void Awake()
     {
@@ -83,7 +84,8 @@ public class ShopScript : MonoBehaviour
         playerController.isShouldMove = false;
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
-        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>(); 
+        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+        randomNumberList = new List<int>();
 
         //store state 
         storeState = StoreState.Furniture; //default 
@@ -99,7 +101,16 @@ public class ShopScript : MonoBehaviour
         payMortageButton.onClick.AddListener(PayMortage);
         moneyOwedText.text = shopSaveData.mortage.ToString();
 
-        SetStorePanels();
+
+        if(shopSaveData.furnitureArray[0] == null)
+        {
+            PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
+        }
+        else
+        {
+            LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
+        }
+        updateStorePanels();
         SetItemSoldPanels();
         sellingUIPanel.SetActive(false);
         UpdateSellingItemsPanel();
@@ -111,40 +122,18 @@ public class ShopScript : MonoBehaviour
     void Update()
     {
         coinText.text = playerController.currency.ToString();
-        if(checkIfShopShouldUpdate())
+        if (checkIfShopShouldUpdate())
         {
-            GetNewItemsFromItemManager(storeState, currentItemObjectArray);
+            PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
             shopSaveData.soldItemList.Clear();
             worldController.isNewDay = false;
             setItemButtonDelegates();
         }
         else
         {
-            SetStorePanels();
+            //SetStorePanels();
             SetItemSoldPanels();
         }
-    }
-
-    //Shop Panel setup
-    private void SetStorePanels()
-    {
-        if(storeState != StoreState.Sell)
-        {
-            SetItemsFromSavedItemArray(storeState, currentItemObjectArray, soldItems);
-        }
-        else
-        {
-                   
-        }
-
-        /*
-        for(int j = 0; j < currentItemObjectArray.Length; j++)
-        {
-            SetItemButton(ShopItemObj[j], currentItemObjectArray[j]);
-            itemBtn = ShopItemObj[j].GetComponent<Button>();
-            itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[j]); });
-        }
-        */
     }
 
     private void setItemButtonDelegates()
@@ -175,7 +164,7 @@ public class ShopScript : MonoBehaviour
                 soldPanelArray[i].SetActive(true);
             }
             sellingUIPanel.SetActive(false);
-            SetItemsFromSavedItemArray(storeState, currentItemObjectArray, soldItems);
+            LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
             SetItemSoldPanels();
 
             for (int i = 0; i < currentItemObjectArray.Length; i++)
@@ -202,6 +191,7 @@ public class ShopScript : MonoBehaviour
         itemName = obj.transform.GetChild(1).GetComponent<Text>();
         itemCost = obj.transform.GetChild(2).GetComponent<Text>();
 
+        Debug.Log(currentItem);
         itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
         itemName.text = currentItem.GetComponent<Item>().stringName;
         itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
@@ -360,9 +350,7 @@ public class ShopScript : MonoBehaviour
         shopSaveData.mortage = moneyOwed;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
-
-  
-    private void SetItemsFromSavedItemArray(StoreState state, GameObject[] itemArray, List<GameObject> soldItemList)
+    private void LoadShopSaveData(StoreState state, GameObject[] itemArray, List<GameObject> soldItemList)
     {
         soldItemList.Clear();
         foreach(GameObject soldItem in shopSaveData.soldItemList)
@@ -394,41 +382,43 @@ public class ShopScript : MonoBehaviour
         }
     }
 
-    private void GetNewItemsFromItemManager(StoreState state, GameObject[] itemArray)
+    private void PopulateNewItemsForShopSaveData(StoreState state, GameObject[] itemArray)
     {
-        //TODO: Make sure the same item doesn't load twice
-        previousRandNum = -1; 
+        randomNumberList.Clear();
         //load a new furniture Array
         for(int i = 0; i < shopSaveData.furnitureArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.furnitureArray.Length);
-            while(randNum == previousRandNum)
+            while(randomNumberList.Contains(randNum))
             {
                 randNum = Random.Range(0, itemManager.furnitureArray.Length);
             }
-            previousRandNum = randNum;
+            randomNumberList.Add(randNum);
+            //previousRandNum = randNum;
             shopSaveData.furnitureArray[i] = itemManager.furnitureArray[randNum];
         }
         //load a new seeds array 
-        for(int i = 0; i < shopSaveData.seedArray.Length; i++)
+        randomNumberList.Clear();
+        for (int i = 0; i < shopSaveData.seedArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.seedArray.Length);
-            while (randNum == previousRandNum)
+            while (randomNumberList.Contains(randNum))
             {
                 randNum = Random.Range(0, itemManager.seedArray.Length);
             }
-            previousRandNum = randNum;
+            randomNumberList.Add(randNum);
             shopSaveData.seedArray[i] = itemManager.seedArray[randNum];
         }
         //load a new recipes array 
-        for(int i = 0; i < shopSaveData.recipeArray.Length; i++)
+        randomNumberList.Clear();
+        for (int i = 0; i < shopSaveData.recipeArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.recipeArray.Length);
-            while (randNum == previousRandNum)
+            while (randomNumberList.Contains(randNum))
             {
                 randNum = Random.Range(0, itemManager.recipeArray.Length);
             }
-            previousRandNum = randNum;
+            randomNumberList.Add(randNum);
             shopSaveData.recipeArray[i] = itemManager.recipeArray[randNum];
         }
 
@@ -463,9 +453,6 @@ public class ShopScript : MonoBehaviour
         storeState = state;
         updateStorePanels();
     }
-
-   
-
     private bool checkIfShopShouldUpdate()
     {
         return worldController.isNewDay; 
