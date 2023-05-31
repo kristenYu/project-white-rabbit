@@ -159,11 +159,13 @@ public class WorldController : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "Main")
             {
                 harvestable.GetComponent<SpriteRenderer>().enabled = true;
+                harvestable.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true; 
                 harvestable.GetComponent<BoxCollider2D>().enabled = true;
             }
             else
             {
                 harvestable.GetComponent<SpriteRenderer>().enabled = false;
+                harvestable.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 harvestable.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
