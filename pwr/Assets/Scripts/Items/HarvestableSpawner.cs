@@ -9,7 +9,7 @@ public class HarvestableSpawner : MonoBehaviour
 
     private float randomX;
     private float randomY;
-    private const int mushroomSpawnNumber = 5;
+    private const int mushroomSpawnNumber = 3;
     private GameObject spawnedObject;
 
     void Start()
@@ -19,10 +19,21 @@ public class HarvestableSpawner : MonoBehaviour
 
     private void Update()
     {
+        if(worldController.harvestableList.Count >= WorldController.maxMushroomSpawn)
+        {
+            worldController.shouldSpawnMushrooms = false;
+        }
         if(worldController.shouldSpawnMushrooms)
         {
-            SpawnNewMushrooms(mushroomSpawnNumber);
-            worldController.shouldSpawnMushrooms = false;
+            if(WorldController.maxMushroomSpawn - worldController.harvestableList.Count > mushroomSpawnNumber)
+            {
+                SpawnNewMushrooms(mushroomSpawnNumber);
+            }
+            else
+            {
+                SpawnNewMushrooms(WorldController.maxMushroomSpawn - worldController.harvestableList.Count);
+            }
+            
         }
     }
 

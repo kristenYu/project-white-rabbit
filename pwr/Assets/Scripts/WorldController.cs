@@ -22,7 +22,6 @@ public class WorldController : MonoBehaviour
     public RawImage TODImage;
     public Texture[] TODIcons = new Texture[3];
 
-
     //managing changing time of day
     public float dayDuration;
     public float twilightDuration;
@@ -44,6 +43,7 @@ public class WorldController : MonoBehaviour
 
     //harvestable
     public List<GameObject> harvestableList;
+    public const int maxMushroomSpawn = 5; 
     public bool shouldSpawnMushrooms;
 
     //filters 
