@@ -77,6 +77,7 @@ public class QuestBoard : MonoBehaviour
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
+        playerObject.GetComponent<SpriteRenderer>().enabled = false; 
         //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
         questHudIndex = 0;
         questHudGameobjectArray = new GameObject[numberOfQuests];
@@ -138,6 +139,7 @@ public class QuestBoard : MonoBehaviour
         currentQuestAlgorithm.OnQuestClosed();
         playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
         playerController.isShouldMove = true;
+        playerObject.GetComponent<SpriteRenderer>().enabled = true;
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
