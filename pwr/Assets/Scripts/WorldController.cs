@@ -85,7 +85,7 @@ public class WorldController : MonoBehaviour
         currentTimer = 0.0f;
 
         //bool for reseting the shop
-        isNewDay = true;
+        isNewDay = false;
         //spawn mushrooms on start
         shouldSpawnMushrooms = true;
 

@@ -39,7 +39,6 @@ public class Rabbit_Animator : MonoBehaviour
         switchFrame = 0.9f; // 1 second between frames
         timer = 0.0f; //start at 0
         image = GetComponent<Image>();
-        Debug.Log(image);
         animIndex = 0;
         setAnimation(animState);
     }
