@@ -16,6 +16,7 @@ public class QuestBoard : MonoBehaviour
         plant = 0,
         cook,
         place,
+        harvest,
         invalid, //this is always the maximum number of quest categories
     }
 
@@ -25,6 +26,7 @@ public class QuestBoard : MonoBehaviour
     private PlantingEventListener plantingEventListener;
     private CookingEventListener cookingEventListener;
     private PlaceEventListener placeEventListener;
+    private HarvestEventListener harvestEventListener; 
 
     //Algorithm Toggles 
     public Toggle randomToggle;
@@ -300,6 +302,27 @@ public class QuestBoard : MonoBehaviour
                     //update feedback for max number of quests 
                     currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
 
+                    break;
+                case QuestType.harvest:
+                    if (!Int32.TryParse(quest.eventListenerData[1], out result))
+                    {
+                        Debug.LogError("Accept Quest Failed for quest " + quest.questName + "; could not instantiate HarvestEventListener. Check eventListenerData is formatted as [\"targetPlant\", \"targetValue\"]");
+                    }
+                    currentQuestGameObject = new GameObject();
+                    currentQuestGameObject.name = quest.questName + "_EL";
+                    currentQuestGameObject.transform.SetParent(playerObject.transform);
+                    currentQuestGameObject.AddComponent<HarvestEventListener>();
+
+                    harvestEventListener = currentQuestGameObject.GetComponent<HarvestEventListener>();
+                    harvestEventListener.SetHarvestEventListener(quest.eventListenerData[0], Int32.Parse(quest.eventListenerData[1]));
+
+                    quest.eventListener = harvestEventListener;
+                    quest.eventListener.OnStartListening();
+                    playerController.AddQuestToActiveArray(quest);
+                    SetQuestHudObject(quest);
+
+                    //update feedback for max number of quests 
+                    currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
                     break;
                 default:
                     break;

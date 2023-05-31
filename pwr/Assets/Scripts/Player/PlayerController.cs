@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     //harvestables
     private Harvestable harvestableScript;
+    public bool hasHarvestedItem;
+    public string justHarvestedName; 
 
     //Movement
     public bool isShouldMove;
@@ -145,6 +147,8 @@ public class PlayerController : MonoBehaviour
         knownRecipeUIObjects = new List<GameObject>();
         targetIngredients = new List<GameObject>();
         CookedRecipeFlag = false;
+        hasHarvestedItem = false; 
+
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
         worldController = worldControllerObject.GetComponent<WorldController>();
@@ -419,7 +423,7 @@ public class PlayerController : MonoBehaviour
                     //check if the crop can be harvested and harvests if it can 
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     AddObjectToInventory(cropScript.HarvestCrop());
-                   // actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
+                    //actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
                 }
                 else if(hit.transform.gameObject.tag == "harvestable")
@@ -427,7 +431,10 @@ public class PlayerController : MonoBehaviour
                     harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
                     AddObjectToInventory(harvestableScript.harvestedItem);
                     worldController.harvestableList.Remove(hit.transform.gameObject);
+                    hasHarvestedItem = true; //flag is turned off in harvest event listner
+                    justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
                     Object.Destroy(hit.transform.gameObject);
+                    actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {

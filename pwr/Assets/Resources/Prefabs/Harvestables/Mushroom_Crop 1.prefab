@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a703de013a32345a7ed95562a0126b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stringName: mushroom
   harvestedItem: {fileID: 2013537566301020595, guid: e7b475b39d3519b479a3f7c3dba7841d,
     type: 3}
 --- !u!1001 &7580799450837336054
