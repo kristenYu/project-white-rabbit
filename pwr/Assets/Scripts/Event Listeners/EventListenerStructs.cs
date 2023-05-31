@@ -38,6 +38,13 @@ namespace EventListenerStructs
         public int targetValue; 
     }
 
+    [System.Serializable]
+    public struct HarvestStruct
+    {
+        public string name;
+        public int targetValue; 
+    }
+
     public struct PlaceStruct
     {
         public int targetValue;

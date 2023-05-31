@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Harvestable : MonoBehaviour
 {
+    public string stringName; 
     public GameObject harvestedItem; 
 
     // Start is called before the first frame update
