@@ -33,21 +33,17 @@ public class QuestBoard : MonoBehaviour
     public Toggle cmabToggle;
     public Toggle passageToggle; 
 
-    //Database loading 
-    public Quest[] questDataBase;
-    public Quest currentQuest;
-    public TextAsset[] questFiles;
-    public int questDatabaseIndex;
-
     //Questboard Quests 
     public const int numberOfQuests = 3; 
     public Quest[] displayQuests;
-    public GameObject[] questAlgorithms; //Should be set to the number of algorithms 
-    public int questAlgorithmIndex; //quest algorithm to use
     private QuestAlgorithmBase currentQuestAlgorithm;
     private GameObject currentQuestGameObject;
     public Quest[] questsToSubmit;
     private int result;
+    private int questAlgorithmIndex;
+
+    //quest setup 
+    public QuestSetupScript questSetupScript;
 
     //Quest UI 
     public GameObject[] QuestUIObjects;//Should always be matching the number of quests - 0 is left most, max is right most
@@ -72,37 +68,14 @@ public class QuestBoard : MonoBehaviour
     WorldController worldController; 
             
 
-    //Singleton 
-    private static QuestBoard instance;
-    // Read-only public access
-    public static QuestBoard Instance => instance;
-
+   
     private void Awake()
-        {
+    {
 
-        // Does another instance already exist?
-        if (instance && instance != this)
-        {
-            // Destroy myself
-            Destroy(gameObject);
-            return;
-        }
 
-        // Otherwise store my reference and make me DontDestroyOnLoad
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+      
 
-        questDatabaseIndex = 0;
-        StartCoroutine(LoadQuestDatabase());
-
-        //run set up for all algorithms 
-        for (int i = 0; i < questAlgorithms.Length; i++)
-        {
-            currentQuestAlgorithm = questAlgorithms[i].GetComponent<QuestAlgorithmBase>();
-            currentQuestAlgorithm.SetUpAlgorithm();
-        }
-
-        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -126,7 +99,7 @@ public class QuestBoard : MonoBehaviour
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
 
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
-
+        questSetupScript = GameObject.FindGameObjectWithTag("quest_setup").GetComponent<QuestSetupScript>();
 
         //Turn of selection of algorithm 
         /*
@@ -154,19 +127,8 @@ public class QuestBoard : MonoBehaviour
 
 
         //telemetry
-       //StartCoroutine(GetAssetBundle());
+        //StartCoroutine(GetAssetBundle());
         //StartCoroutine(PostData("test"));
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(checkIfQuestBoardShouldUpdate())
-        {
-            worldController.isNewDayQuests = false;
-            PopulateQuestBoard();
-        }
 
         //Get quests to submit
         for (int i = 0; i < playerController.activeQuests.Length; i++)
@@ -191,20 +153,13 @@ public class QuestBoard : MonoBehaviour
 
         }
 
-        if (SceneManager.GetActiveScene().name == "QuestBoard")
-        {
-            foreach (Transform child in transform)
-            {
-                child.transform.gameObject.SetActive(true);
-            }
-        }
-        else
-        {
-            foreach (Transform child in transform)
-            {
-                child.transform.gameObject.SetActive(false);
-            }
-        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    { 
+        
+
     }
     public void ExitScene()
     {
@@ -217,29 +172,15 @@ public class QuestBoard : MonoBehaviour
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
-    private IEnumerator LoadQuestDatabase()
-    {
-        //expects that the file is in Resources/Data/Quests
-
-        questFiles = Resources.LoadAll<TextAsset>("Data/Quests");
-        questDataBase = new Quest[questFiles.Length];
-        foreach(TextAsset questFile in questFiles)
-        {
-            //All quest data except for the event listener - the event listener is instantiated when the quest is accepted;
-            currentQuest = JsonUtility.FromJson<Quest>(questFile.ToString());
-            questDataBase[questDatabaseIndex] = currentQuest;
-            questDatabaseIndex++;
-        }
-        yield return null;
-    }
+    
 
     public void PopulateQuestBoard()
     {
         //Get Quests to show
         questAlgorithmIndex = playerController.questAlgorithm;
         SetCorrectQuestToggle(questAlgorithmIndex);
-        currentQuestAlgorithm = questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
-        displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questDataBase);
+        currentQuestAlgorithm = questSetupScript.questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
+        displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questSetupScript.questDataBase);
 
         for(int i = 0; i < displayQuests.Length; i++)
         {
@@ -525,10 +466,5 @@ public class QuestBoard : MonoBehaviour
         {
             Debug.Log("Form upload complete!");
         }
-    }
-
-    private bool checkIfQuestBoardShouldUpdate()
-    {
-        return worldController.isNewDayQuests;
     }
 }

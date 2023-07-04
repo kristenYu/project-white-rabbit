@@ -442,6 +442,61 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503474552}
   m_CullTransparentMesh: 1
+--- !u!1 &557859470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1999675208603506719, guid: 80cb89cc756d38141831cfce8c632913,
+    type: 3}
+  m_PrefabInstance: {fileID: 1999675207823690996}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1999675207823690997}
+  - component: {fileID: 557859471}
+  m_Layer: 0
+  m_Name: QuestBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &557859471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 1999675208603506712, guid: 80cb89cc756d38141831cfce8c632913,
+    type: 3}
+  m_PrefabInstance: {fileID: 1999675207823690996}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557859470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09b540a8207e4414ba363f4918783e19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  exitButton: {fileID: 592024595}
+  playerObject: {fileID: 8205332308754028206, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+    type: 3}
+  randomToggle: {fileID: 877135592}
+  cmabToggle: {fileID: 1274938658}
+  passageToggle: {fileID: 378247670}
+  displayQuests: []
+  questsToSubmit: []
+  questSetupScript: {fileID: 0}
+  QuestUIObjects:
+  - {fileID: 1388832661}
+  - {fileID: 2145081983}
+  - {fileID: 1395621087}
+  QuestAcceptPanelObjects:
+  - {fileID: 2059245742007342184}
+  - {fileID: 793338478}
+  - {fileID: 1088624672}
+  submitQuestUIObjects:
+  - {fileID: 2916437641882377135}
+  - {fileID: 1918805622}
+  - {fileID: 1438449654}
+  currentAcceptedQuestNumText: {fileID: 909804244}
+  questHudGameobjectArray: []
+  currentQuestHudIndex: 0
 --- !u!1 &567353382
 GameObject:
   m_ObjectHideFlags: 0
@@ -481,11 +536,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 567353382}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -267.71857, y: -189.85005, z: -73824.99}
+  m_LocalPosition: {x: 3.2669194, y: 2.5571897, z: -42.4386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1999675207823690997}
-  m_RootOrder: 2
+  m_Father: {fileID: 1148582567}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &592024593
 GameObject:
@@ -721,11 +776,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737342734}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -267.71857, y: -189.85005, z: -73824.99}
+  m_LocalPosition: {x: 3.2669194, y: 2.5571897, z: -42.4386}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1999675207823690997}
-  m_RootOrder: 3
+  m_Father: {fileID: 1148582567}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &793338476
 PrefabInstance:
@@ -910,11 +965,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 797319095}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 233.94379, y: -3.970932, z: -6066.414}
+  m_LocalPosition: {x: 504.92926, y: 188.43631, z: 67716.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1999675207823690997}
-  m_RootOrder: 1
+  m_Father: {fileID: 1148582567}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &817502708
 GameObject:
@@ -1628,6 +1683,67 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1088624670}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1148582565
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1148582567}
+  - component: {fileID: 1148582566}
+  m_Layer: 0
+  m_Name: QuestSetupObject
+  m_TagString: quest_setup
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1148582566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148582565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 110ef1f71d8b9734e8f5ca182f0a6d52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questDataBase: []
+  currentQuest:
+    questName: test
+    questType: 4
+    eventListener: {fileID: 0}
+    reward: 100
+    eventListenerData: []
+    printString: 
+  questFiles: []
+  questDatabaseIndex: 0
+  questAlgorithms:
+  - {fileID: 797319095}
+  - {fileID: 567353382}
+  - {fileID: 737342734}
+  questAlgorithmIndex: 0
+--- !u!4 &1148582567
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148582565}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.9948857, y: -2.4875486, z: 5.641723}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 797319097}
+  - {fileID: 567353384}
+  - {fileID: 737342736}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1274938656
 GameObject:
   m_ObjectHideFlags: 0
@@ -3216,12 +3332,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 80cb89cc756d38141831cfce8c632913, type: 3}
---- !u!4 &1999675207823690997 stripped
+--- !u!4 &1999675207823690997
 Transform:
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 1999675208603506713, guid: 80cb89cc756d38141831cfce8c632913,
     type: 3}
   m_PrefabInstance: {fileID: 1999675207823690996}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 557859470}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 267.9906, y: 189.9197, z: 73788.195}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2098798449}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2059245742007342182
 PrefabInstance:
   m_ObjectHideFlags: 0

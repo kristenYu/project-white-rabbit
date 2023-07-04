@@ -31,6 +31,7 @@ TagManager:
   - quest_hud
   - night_filter
   - twilight_filter
+  - quest_setup
   layers:
   - Default
   - TransparentFX
