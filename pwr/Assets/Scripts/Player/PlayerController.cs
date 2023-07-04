@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.Networking;
+//using System;
+
 public class PlayerController : MonoBehaviour
 {
     public Button testButton;
@@ -67,6 +70,8 @@ public class PlayerController : MonoBehaviour
     public GameObject[] questHudObjectArray;
     public int questHudCurrentIndex;
     private int activeQuestNum;
+  //  private QuestAlgorithmBase currentQuestAlgorithm;
+  //  public GameObject[] questAlgorithms; //Should be set to the number of algorithms 
 
     //Currency
     public int currency;
@@ -105,6 +110,10 @@ public class PlayerController : MonoBehaviour
     private int layerMask;
     public GameObject HUD;
 
+    //Telemetry 
+    string UUID; 
+    System.DateTime dt = System.DateTime.Now;
+
     //Debug
     private GameObject testObject; 
 
@@ -130,6 +139,11 @@ public class PlayerController : MonoBehaviour
         // Otherwise store my reference and make me DontDestroyOnLoad
         instance = this;
         DontDestroyOnLoad(gameObject);
+
+        //Get Unique ID
+        StartCoroutine(GetUniqueID());
+
+
     }
 
     void Start()
@@ -161,6 +175,9 @@ public class PlayerController : MonoBehaviour
         {
             questHudObjectArray[i].SetActive(false);
         }
+       
+        //StartCoroutine(GetAssetBundle());
+        //StartCoroutine(PostData(questAlgorithm.ToString()));
 
         anim = GetComponent<Animator>();
 
@@ -174,6 +191,13 @@ public class PlayerController : MonoBehaviour
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
         isShouldMove = true;
+
+
+
+        //set aid algorithm randomly
+        questAlgorithm = UnityEngine.Random.Range(0, 3);
+        //telemetry to save which aid 
+        
     }
 
     void Update()
@@ -925,6 +949,81 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+    IEnumerator GetUniqueID()
+    {
+        Debug.Log("Starting Get request");
+
+        //hack to force validate certificate 
+        var cert = new CertificateValidator();
+
+        UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/cgi-bin/createUUID.cgi");
+        //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca");
+        www.certificateHandler = cert;
+        yield return www.SendWebRequest();
+
+        Debug.Log("Get Request recieved");
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            UUID = www.downloadHandler.text; 
+            Debug.Log(www.downloadHandler.text);
+
+            switch (questAlgorithm)
+            {
+                case 0:
+                    //StartCoroutine(GetAssetBundle());
+                    StartCoroutine(PostData("Random"));
+                    break;
+                case 1:
+                    //StartCoroutine(GetAssetBundle());
+                    StartCoroutine(PostData("RLAID"));
+                    break;
+                case 2:
+                    //StartCoroutine(GetAssetBundle());
+                    StartCoroutine(PostData("Passage"));
+                    break;
+                default:
+                    Debug.Log("ERROR: quest algorithm set to incorrect value. Expected value is 0, 1 or 2. Value is " + questAlgorithm.ToString());
+                    break;
+            }
+        }
+    }
+
+    IEnumerator PostData(string msg)
+    {
+        Debug.Log("Starting Post Request");
+        var cert = new CertificateValidator();
+
+        // List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
+        //formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
+        WWWForm form = new WWWForm();
+        form.AddField("QuestAlgorithm", msg + "; " + dt.ToString() + "\n");
+        form.AddField("FileName", UUID.ToString()); 
+        //formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
+
+
+        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/cgi-bin/savedata.cgi", form);
+        //NEEDED TO AVOID CERTIFICATE VALIDATION ERROR
+        www.certificateHandler = cert;
+        yield return www.SendWebRequest();
+
+        Debug.Log("Post Request Recieved");
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+
+            Debug.Log(www.downloadHandler.text);
+            //Debug.Log("Form upload complete!");
+        }
+    }
 }
 
 

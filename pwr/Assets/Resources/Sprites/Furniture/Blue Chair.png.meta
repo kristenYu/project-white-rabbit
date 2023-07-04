@@ -4,16 +4,16 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: 5398010615508591459
-    second: Blue_Chair_1
+    second: Blue Chair_0
   - first:
       213: -4131491199828363610
-    second: Blue_Chair_0
+    second: Blue Chair_1
   - first:
       213: -2654432513685751732
-    second: Blue_Chair_3
+    second: Blue Chair_2
   - first:
       213: 1936273586291569480
-    second: Blue_Chair_2
+    second: Blue Chair_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 75
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,15 +127,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Blue_Chair_1
+      name: Blue Chair_0
       rect:
         serializedVersion: 2
-        x: 158
-        y: 204
-        width: 28
-        height: 56
+        x: 550
+        y: 500
+        width: 100
+        height: 130
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -148,15 +148,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_Chair_0
+      name: Blue Chair_1
       rect:
         serializedVersion: 2
-        x: 218
-        y: 204
-        width: 28
-        height: 58
+        x: 670
+        y: 500
+        width: 100
+        height: 130
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,15 +169,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_Chair_3
+      name: Blue Chair_2
       rect:
         serializedVersion: 2
-        x: 154
-        y: 140
-        width: 28
-        height: 56
+        x: 790
+        y: 500
+        width: 100
+        height: 100
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -190,15 +190,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Blue_Chair_2
+      name: Blue Chair_3
       rect:
         serializedVersion: 2
-        x: 218
-        y: 140
-        width: 28
-        height: 48
+        x: 910
+        y: 500
+        width: 100
+        height: 130
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

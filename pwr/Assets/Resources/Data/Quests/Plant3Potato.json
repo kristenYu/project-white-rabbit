@@ -1,0 +1,5 @@
+{"questName": "Plant 3 potatoes",
+"questType": 0, 
+"reward": 100, 
+"eventListenerData": [ "potato", "3"]
+}

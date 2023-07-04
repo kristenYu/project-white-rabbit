@@ -1,5 +1,0 @@
-{"questName": "Plant 2 tomatoes",
-"questType": 0, 
-"reward": 100, 
-"eventListenerData": [ "tomato", "2"]
-}

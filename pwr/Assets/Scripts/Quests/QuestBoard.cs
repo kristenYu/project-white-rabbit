@@ -68,11 +68,41 @@ public class QuestBoard : MonoBehaviour
     private TextMeshProUGUI questHudReward;
     public int currentQuestHudIndex;
 
+    //update quest on the day 
+    WorldController worldController; 
+            
+
+    //Singleton 
+    private static QuestBoard instance;
+    // Read-only public access
+    public static QuestBoard Instance => instance;
+
     private void Awake()
-    {
+        {
+
+        // Does another instance already exist?
+        if (instance && instance != this)
+        {
+            // Destroy myself
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise store my reference and make me DontDestroyOnLoad
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         questDatabaseIndex = 0;
         StartCoroutine(LoadQuestDatabase());
-    }
+
+        //run set up for all algorithms 
+        for (int i = 0; i < questAlgorithms.Length; i++)
+        {
+            currentQuestAlgorithm = questAlgorithms[i].GetComponent<QuestAlgorithmBase>();
+            currentQuestAlgorithm.SetUpAlgorithm();
+        }
+
+        }
 
     // Start is called before the first frame update
     void Start()
@@ -95,6 +125,11 @@ public class QuestBoard : MonoBehaviour
         currentQuestHudIndex = 0;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
 
+        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+
+
+        //Turn of selection of algorithm 
+        /*
         //default algorithm is random 
         randomToggle.isOn = true;
         randomToggle.onValueChanged.AddListener(delegate { OnRandomToggleChanged(randomToggle); });
@@ -103,14 +138,9 @@ public class QuestBoard : MonoBehaviour
         passageToggle.isOn = false;
         passageToggle.onValueChanged.AddListener(delegate { onPassageToggleChanged(passageToggle); });
         questAlgorithmIndex = playerController.questAlgorithm;
-        
+        */
 
-        //run set up for all algorithms 
-        for(int i = 0; i < questAlgorithms.Length; i++)
-        {
-            currentQuestAlgorithm = questAlgorithms[i].GetComponent<QuestAlgorithmBase>();
-            currentQuestAlgorithm.SetUpAlgorithm();
-        }
+     
 
         exitButton.onClick.AddListener(ExitScene);
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
@@ -122,6 +152,7 @@ public class QuestBoard : MonoBehaviour
             QuestAcceptPanelObjects[i].SetActive(false);
         }
 
+
         //telemetry
        //StartCoroutine(GetAssetBundle());
         //StartCoroutine(PostData("test"));
@@ -131,9 +162,50 @@ public class QuestBoard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
+        if(checkIfQuestBoardShouldUpdate())
+        {
+            worldController.isNewDayQuests = false;
+            PopulateQuestBoard();
+        }
 
+        //Get quests to submit
+        for (int i = 0; i < playerController.activeQuests.Length; i++)
+        {
+            //this is going to look weird - needs a clean up pass
+            if (playerController.activeQuests[i].questType == QuestType.invalid)
+            {
+                submitQuestUIObjects[i].SetActive(false);
+            }
+            else
+            {
+                if (playerController.activeQuests[i].eventListener.IsEventCompleted)
+                {
+                    submitQuestUIObjects[i].SetActive(true);
+                    SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
+                }
+                else
+                {
+                    submitQuestUIObjects[i].SetActive(false);
+                }
+            }
+
+        }
+
+        if (SceneManager.GetActiveScene().name == "QuestBoard")
+        {
+            foreach (Transform child in transform)
+            {
+                child.transform.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            foreach (Transform child in transform)
+            {
+                child.transform.gameObject.SetActive(false);
+            }
+        }
+    }
     public void ExitScene()
     {
         playerController.enabled = true;
@@ -172,29 +244,6 @@ public class QuestBoard : MonoBehaviour
         for(int i = 0; i < displayQuests.Length; i++)
         {
             SetQuestUI(QuestUIObjects[i], displayQuests[i], i);
-        }
-
-        //Get quests to submit
-        for(int i = 0; i < playerController.activeQuests.Length; i++)
-        {
-            //this is going to look weird - needs a clean up pass
-            if (playerController.activeQuests[i].questType == QuestType.invalid)
-            {
-                submitQuestUIObjects[i].SetActive(false);
-            }
-            else
-            {
-                if (playerController.activeQuests[i].eventListener.IsEventCompleted)
-                {
-                    submitQuestUIObjects[i].SetActive(true);
-                    SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
-                }
-                else
-                {
-                    submitQuestUIObjects[i].SetActive(false);
-                }
-            }
-           
         }
     }
 
@@ -353,7 +402,6 @@ public class QuestBoard : MonoBehaviour
         }
         questHudGameobjectArray[questHudIndexToRemove].SetActive(false);
         playerController.questHudCurrentIndex = questHudIndexToRemove;
-
     }
 
     private void OnRandomToggleChanged(Toggle toggle)
@@ -477,5 +525,10 @@ public class QuestBoard : MonoBehaviour
         {
             Debug.Log("Form upload complete!");
         }
+    }
+
+    private bool checkIfQuestBoardShouldUpdate()
+    {
+        return worldController.isNewDayQuests;
     }
 }

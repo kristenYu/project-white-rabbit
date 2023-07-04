@@ -13,15 +13,15 @@ public class PrefabGenerator : MonoBehaviour
         Debug.Log("Generating Crops " + Selection.count + " Prefabs...");
         Texture2D[] textureArray = Selection.GetFiltered<Texture2D>(SelectionMode.Assets);
 
-        foreach ( Texture2D texture in textureArray)
+        foreach (Texture2D texture in textureArray)
         {
             string localPath = "Assets/Resources/Prefabs/Furniture/" + texture.name + ".prefab";
 
 
             //load in sprites
-            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Furniture/" + texture.name);  
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Sprites/Furniture/" + texture.name);
 
-            
+
             /*if(sprites.Length != 4)
             {
                 Debug.LogError("Expected 4 sprites in texture " + texture.name);
@@ -31,16 +31,38 @@ public class PrefabGenerator : MonoBehaviour
             GameObject prefabGameObject = new GameObject();
             prefabGameObject.AddComponent<Furniture>();
             prefabGameObject.AddComponent<SpriteRenderer>();
-            prefabGameObject.AddComponent<BoxCollider2D>(); 
+            prefabGameObject.AddComponent<BoxCollider2D>();
             prefabGameObject.tag = "furniture";
-            SpriteRenderer spriteRenderer = prefabGameObject.GetComponent<SpriteRenderer>(); 
+            SpriteRenderer spriteRenderer = prefabGameObject.GetComponent<SpriteRenderer>();
             Furniture furnitureScript = prefabGameObject.GetComponent<Furniture>();
             BoxCollider2D boxCollider = prefabGameObject.GetComponent<BoxCollider2D>();
             //assumes the ordering that can be found in the chair sprites - make sure to reorder these as necessary
-            furnitureScript.spriteArray = sprites; 
+            furnitureScript.spriteArray = sprites;
             furnitureScript.stringName = texture.name;
+            string[] nameStrings = texture.name.Split(' ');
+            if (nameStrings[1] == "Chair")
+            {
+                furnitureScript.cost = 150; //hardcoded value 
+                furnitureScript.sellingPrice = 100; //hardcoded value
+            }
+            else if (nameStrings[1] == "Bed")
+            {
+                furnitureScript.cost = 200; //hardcoded value 
+                furnitureScript.sellingPrice = 150; //hardcoded value
+            }
+            else if (nameStrings[1] == "Lamp")
+            {
+                furnitureScript.cost = 50; //hardcoded value 
+                furnitureScript.sellingPrice = 30; //hardcoded value
+            }
+            else if (nameStrings[1] == "Plant" || nameStrings[1] == "Flower")
+            {
+                furnitureScript.cost = 70; //hardcoded value 
+                furnitureScript.sellingPrice = 50; //hardcoded value
+            }
+
             furnitureScript.itemSprite = furnitureScript.spriteArray[0];
-            furnitureScript.cost = 200; //hardcoded value 
+
 
             spriteRenderer.sprite = furnitureScript.spriteArray[0];
             spriteRenderer.sortingLayerName = "Foreground";

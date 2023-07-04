@@ -45,6 +45,8 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         questNum = 3;
         time = 0;
         questCategories = (int)QuestBoard.QuestType.invalid;
+       // questCategories = 3;
+        Debug.Log(questCategories);
         questCategoryArray = new int[questCategories];
         rewardArray = new int[questCategories];
         for(int i =0; i < questCategories; i++)
@@ -65,7 +67,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     {
         questsToGive = new Quest[questNum];
         job = generateCBAJob(time);
-        
+        Debug.Log(job);
         for(int i = 0; i < job.Length; i++)
         {
             questTypeCatch = (int)job[i] - 48;
@@ -94,8 +96,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     }
 
 
-    private void CombinationRepetitionUtil(int[] chosen, int[] arr,
-        int index, int r, int start, int end)
+    private void CombinationRepetitionUtil(int[] chosen, int[] arr, int index, int r, int start, int end)
     {
         // Since index has become r, current combination is
         // ready to be printed, print
@@ -118,8 +119,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         for (int i = start; i <= end; i++)
         {
             chosen[index] = i;
-            CombinationRepetitionUtil(chosen, arr, index + 1,
-                    r, i, end);
+            CombinationRepetitionUtil(chosen, arr, index + 1, r, i, end);
         }
         return;
     }
@@ -143,10 +143,11 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     //update the bandit based on the current rewardArray; 
     private void rewardBandit(int[] reward)
     {
+        Debug.Log(banditCountDictionary.Count);
         foreach(KeyValuePair<string, int> kvp in banditCountDictionary)
         {
             currentReward = 0;
-            for (int i = 0; i < questCategories; i++)
+            for (int i = 0; i < questNum; i++)
             {
                 currentNumberOfAcceptedQuests = (int)kvp.Key[i];
                 if (reward[i] != 0 && reward[i] <= currentNumberOfAcceptedQuests)

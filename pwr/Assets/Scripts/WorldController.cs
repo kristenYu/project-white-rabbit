@@ -41,6 +41,9 @@ public class WorldController : MonoBehaviour
     public ShopScript shopScript;
     public bool isNewDay;
 
+    //quest management 
+    public bool isNewDayQuests;
+
     //harvestable
     public List<GameObject> harvestableList;
     public const int maxMushroomSpawn = 5; 
@@ -86,6 +89,8 @@ public class WorldController : MonoBehaviour
 
         //bool for reseting the shop
         isNewDay = false;
+        //bool for resetting quests
+        isNewDayQuests = false;
         //spawn mushrooms on start
         shouldSpawnMushrooms = true;
 
@@ -255,6 +260,8 @@ public class WorldController : MonoBehaviour
                 TODImage.texture = TODIcons[0];
                 //set to false in the shop script
                 isNewDay = true;
+                //set to true in quest script
+                isNewDayQuests = true;
                 //set to false in the harvestable spawner script
                 shouldSpawnMushrooms = true;
             }

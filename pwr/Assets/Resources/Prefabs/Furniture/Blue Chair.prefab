@@ -45,15 +45,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 200
+  cost: 150
+  sellingPrice: 100
   stringName: Blue Chair
-  itemSprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
+  itemSprite: {fileID: 5398010615508591459, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
   spriteArray:
-  - {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
   - {fileID: 5398010615508591459, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
-  - {fileID: 1936273586291569480, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
+  - {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
   - {fileID: -2654432513685751732, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
+  - {fileID: 1936273586291569480, guid: 99d16a91e9b870240b89c9dd870674c5, type: 3}
   currentIndex: 0
   maxIndex: 3
 --- !u!212 &8485685379347054709
@@ -96,13 +97,13 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: -4131491199828363610, guid: 99d16a91e9b870240b89c9dd870674c5,
+  m_Sprite: {fileID: 5398010615508591459, guid: 99d16a91e9b870240b89c9dd870674c5,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.875, y: 1.8125}
+  m_Size: {x: 1.3333334, y: 1.7333333}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -125,8 +126,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.875, y: 1.8125}
-    newSize: {x: 0.875, y: 1.8125}
+    oldSize: {x: 1.3333334, y: 1.7333333}
+    newSize: {x: 1.3333334, y: 1.7333333}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

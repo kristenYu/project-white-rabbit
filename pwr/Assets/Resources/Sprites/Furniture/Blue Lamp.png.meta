@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 68fe0ce21afeea94a82e547410507ddc
+guid: ca19386bc068e6c409ba08fdbb032b64
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -584684574616890901
-    second: Green Chair_0
+      213: -2846997540228330157
+    second: Blue Lamp_0
   - first:
-      213: -4058698264052094307
-    second: Green Chair_1
+      213: 6572839994448016421
+    second: Blue Lamp_1
   - first:
-      213: -1020388429630062547
-    second: Green Chair_2
+      213: -8054606910708028830
+    second: Blue Lamp_2
   - first:
-      213: 6330625509372438382
-    second: Green Chair_3
+      213: -944661140379725127
+    second: Blue Lamp_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 75
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,13 +127,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Green Chair_0
+      name: Blue Lamp_0
       rect:
         serializedVersion: 2
-        x: 550
-        y: 500
-        width: 100
-        height: 130
+        x: 230
+        y: 325
+        width: 50
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,20 +141,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be15f482a78c2e7f0800000000000000
-      internalID: -584684574616890901
+      spriteID: 35d874a32de6d78d0800000000000000
+      internalID: -2846997540228330157
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_1
+      name: Blue Lamp_1
       rect:
         serializedVersion: 2
-        x: 670
-        y: 500
-        width: 100
-        height: 130
+        x: 285
+        y: 325
+        width: 50
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9a2ea8ce6b9ca7c0800000000000000
-      internalID: -4058698264052094307
+      spriteID: 524fd8a862b673b50800000000000000
+      internalID: 6572839994448016421
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_2
+      name: Blue Lamp_2
       rect:
         serializedVersion: 2
-        x: 780
-        y: 500
-        width: 100
-        height: 100
+        x: 230
+        y: 265
+        width: 50
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d204bf6212ad6d1f0800000000000000
-      internalID: -1020388429630062547
+      spriteID: 26a67d990b9483090800000000000000
+      internalID: -8054606910708028830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_3
+      name: Blue Lamp_3
       rect:
         serializedVersion: 2
-        x: 890
-        y: 500
-        width: 100
-        height: 130
+        x: 285
+        y: 265
+        width: 50
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,8 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e67ab241c56ead750800000000000000
-      internalID: 6330625509372438382
+      spriteID: 9b21d86a2b3e3e2f0800000000000000
+      internalID: -944661140379725127
       vertices: []
       indices: 
       edges: []

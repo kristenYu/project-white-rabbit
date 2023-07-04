@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8305149799291988814
+--- !u!1 &6223114012821503199
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5399599747616053950}
-  - component: {fileID: 5242323576322966793}
-  - component: {fileID: 3991380051923395386}
-  - component: {fileID: 4989468491400017931}
+  - component: {fileID: 6067719176510881925}
+  - component: {fileID: 5847115552757380002}
+  - component: {fileID: 6410442911592042926}
+  - component: {fileID: 5621827352459676337}
   m_Layer: 0
-  m_Name: Green Chair
+  m_Name: Green Bed
   m_TagString: furniture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5399599747616053950
+--- !u!4 &6067719176510881925
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305149799291988814}
+  m_GameObject: {fileID: 6223114012821503199}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,37 +33,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5242323576322966793
+--- !u!114 &5847115552757380002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305149799291988814}
+  m_GameObject: {fileID: 6223114012821503199}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 150
-  sellingPrice: 100
-  stringName: Green Chair
-  itemSprite: {fileID: -584684574616890901, guid: 68fe0ce21afeea94a82e547410507ddc,
+  cost: 200
+  sellingPrice: 150
+  stringName: Green Bed
+  itemSprite: {fileID: 3017787469677162395, guid: 087c96dda9616d84fa6171161d54443d,
     type: 3}
   spriteArray:
-  - {fileID: -584684574616890901, guid: 68fe0ce21afeea94a82e547410507ddc, type: 3}
-  - {fileID: -4058698264052094307, guid: 68fe0ce21afeea94a82e547410507ddc, type: 3}
-  - {fileID: -1020388429630062547, guid: 68fe0ce21afeea94a82e547410507ddc, type: 3}
-  - {fileID: 6330625509372438382, guid: 68fe0ce21afeea94a82e547410507ddc, type: 3}
+  - {fileID: 3017787469677162395, guid: 087c96dda9616d84fa6171161d54443d, type: 3}
+  - {fileID: 7131422192207535207, guid: 087c96dda9616d84fa6171161d54443d, type: 3}
+  - {fileID: -1737829194854072574, guid: 087c96dda9616d84fa6171161d54443d, type: 3}
+  - {fileID: -5771711837622168076, guid: 087c96dda9616d84fa6171161d54443d, type: 3}
   currentIndex: 0
   maxIndex: 3
---- !u!212 &3991380051923395386
+--- !u!212 &6410442911592042926
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305149799291988814}
+  m_GameObject: {fileID: 6223114012821503199}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,25 +97,25 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: -584684574616890901, guid: 68fe0ce21afeea94a82e547410507ddc,
+  m_Sprite: {fileID: 3017787469677162395, guid: 087c96dda9616d84fa6171161d54443d,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.3333334, y: 1.7333333}
+  m_Size: {x: 1.8666667, y: 2.9333334}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &4989468491400017931
+--- !u!61 &5621827352459676337
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8305149799291988814}
+  m_GameObject: {fileID: 6223114012821503199}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -126,8 +126,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3333334, y: 1.7333333}
-    newSize: {x: 1.3333334, y: 1.7333333}
+    oldSize: {x: 1.8666667, y: 2.9333334}
+    newSize: {x: 1.8666667, y: 2.9333334}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0

@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 68fe0ce21afeea94a82e547410507ddc
+guid: dd898ebe049835840aeb61c35b81336f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -584684574616890901
-    second: Green Chair_0
+      213: -3104840966130708947
+    second: Yellow Flower_0
   - first:
-      213: -4058698264052094307
-    second: Green Chair_1
+      213: -5842257876200519024
+    second: Yellow Flower_1
   - first:
-      213: -1020388429630062547
-    second: Green Chair_2
+      213: -9092904498532007607
+    second: Yellow Flower_2
   - first:
-      213: 6330625509372438382
-    second: Green Chair_3
+      213: 3170024671695195995
+    second: Yellow Flower_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +58,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 75
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -127,13 +127,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Green Chair_0
+      name: Yellow Flower_0
       rect:
         serializedVersion: 2
-        x: 550
-        y: 500
-        width: 100
-        height: 130
+        x: 315
+        y: 260
+        width: 55
+        height: 75
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,20 +141,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be15f482a78c2e7f0800000000000000
-      internalID: -584684574616890901
+      spriteID: d2ec2b9679369e4d0800000000000000
+      internalID: -3104840966130708947
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_1
+      name: Yellow Flower_1
       rect:
         serializedVersion: 2
-        x: 670
-        y: 500
-        width: 100
-        height: 130
+        x: 380
+        y: 260
+        width: 55
+        height: 75
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9a2ea8ce6b9ca7c0800000000000000
-      internalID: -4058698264052094307
+      spriteID: 09a07da4a612ceea0800000000000000
+      internalID: -5842257876200519024
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_2
+      name: Yellow Flower_2
       rect:
         serializedVersion: 2
-        x: 780
-        y: 500
-        width: 100
-        height: 100
+        x: 315
+        y: 180
+        width: 55
+        height: 75
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d204bf6212ad6d1f0800000000000000
-      internalID: -1020388429630062547
+      spriteID: 941c27ce8838fc180800000000000000
+      internalID: -9092904498532007607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_3
+      name: Yellow Flower_3
       rect:
         serializedVersion: 2
-        x: 890
-        y: 500
-        width: 100
-        height: 130
+        x: 380
+        y: 180
+        width: 55
+        height: 75
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,8 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e67ab241c56ead750800000000000000
-      internalID: 6330625509372438382
+      spriteID: b5fcd95b4a03efb20800000000000000
+      internalID: 3170024671695195995
       vertices: []
       indices: 
       edges: []

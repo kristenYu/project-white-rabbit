@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 68fe0ce21afeea94a82e547410507ddc
+guid: d5630650f1d38b14982ab430f5995043
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -584684574616890901
-    second: Green Chair_0
+      213: 2916431626333407586
+    second: Red Bed_0
   - first:
-      213: -4058698264052094307
-    second: Green Chair_1
+      213: 7466469138330002426
+    second: Red Bed_1
   - first:
-      213: -1020388429630062547
-    second: Green Chair_2
+      213: -2771291870994903893
+    second: Red Bed_2
   - first:
-      213: 6330625509372438382
-    second: Green Chair_3
+      213: -1866668452293309707
+    second: Red Bed_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -127,13 +127,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Green Chair_0
+      name: Red Bed_0
       rect:
         serializedVersion: 2
-        x: 550
-        y: 500
-        width: 100
-        height: 130
+        x: 600
+        y: 430
+        width: 140
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,20 +141,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be15f482a78c2e7f0800000000000000
-      internalID: -584684574616890901
+      spriteID: 269415bbc1f397820800000000000000
+      internalID: 2916431626333407586
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_1
+      name: Red Bed_1
       rect:
         serializedVersion: 2
-        x: 670
-        y: 500
-        width: 100
-        height: 130
+        x: 760
+        y: 460
+        width: 220
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +162,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9a2ea8ce6b9ca7c0800000000000000
-      internalID: -4058698264052094307
+      spriteID: af3a39c4f1a3e9760800000000000000
+      internalID: 7466469138330002426
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_2
+      name: Red Bed_2
       rect:
         serializedVersion: 2
-        x: 780
-        y: 500
-        width: 100
-        height: 100
+        x: 1000
+        y: 420
+        width: 140
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d204bf6212ad6d1f0800000000000000
-      internalID: -1020388429630062547
+      spriteID: baccb6ce9b46a89d0800000000000000
+      internalID: -2771291870994903893
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_3
+      name: Red Bed_3
       rect:
         serializedVersion: 2
-        x: 890
-        y: 500
-        width: 100
-        height: 130
+        x: 1160
+        y: 460
+        width: 220
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -204,8 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e67ab241c56ead750800000000000000
-      internalID: 6330625509372438382
+      spriteID: 5fa01a3cee24816e0800000000000000
+      internalID: -1866668452293309707
       vertices: []
       indices: 
       edges: []

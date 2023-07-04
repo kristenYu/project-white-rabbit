@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 68fe0ce21afeea94a82e547410507ddc
+guid: 1fc6a2b195c946f46afeca363c5675b2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -584684574616890901
-    second: Green Chair_0
+      213: 1251833603321118101
+    second: Blue Bed_0
   - first:
-      213: -4058698264052094307
-    second: Green Chair_1
+      213: 7392966226598975949
+    second: Blue Bed_1
   - first:
-      213: -1020388429630062547
-    second: Green Chair_2
+      213: 4344749433337338590
+    second: Blue Bed_2
   - first:
-      213: 6330625509372438382
-    second: Green Chair_3
+      213: -6242268427963135995
+    second: Blue Bed_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -127,13 +127,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Green Chair_0
+      name: Blue Bed_0
       rect:
         serializedVersion: 2
-        x: 550
-        y: 500
-        width: 100
-        height: 130
+        x: 270
+        y: 400
+        width: 140
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,20 +141,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be15f482a78c2e7f0800000000000000
-      internalID: -584684574616890901
+      spriteID: 59d3adb97086f5110800000000000000
+      internalID: 1251833603321118101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_1
+      name: Blue Bed_1
+      rect:
+        serializedVersion: 2
+        x: 430
+        y: 430
+        width: 220
+        height: 140
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dc954ec0d97199660800000000000000
+      internalID: 7392966226598975949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue Bed_2
       rect:
         serializedVersion: 2
         x: 670
-        y: 500
-        width: 100
-        height: 130
+        y: 390
+        width: 140
+        height: 220
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9a2ea8ce6b9ca7c0800000000000000
-      internalID: -4058698264052094307
+      spriteID: edad6241796ab4c30800000000000000
+      internalID: 4344749433337338590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Green Chair_2
+      name: Blue Bed_3
       rect:
         serializedVersion: 2
-        x: 780
-        y: 500
-        width: 100
-        height: 100
+        x: 830
+        y: 430
+        width: 220
+        height: 140
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,29 +204,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d204bf6212ad6d1f0800000000000000
-      internalID: -1020388429630062547
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Green Chair_3
-      rect:
-        serializedVersion: 2
-        x: 890
-        y: 500
-        width: 100
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e67ab241c56ead750800000000000000
-      internalID: 6330625509372438382
+      spriteID: 5080f9e00f10f59a0800000000000000
+      internalID: -6242268427963135995
       vertices: []
       indices: 
       edges: []

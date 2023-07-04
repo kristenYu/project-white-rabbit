@@ -125,7 +125,6 @@ public class ShopScript : MonoBehaviour
         coinText.text = playerController.currency.ToString();
         if (checkIfShopShouldUpdate())
         {
-            Debug.Log(checkIfShopShouldUpdate());
             PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
             shopSaveData.soldItemList.Clear();
             worldController.isNewDay = false;

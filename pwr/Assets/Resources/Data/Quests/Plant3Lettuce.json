@@ -1,0 +1,5 @@
+{"questName": "Plant 3 Lettuce",
+"questType": 0, 
+"reward": 100, 
+"eventListenerData": [ "lettuce", "3"]
+}
