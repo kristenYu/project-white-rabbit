@@ -30,9 +30,11 @@ public class PlayerController : MonoBehaviour
 
     //Recipe and Cooking UI
     public GameObject cookingUI;
+    public GameObject cookingUIScrollBar;
     public GameObject recipeUIPrefab;
     private List<GameObject> knownRecipeUIObjects;
-    private const float knownRecipeUIOffset = -1.5f;
+    private const float knownRecipeUIOffset = 60.0f;
+    private const float cookingUIContentMaximum = 260.0f; 
     private GameObject cookingUIContent;
     private Image recipeUIImage;
     private Button recipeUIButton; 
@@ -353,6 +355,7 @@ public class PlayerController : MonoBehaviour
             if(hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
+                //cookingUI.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                 interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
             }
             else if (hit.transform.tag == "planting")
@@ -544,19 +547,6 @@ public class PlayerController : MonoBehaviour
         inventoryHudImageArray[previousInventoryIndex].GetComponent<Image>().sprite = inventorySprite;
         inventoryHudImageArray[currentInventoryIndex].GetComponent<Image>().sprite = activeItemSprite;
     }
-
-    /*
-    public void setActiveItem(GameObject item)
-    {
-        /*
-        if(activeItem == null)
-        {
-            activeItem = item;
-        }
-        
-        activeItem = item; 
-    }
-    */
 
     public void SetNextOpenInventory()
     {
@@ -804,8 +794,8 @@ public class PlayerController : MonoBehaviour
     {
         knownRecipes.Add(recipe);
         currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
+        currentRecipeUIObject.transform.position = new Vector3(0.0f, (cookingUIContentMaximum - (knownRecipeUIOffset*index)), 90.0f);
         currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
-        currentRecipeUIObject.transform.position = new Vector3(cookingUIContent.transform.position.x, (cookingUIContent.transform.position.y - (1.0f + knownRecipeUIOffset*index)), 90.0f);
         SetRecipeUI(currentRecipeUIObject, recipe);
         knownRecipeUIObjects.Add(currentRecipeUIObject);
     }
