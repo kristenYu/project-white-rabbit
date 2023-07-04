@@ -15,6 +15,10 @@ public class QuestSetupScript : MonoBehaviour
     public int questAlgorithmIndex; //quest algorithm to use
     private QuestAlgorithmBase currentQuestAlgorithm;
 
+    //saving which quests have already been accepted 
+    //public int[] questAcceptedAlreadyArray;
+    
+
     //Singleton 
     private static QuestSetupScript instance;
     // Read-only public access
@@ -48,13 +52,13 @@ public class QuestSetupScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //questAcceptedAlreadyArray = new int[3];
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+       
     }
 
     private IEnumerator LoadQuestDatabase()
