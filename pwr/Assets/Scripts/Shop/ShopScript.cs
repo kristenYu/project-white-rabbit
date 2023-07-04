@@ -43,7 +43,14 @@ public class ShopScript : MonoBehaviour
     public List<GameObject> currentStoreItems = new List<GameObject>();
     private GameObject[] currentItemObjectArray;
     private int cost;
-    private const int maxSeedPurchased = 3; 
+    private const int maxSeedPurchased = 3;
+
+    //recipe selling objects;
+    public Image recipeIngredientImage1;
+    public Image recipeIngredientImage2;
+    public Image recipeIngredientImage3;
+    private Recipe currentRecipe;
+    private Image[] recipeIngredientImageArray; 
 
 
     //Sold Items List 
@@ -86,7 +93,7 @@ public class ShopScript : MonoBehaviour
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
         randomNumberList = new List<int>();
-
+        recipeIngredientImageArray = new Image[3]; //hardcoded for the maximum number of ingredients in a recipe
         //store state 
         storeState = StoreState.Furniture; //default 
         currentItemObjectArray = new GameObject[shopSaveData.getMaxStoreItems()]; //const value of 3
@@ -138,8 +145,6 @@ public class ShopScript : MonoBehaviour
         //THIS IS NOT A HACK. THIS IS HOW UNITY WORKS 
         //Delegates are compiled at compile time so the argument to the delegate cannot be created using an array
         //this results in a index out of bounds error if put in a for loop.
-
-        Debug.Log("Set Item Button Delegates");
         SetItemButtonUI(shopUIObjectArray[0], currentItemObjectArray[0]);
         itemBtn = shopUIObjectArray[0].GetComponent<Button>();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[0]); });
@@ -193,6 +198,51 @@ public class ShopScript : MonoBehaviour
         itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
         itemName.text = currentItem.GetComponent<Item>().stringName;
         itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
+
+        if(storeState == StoreState.Recipes)
+        {
+            recipeIngredientImage1 = obj.transform.GetChild(4).GetComponent<Image>();
+            recipeIngredientImage2 = obj.transform.GetChild(5).GetComponent<Image>();
+            recipeIngredientImage3 = obj.transform.GetChild(6).GetComponent<Image>();
+
+            recipeIngredientImage1.enabled = true;
+            recipeIngredientImage2.enabled = true;
+            recipeIngredientImage3.enabled = true;
+
+            recipeIngredientImageArray[0] = recipeIngredientImage1;
+            recipeIngredientImageArray[1] = recipeIngredientImage2;
+            recipeIngredientImageArray[2] = recipeIngredientImage3;
+
+            currentRecipe = currentItem.GetComponent<Recipe>();
+            for (int i = 0; i < currentRecipe.ingredients.Length; i++)
+            {
+                for (int j = 0; j < itemManager.foodArray.Length; j++)
+                {
+                    if (currentRecipe.ingredients[i].Equals(itemManager.foodArray[j].GetComponent<Item>().stringName))
+                    {
+                        recipeIngredientImageArray[i].overrideSprite = itemManager.foodArray[j].GetComponent<Item>().itemSprite;
+                        break;
+                    }
+                }
+            }
+
+            //HARDCODED VALUES
+            if(currentRecipe.ingredients.Length == 2)
+            {
+                recipeIngredientImage3.enabled = false;
+            }
+
+        }
+        else
+        {
+            recipeIngredientImage1 = obj.transform.GetChild(4).GetComponent<Image>();
+            recipeIngredientImage2 = obj.transform.GetChild(5).GetComponent<Image>();
+            recipeIngredientImage3 = obj.transform.GetChild(6).GetComponent<Image>();
+
+            recipeIngredientImage1.enabled = false;
+            recipeIngredientImage2.enabled = false;
+            recipeIngredientImage3.enabled = false;
+        }
     }  
 
     private void ItemPurchased(GameObject item)

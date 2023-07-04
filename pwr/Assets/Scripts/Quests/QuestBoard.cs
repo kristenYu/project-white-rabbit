@@ -152,7 +152,6 @@ public class QuestBoard : MonoBehaviour
             }
 
         }
-
     }
 
     // Update is called once per frame
