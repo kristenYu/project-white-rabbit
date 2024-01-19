@@ -747,8 +747,9 @@ MonoBehaviour:
   randomToggle: {fileID: 877135592}
   cmabToggle: {fileID: 1274938658}
   passageToggle: {fileID: 378247670}
+  currentQuestboardState: 0
   submitQuestsButton: {fileID: 817554051}
-  accepttQuestsButton: {fileID: 1244929427}
+  acceptQuestsButton: {fileID: 1244929427}
   questDescriptionText: {fileID: 1010868939}
   questAcceptedAlreadyArray: 
   displayQuests: []

@@ -42,7 +42,7 @@ public class QuestBoard : MonoBehaviour
     //questboard state
     public QuestBoardState currentQuestboardState;
     public Button submitQuestsButton;
-    public Button accepttQuestsButton;
+    public Button acceptQuestsButton;
     public TextMeshProUGUI questDescriptionText;
     public int[] questAcceptedAlreadyArray;
 
@@ -57,7 +57,9 @@ public class QuestBoard : MonoBehaviour
 
     //quest setup 
     public QuestSetupScript questSetupScript;
-
+    private Quest[] usableQuestArray;
+    private bool skipQuest;
+    private int usableQuestArrayIndex;
 
     //Quest UI 
     public GameObject[] questUIObjects;//Should always be matching the number of quests - 0 is left most, max is right most
@@ -111,6 +113,7 @@ public class QuestBoard : MonoBehaviour
         playerController.isShouldMove = false;
         currentQuestHudIndex = 0;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
+        
 
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
         questSetupScript = GameObject.FindGameObjectWithTag("quest_setup").GetComponent<QuestSetupScript>();
@@ -131,7 +134,7 @@ public class QuestBoard : MonoBehaviour
         //setup button delegates
         exitButton.onClick.AddListener(ExitScene);
         submitQuestsButton.onClick.AddListener(SetupSubmitQuestsUI);
-        accepttQuestsButton.onClick.AddListener(SetupAcceptQuestsUI);
+        acceptQuestsButton.onClick.AddListener(SetupAcceptQuestsUI);
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
         //PopulateQuestBoard();
 
@@ -145,6 +148,8 @@ public class QuestBoard : MonoBehaviour
             questAcceptedAlreadyArray[i] = 0;
         }
 
+        //get the current quest algorithm 
+        currentQuestAlgorithm = questSetupScript.questAlgorithms[playerController.questAlgorithm].GetComponent<QuestAlgorithmBase>();
 
         //telemetry
         //StartCoroutine(GetAssetBundle());
@@ -163,6 +168,7 @@ public class QuestBoard : MonoBehaviour
     {
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
+        Debug.Log(currentQuestAlgorithm);
         currentQuestAlgorithm.OnQuestClosed();
         playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
         playerController.isShouldMove = true;
@@ -173,9 +179,27 @@ public class QuestBoard : MonoBehaviour
     public void PopulateQuestBoard()
     {
         //Get Quests to show
-        questAlgorithmIndex = playerController.questAlgorithm;
-        SetCorrectQuestToggle(questAlgorithmIndex);
-        currentQuestAlgorithm = questSetupScript.questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
+        //questAlgorithmIndex = playerController.questAlgorithm;
+        //SetCorrectQuestToggle(questAlgorithmIndex);
+        //currentQuestAlgorithm = questSetupScript.questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
+        usableQuestArray = new Quest[questSetupScript.questDataBase.Length - playerController.CountNumberOfActiveQuests()];
+        usableQuestArrayIndex = 0;
+        for(int i = 0; i < questSetupScript.questDataBase.Length; i++)
+        {
+            skipQuest = false;
+            for(int j = 0; j < playerController.activeQuests.Length; j++)
+            {
+                if(questSetupScript.questDataBase[i].questName == playerController.activeQuests[j].questName)
+                {
+                    skipQuest = true;
+                }
+            }
+            if(!skipQuest)
+            {
+                usableQuestArray[usableQuestArrayIndex] = questSetupScript.questDataBase[i];
+                usableQuestArrayIndex++;
+            }
+        }
         displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questSetupScript.questDataBase);
 
         for(int i = 0; i < displayQuests.Length; i++)
@@ -192,7 +216,8 @@ public class QuestBoard : MonoBehaviour
         rewardText = questUIObject.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
         rewardText.text = quest.reward.ToString();
 
-        questName.text = quest.questName; 
+        questName.text = quest.questName;
+        questAcceptButton.onClick.RemoveAllListeners();
         questAcceptButton.onClick.AddListener(delegate {AcceptQuest(quest, UIObjectPosition); });
     }
 
@@ -213,20 +238,29 @@ public class QuestBoard : MonoBehaviour
         //Get quests to submit
         for (int i = 0; i < playerController.activeQuests.Length; i++)
         {
+            Debug.Log(i);
+            Debug.Log(playerController.activeQuests[i].questName);
             //this is going to look weird - needs a clean up pass
             if (playerController.activeQuests[i].questType == QuestType.invalid)
             {
+                Debug.Log(playerController.activeQuests[i] + " is considered invalid");
                 submitQuestUIObjects[i].SetActive(false);
             }
             else
             {
+                Debug.Log(playerController.activeQuests[i].eventListener.IsEventCompleted);
+                //Debug.Log(i);
+                //Debug.Log(playerController.activeQuests[i].questName);
+                //Debug.Log(playerController.activeQuests[i].eventListener.IsEventCompleted);
                 if (playerController.activeQuests[i].eventListener.IsEventCompleted)
                 {
+                    Debug.Log(playerController.activeQuests[i].questName + " is considered completed");
                     submitQuestUIObjects[i].SetActive(true);
                     SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
                 }
                 else
                 {
+                    Debug.Log(playerController.activeQuests[i].questName + " is not considered completed");
                     submitQuestUIObjects[i].SetActive(false);
                 }
             }
@@ -257,8 +291,6 @@ public class QuestBoard : MonoBehaviour
                 questAccecptPanelObjects[i].SetActive(true);
             }
         }
-
-
         //turn off submit quest UI
         for (int i = 0; i < submitQuestUIObjects.Length; i++)
         {
@@ -373,7 +405,7 @@ public class QuestBoard : MonoBehaviour
                     break;
             }
             questAccecptPanelObjects[UIObjectPosition].SetActive(true);
-            questAcceptedAlreadyArray[UIObjectPosition] = 1;
+            //questAcceptedAlreadyArray[UIObjectPosition] = 1;
         }
 
        
@@ -382,6 +414,7 @@ public class QuestBoard : MonoBehaviour
     public void SubmitQuest(Quest quest, GameObject UIObject)
     {
         playerController.addCurrency(quest.reward);
+        Debug.Log(quest);
         playerController.RemoveQuestFromActiveQuestsArray(quest);
         currentQuestAlgorithm.OnQuestSubmitted();
 

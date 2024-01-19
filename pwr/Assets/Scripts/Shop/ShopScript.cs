@@ -147,14 +147,17 @@ public class ShopScript : MonoBehaviour
         //this results in a index out of bounds error if put in a for loop.
         SetItemButtonUI(shopUIObjectArray[0], currentItemObjectArray[0]);
         itemBtn = shopUIObjectArray[0].GetComponent<Button>();
+        itemBtn.onClick.RemoveAllListeners();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[0]); });
 
         SetItemButtonUI(shopUIObjectArray[1], currentItemObjectArray[1]);
         itemBtn = shopUIObjectArray[1].GetComponent<Button>();
+        itemBtn.onClick.RemoveAllListeners();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[1]); });
 
         SetItemButtonUI(shopUIObjectArray[2], currentItemObjectArray[2]);
         itemBtn = shopUIObjectArray[2].GetComponent<Button>();
+        itemBtn.onClick.RemoveAllListeners();
         itemBtn.onClick.AddListener(delegate { ItemPurchased(currentItemObjectArray[2]); });
     }
 

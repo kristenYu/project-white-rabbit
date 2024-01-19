@@ -947,7 +947,8 @@ public class PlayerController : MonoBehaviour
         //hack to force validate certificate 
         var cert = new CertificateValidator();
 
-        UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/cgi-bin/createUUID.cgi");
+        //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/cgi-bin/createUUID.cgi");
+        UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/get_unique_id.php");
         //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca");
         www.certificateHandler = cert;
         yield return www.SendWebRequest();
@@ -959,7 +960,10 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            UUID = www.downloadHandler.text; 
+            Debug.Log(www);
+            Debug.Log(www.downloadHandler.data.Length);
+            UUID = www.downloadHandler.text;
+            Debug.Log(UUID);
             Debug.Log(www.downloadHandler.text);
 
             switch (questAlgorithm)
@@ -991,12 +995,13 @@ public class PlayerController : MonoBehaviour
         // List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
         //formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
         WWWForm form = new WWWForm();
-        form.AddField("QuestAlgorithm", msg + "; " + dt.ToString() + "\n");
-        form.AddField("FileName", UUID.ToString()); 
+        form.AddField("data", "QuestAlgorithm:" + msg + "; " + dt.ToString() + "\n");
+        //form.AddField("uuid", UUID.ToString()); 
         //formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
 
 
-        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/cgi-bin/savedata.cgi", form);
+        //UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/cgi-bin/savedata.cgi", form);
+        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/save_unity_data.php", form);
         //NEEDED TO AVOID CERTIFICATE VALIDATION ERROR
         www.certificateHandler = cert;
         yield return www.SendWebRequest();

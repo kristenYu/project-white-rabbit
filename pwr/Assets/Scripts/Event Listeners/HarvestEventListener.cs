@@ -74,7 +74,7 @@ public class HarvestEventListener : AEventListener
                 currentHarvestedNum++;
             }
         }
-        if (currentHarvestedNum == targetHarvestedNum)
+        if (currentHarvestedNum >= targetHarvestedNum)
         {
             IsEventCompleted = true;
         }
