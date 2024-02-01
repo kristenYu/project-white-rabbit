@@ -250,7 +250,6 @@ public class ShopScript : MonoBehaviour
 
     private void ItemPurchased(GameObject item)
     {
-        Debug.Log("Item Purchased Fired");
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
@@ -361,9 +360,9 @@ public class ShopScript : MonoBehaviour
     {
         if(int.TryParse(amountToPayInput.text.ToString(), out amountToPay))
         {
-            if(amountToPay < playerController.currency && amountToPay > 0)
+            if(amountToPay <= playerController.currency && amountToPay > 0)
             {
-                if(amountToPay < moneyOwed)
+                if(amountToPay <= moneyOwed)
                 {
                     moneyOwed -= amountToPay;
                     playerController.currency -= amountToPay;
@@ -404,7 +403,15 @@ public class ShopScript : MonoBehaviour
         playerController.enabled = true;
         playerController.isShouldMove = true;
         shopSaveData.mortage = moneyOwed;
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        if(SceneManager.GetActiveScene().name == "TutorialShop")
+        {
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        }
+        else if (SceneManager.GetActiveScene().name == "Shop")
+        {
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        }
+        
     }
     private void LoadShopSaveData(StoreState state, GameObject[] itemArray, List<GameObject> soldItemList)
     {

@@ -53,7 +53,10 @@ public class WorldController : MonoBehaviour
     public GameObject nightFilter;
     public GameObject twilightFilter;
     public Vector3 foregroundPosition;
-    public Vector3 backgroundPosition; 
+    public Vector3 backgroundPosition;
+
+    //Tutorial
+    public List<GameObject> tutorialCropList; 
 
     //Singleton 
     private static WorldController instance;
@@ -99,14 +102,23 @@ public class WorldController : MonoBehaviour
         twilightDuration = 10.0f;
         nightDuration = 20.0f;
 
-        activeCropList = new List<GameObject>();
-        destroyCropList = new List<GameObject>();
-        harvestableList = new List<GameObject>();
+        //activeCropList = new List<GameObject>();
+        destroyCropList = new List<GameObject>();        
+        //harvestableList = new List<GameObject>();
+        
 
         nightFilter = GameObject.FindGameObjectWithTag("night_filter");
         twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
         foregroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, 10f);
         backgroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, -10f);
+
+        foreach(GameObject tutorialCrop in tutorialCropList)
+        {
+            Debug.Log(tutorialCrop.gameObject.name);
+            tutorialCrop.GetComponent<Crop>().currentStage = Crop.CropStage.FullyGrown;
+            tutorialCrop.GetComponent<Crop>().isReadyToGrow = false;
+            tutorialCrop.GetComponent<SpriteRenderer>().sprite = tutorialCrop.GetComponent<Crop>().SpriteGrowingArray[3];
+        }
     }
 
     // Update is called once per frame
@@ -127,7 +139,7 @@ public class WorldController : MonoBehaviour
     {
         foreach (GameObject furniture in placedFurnitureObjects)
         {
-            if (SceneManager.GetActiveScene().name == "Home")
+            if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial")
             {
                 furniture.GetComponent<SpriteRenderer>().enabled = true;
                 furniture.GetComponent<BoxCollider2D>().enabled = true;
@@ -144,7 +156,7 @@ public class WorldController : MonoBehaviour
     {
         foreach (GameObject crop in activeCropList)
         {
-            if (SceneManager.GetActiveScene().name == "Main")
+            if (SceneManager.GetActiveScene().name == "Main" || SceneManager.GetActiveScene().name == "Tutorial")
             {
                 crop.GetComponent<SpriteRenderer>().enabled = true;
                 crop.GetComponent<BoxCollider2D>().enabled = true;
@@ -161,7 +173,7 @@ public class WorldController : MonoBehaviour
     {
         foreach (GameObject harvestable in harvestableList)
         {
-            if (SceneManager.GetActiveScene().name == "Main")
+            if (SceneManager.GetActiveScene().name == "Main" || SceneManager.GetActiveScene().name == "Tutorial")
             {
                 harvestable.GetComponent<SpriteRenderer>().enabled = true;
                 harvestable.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true; 
@@ -180,7 +192,7 @@ public class WorldController : MonoBehaviour
     public void checkValidSceneForFilters()
     {
         
-        if (SceneManager.GetActiveScene().name == "Main")
+        if (SceneManager.GetActiveScene().name == "Main" || SceneManager.GetActiveScene().name == "Tutorial")
         {
             twilightFilter = GameObject.FindGameObjectWithTag("twilight_filter");
             nightFilter = GameObject.FindGameObjectWithTag("night_filter");

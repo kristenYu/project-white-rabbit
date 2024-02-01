@@ -170,10 +170,19 @@ public class QuestBoard : MonoBehaviour
         playerController.HUD.SetActive(true);
         Debug.Log(currentQuestAlgorithm);
         currentQuestAlgorithm.OnQuestClosed();
-        playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
+       
         playerController.isShouldMove = true;
         playerObject.GetComponent<SpriteRenderer>().enabled = true;
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        if(SceneManager.GetActiveScene().name == "QuestBoard")
+        {
+            playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        }
+        else if(SceneManager.GetActiveScene().name == "TutorialQuestBoard")
+        {
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+        }
+        
     }
 
     public void PopulateQuestBoard()

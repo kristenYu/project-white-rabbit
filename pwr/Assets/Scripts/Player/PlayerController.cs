@@ -128,6 +128,9 @@ public class PlayerController : MonoBehaviour
     public int[] actionFrequencyArray;
     public int questAlgorithm;
 
+    //session variable from php 
+    private string sessionQuestAlgorithm; 
+
     private void Awake()
     {
         // Does another instance already exist?
@@ -143,13 +146,12 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         //Get Unique ID
-        StartCoroutine(GetUniqueID());
-
+        //StartCoroutine(selectQuestAlgorithm());
 
     }
 
     void Start()
-    { 
+    {
         currency = 500;
         inventory = new GameObject[inventorySize];
         previousInventoryIndex = 0; 
@@ -193,13 +195,13 @@ public class PlayerController : MonoBehaviour
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
         isShouldMove = true;
-
-
-
-        //set aid algorithm randomly
-        questAlgorithm = UnityEngine.Random.Range(0, 3);
-        //telemetry to save which aid 
         
+
+        //tutorial stuff 
+        if(SceneManager.GetActiveScene().name == "Tutorial")
+        {
+           
+        }
     }
 
     void Update()
@@ -398,10 +400,13 @@ public class PlayerController : MonoBehaviour
                     {
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         this.transform.position = new Vector3(-13.5f, 3.5f, 0f);
-                    }    
-                    
+                    }
+
                     //Hide hud
-                    if(hit.transform.gameObject.name == "Shop" || hit.transform.gameObject.name == "QuestBoard")
+                    if (hit.transform.gameObject.name == "Shop" 
+                        || hit.transform.gameObject.name == "QuestBoard" 
+                        || hit.transform.gameObject.name == "TutorialShop" 
+                        || hit.transform.gameObject.name =="TutorialQuestBoard") 
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
@@ -412,14 +417,8 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
                 {
-                    foreach(GameObject seed in itemManager.seedArray)
-                    {
-                        if(seed.GetComponent<Seed>().stringName == "potato")
-                        {
-                            testObject = seed;
-                        }
-                    }
-                    //testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
+                    testObject = itemManager.seedArray[Random.Range(0, itemManager.seedArray.Length - 1)];
+                    testObject.GetComponent<SpriteRenderer>().enabled = true;
                     AddObjectToInventory(testObject);
                 }
                 //plants a seed if the active item is a seed
@@ -431,6 +430,10 @@ public class PlayerController : MonoBehaviour
                         { 
                             seedScript = activeItem.GetComponent<Seed>();
                             cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
+                            Debug.Log(cropObject.GetComponent<SpriteRenderer>());
+                            Debug.Log(cropObject.GetComponent<SpriteRenderer>().enabled);
+                            cropObject.GetComponent<SpriteRenderer>().enabled = true;
+                            Debug.Log(cropObject.GetComponent<SpriteRenderer>().enabled);
                             //add crop object to world controller 
                             cropScript = cropObject.GetComponent<Crop>();
                             cropScript.worldController = this.worldControllerObject.GetComponent<WorldController>();
@@ -438,7 +441,7 @@ public class PlayerController : MonoBehaviour
                             //remove activeitem from inventory 
                             RemoveObjectFromInventory(currentInventoryIndex);
                             activeItem = null;
-
+                            //for Passage
                             actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1; 
 
                         }
@@ -486,17 +489,12 @@ public class PlayerController : MonoBehaviour
                 //picks up furniture
                 else if(hit.transform.gameObject.tag == "furniture")
                 {
-                   // PickUpFurniture(hit);
                     AddObjectToInventory(hit.transform.gameObject);
                     PickUpFurniture(hit);
                 }
                 else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
                     Debug_UnlockAllRecipes();
-                }
-                //cooking
-                {
-
                 }
             }
            
@@ -678,7 +676,7 @@ public class PlayerController : MonoBehaviour
         {
             if (activeItem.gameObject.tag == "furniture")
             {
-                if (SceneManager.GetActiveScene().name == "Home")
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial")
                 {
                     activeItem.SetActive(true);
                     activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
@@ -940,7 +938,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    IEnumerator GetUniqueID()
+    IEnumerator selectQuestAlgorithm()
     {
         Debug.Log("Starting Get request");
 
@@ -948,8 +946,10 @@ public class PlayerController : MonoBehaviour
         var cert = new CertificateValidator();
 
         //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/cgi-bin/createUUID.cgi");
-        UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/get_unique_id.php");
+        //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/get_unique_id.php");
         //UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca");
+        UnityWebRequest www = UnityWebRequest.Get("https://inc0293516.cs.ualberta.ca/get_aid.php");
+
         www.certificateHandler = cert;
         yield return www.SendWebRequest();
 
@@ -960,30 +960,82 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.Log(www);
-            Debug.Log(www.downloadHandler.data.Length);
-            UUID = www.downloadHandler.text;
-            Debug.Log(UUID);
-            Debug.Log(www.downloadHandler.text);
+
+            Debug.Log("Version 4");
+            sessionQuestAlgorithm = www.downloadHandler.text;
+            Debug.Log(sessionQuestAlgorithm);
+            //UUID = www.downloadHandler.text;
+            if (sessionQuestAlgorithm.Contains("null"))
+            {
+                Debug.Log("Previous Quest Algorithm is null");
+                questAlgorithm = UnityEngine.Random.Range(0, 3);
+            }
+            else if (sessionQuestAlgorithm.Contains("Random"))
+            {
+                Debug.Log("Previous Quest Algorithm is random");
+                questAlgorithm = UnityEngine.Random.Range(1, 3);
+            }
+            else if (sessionQuestAlgorithm.Contains("RLAID"))
+            {
+                Debug.Log("Previous Quest Algorithm is RLAID");
+                //select from 0 and 1, and if it selects 1 then set it to 2 instead
+                questAlgorithm = UnityEngine.Random.Range(0, 2);
+                if (questAlgorithm == 1)
+                {
+                    questAlgorithm = 2;
+                }
+            }
+            else if (sessionQuestAlgorithm.Contains("Passage"))
+            {
+                Debug.Log("Previous Quest Algorithm is Passage");
+                questAlgorithm = UnityEngine.Random.Range(0, 2);
+            }
+            else
+            {
+                Debug.Log("sessionQuestAlgorithm is an unexpected value " + sessionQuestAlgorithm);
+            }
 
             switch (questAlgorithm)
             {
                 case 0:
                     //StartCoroutine(GetAssetBundle());
                     StartCoroutine(PostData("Random"));
+                    StartCoroutine(SaveAID("Random"));
                     break;
                 case 1:
                     //StartCoroutine(GetAssetBundle());
                     StartCoroutine(PostData("RLAID"));
+                    StartCoroutine(SaveAID("RLAID"));
                     break;
                 case 2:
                     //StartCoroutine(GetAssetBundle());
                     StartCoroutine(PostData("Passage"));
+                    StartCoroutine(SaveAID("Passage"));
                     break;
                 default:
                     Debug.Log("ERROR: quest algorithm set to incorrect value. Expected value is 0, 1 or 2. Value is " + questAlgorithm.ToString());
                     break;
             }
+        }
+    }
+    IEnumerator SaveAID(string aid)
+    {
+        Debug.Log("starting save aid post request");
+        var cert = new CertificateValidator();
+
+        WWWForm form = new WWWForm();
+        form.AddField("data", aid);
+        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/save_aid.php", form);
+        www.certificateHandler = cert;
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log("AID Saved as " + aid);
         }
     }
 
@@ -1014,7 +1066,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-
+            Debug.Log("Current Quest algorithm is " + msg);
             Debug.Log(www.downloadHandler.text);
             //Debug.Log("Form upload complete!");
         }
