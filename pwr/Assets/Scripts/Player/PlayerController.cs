@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         //Get Unique ID
-        //StartCoroutine(selectQuestAlgorithm());
+        StartCoroutine(selectQuestAlgorithm());
 
     }
 
@@ -179,10 +179,7 @@ public class PlayerController : MonoBehaviour
         {
             questHudObjectArray[i].SetActive(false);
         }
-       
-        //StartCoroutine(GetAssetBundle());
-        //StartCoroutine(PostData(questAlgorithm.ToString()));
-
+      
         anim = GetComponent<Animator>();
 
         foreach(Image itemImage in inventoryItemImageArray)
@@ -195,13 +192,6 @@ public class PlayerController : MonoBehaviour
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
         isShouldMove = true;
-        
-
-        //tutorial stuff 
-        if(SceneManager.GetActiveScene().name == "Tutorial")
-        {
-           
-        }
     }
 
     void Update()
@@ -357,7 +347,6 @@ public class PlayerController : MonoBehaviour
             if(hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
-                //cookingUI.gameObject.transform.GetChild(1).gameObject.SetActive(true);
                 interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
             }
             else if (hit.transform.tag == "planting")
@@ -430,10 +419,7 @@ public class PlayerController : MonoBehaviour
                         { 
                             seedScript = activeItem.GetComponent<Seed>();
                             cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
-                            Debug.Log(cropObject.GetComponent<SpriteRenderer>());
-                            Debug.Log(cropObject.GetComponent<SpriteRenderer>().enabled);
                             cropObject.GetComponent<SpriteRenderer>().enabled = true;
-                            Debug.Log(cropObject.GetComponent<SpriteRenderer>().enabled);
                             //add crop object to world controller 
                             cropScript = cropObject.GetComponent<Crop>();
                             cropScript.worldController = this.worldControllerObject.GetComponent<WorldController>();

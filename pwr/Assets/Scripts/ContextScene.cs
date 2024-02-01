@@ -2,13 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class ContextScene : MonoBehaviour
 {
     // Start is called before the first frame update
+    public TextMeshProUGUI welcomeText;
+
+    public string text0;
+    public string text1;
+    public string text2;
+
+    public int currentTextNumber;
+
     void Start()
     {
-        
+        currentTextNumber = 0;
+        welcomeText.text = text0; 
     }
 
     // Update is called once per frame
@@ -16,7 +27,19 @@ public class ContextScene : MonoBehaviour
     {
         if(Input.anyKeyDown)
         {
-            SceneManager.LoadScene("Main", LoadSceneMode.Single);
+            currentTextNumber++;
+            if (currentTextNumber == 1)
+            {
+                welcomeText.text = text1;
+            }
+            else if (currentTextNumber == 2)
+            {
+                welcomeText.text = text2; 
+            }
+            else if(currentTextNumber >= 3)
+            {
+                SceneManager.LoadScene("Main", LoadSceneMode.Single);
+            }
         }
     }
 }
