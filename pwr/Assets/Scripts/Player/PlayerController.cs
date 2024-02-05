@@ -148,14 +148,16 @@ public class PlayerController : MonoBehaviour
         //Get Unique ID
         StartCoroutine(selectQuestAlgorithm());
 
+        previousInventoryIndex = 0;
+        currentInventoryIndex = 0;
+
     }
 
     void Start()
     {
         currency = 500;
         inventory = new GameObject[inventorySize];
-        previousInventoryIndex = 0; 
-        currentInventoryIndex = 0;
+
         recipeIndex = 0;
 
         body = GetComponent<Rigidbody2D>();
@@ -193,6 +195,13 @@ public class PlayerController : MonoBehaviour
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
         isShouldMove = true;
+
+        //clear inventory array 
+        for(int i = 0; i < inventorySize; i++)
+        {
+            deactivateItem(i);
+        }
+        setActiveItem(previousInventoryIndex);
     }
 
     void Update()
@@ -439,7 +448,10 @@ public class PlayerController : MonoBehaviour
                 {
                     //check if the crop can be harvested and harvests if it can 
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
-                    AddObjectToInventory(cropScript.HarvestCrop());
+                    if(cropScript.currentStage == Crop.CropStage.FullyGrown)
+                    {
+                        AddObjectToInventory(cropScript.HarvestCrop());
+                    }
                     //actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
                 }
@@ -531,6 +543,12 @@ public class PlayerController : MonoBehaviour
         activeItem = inventory[index];
         inventoryHudImageArray[previousInventoryIndex].GetComponent<Image>().sprite = inventorySprite;
         inventoryHudImageArray[currentInventoryIndex].GetComponent<Image>().sprite = activeItemSprite;
+    }
+
+    public void deactivateItem(int index)
+    {
+        inventoryHudImageArray[index].GetComponent<Image>().sprite = inventorySprite;
+        activeItem = null;
     }
 
     public void SetNextOpenInventory()
