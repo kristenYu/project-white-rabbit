@@ -778,7 +778,7 @@ public class PlayerController : MonoBehaviour
     {
         knownRecipes.Add(recipe);
         currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
-        currentRecipeUIObject.transform.position = new Vector3(0.0f, (cookingUIContentMaximum - (knownRecipeUIOffset*index)), 90.0f);
+        currentRecipeUIObject.transform.position = new Vector3(0.0f, (cookingUIContentMaximum - (knownRecipeUIOffset*(index+1))), 90.0f);
         currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
         SetRecipeUI(currentRecipeUIObject, recipe);
         knownRecipeUIObjects.Add(currentRecipeUIObject);
