@@ -162,6 +162,7 @@ public class PlayerController : MonoBehaviour
         previousDirection = Vector2.down;
 
         cookingUIContent = cookingUI.transform.GetChild(0).GetChild(0).gameObject;
+        cookingUIContent.GetComponent<RectTransform>().anchoredPosition = new Vector2(0.0f, 0.0f);
         knownRecipeUIObjects = new List<GameObject>();
         targetIngredients = new List<GameObject>();
         CookedRecipeFlag = false;
