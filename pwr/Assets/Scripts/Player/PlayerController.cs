@@ -9,8 +9,6 @@ using UnityEngine.Networking;
 
 public class PlayerController : MonoBehaviour
 {
-    public Button testButton;
-
     //Access World Database 
     public GameObject itemManagerObject;
     private ItemManager itemManager;
@@ -113,6 +111,7 @@ public class PlayerController : MonoBehaviour
     public GameObject HUD;
 
     //Telemetry 
+    public Telemetry_Util telemetryUtil;
     string UUID; 
     System.DateTime dt = System.DateTime.Now;
 
@@ -145,9 +144,9 @@ public class PlayerController : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        //Get Unique ID
+        //telemetry
+        StartCoroutine(telemetryUtil.PostData("Event:SessionStart"));
         StartCoroutine(selectQuestAlgorithm());
-
         previousInventoryIndex = 0;
         currentInventoryIndex = 0;
 
@@ -290,6 +289,7 @@ public class PlayerController : MonoBehaviour
                         furnitureScript.currentIndex = 0;
                     }
                     furnitureSpriteRenderer.sprite = furnitureScript.spriteArray[furnitureScript.currentIndex];
+                    StartCoroutine(telemetryUtil.PostData("Interaction:RotateFurniture" + furnitureScript.stringName));
                 }
             }
         }
@@ -394,11 +394,14 @@ public class PlayerController : MonoBehaviour
                         //assumes that the object matches the name of the scene you want to load
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        StartCoroutine(telemetryUtil.PostData("Transition:Home"));
                     }
                     if(hit.transform.gameObject.name == "Main")
                     {
+                        
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         this.transform.position = new Vector3(-13.5f, 3.5f, 0f);
+                        StartCoroutine(telemetryUtil.PostData("Transition:Main"));
                     }
 
                     //Hide hud
@@ -409,7 +412,9 @@ public class PlayerController : MonoBehaviour
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
+                        
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
                     }
 
 
@@ -438,7 +443,8 @@ public class PlayerController : MonoBehaviour
                             RemoveObjectFromInventory(currentInventoryIndex);
                             activeItem = null;
                             //for Passage
-                            actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1; 
+                            actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1;
+                            StartCoroutine(telemetryUtil.PostData("Interaction:Plant" + cropScript.cropname));
 
                         }
                     }
@@ -450,6 +456,7 @@ public class PlayerController : MonoBehaviour
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     if(cropScript.currentStage == Crop.CropStage.FullyGrown)
                     {
+                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
                         AddObjectToInventory(cropScript.HarvestCrop());
                     }
                     //actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
@@ -464,6 +471,7 @@ public class PlayerController : MonoBehaviour
                     justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
                     Object.Destroy(hit.transform.gameObject);
                     actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
+                    StartCoroutine(telemetryUtil.PostData("Interaction:HarvestMushroom"));
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
@@ -478,6 +486,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (activeItem.tag == "furniture")
                         {
+                            StartCoroutine(telemetryUtil.PostData("Interaction:PlaceFurniture" + activeItem.gameObject.GetComponent<Furniture>().stringName));
                             RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
@@ -488,6 +497,7 @@ public class PlayerController : MonoBehaviour
                 //picks up furniture
                 else if(hit.transform.gameObject.tag == "furniture")
                 {
+                    StartCoroutine(telemetryUtil.PostData("Interaction:PickupFurniture" + hit.transform.gameObject.GetComponent<Furniture>().stringName));
                     AddObjectToInventory(hit.transform.gameObject);
                     PickUpFurniture(hit);
                 }
@@ -840,10 +850,15 @@ public class PlayerController : MonoBehaviour
         recipeUIImage.overrideSprite = recipe.itemSprite;
         recipeUIText.text = recipe.stringName;
         recipeUIButton.onClick.AddListener(delegate { CookRecipe(recipe); });
+
+
+        recipeUIObject.GetComponent<RecipeButton_UI>().recipe = recipe; 
+        //recipeUIObject.GetComponent<RecipeUI>().recipe = recipe;
     }
 
     private bool CookRecipe(Recipe recipe)
     {
+        //Debug.Log("On click registered");
         targetIngredients.Clear();
         //check if the player has everything in the ingredients 
         foreach(string ingredient in recipe.ingredients)
@@ -879,8 +894,46 @@ public class PlayerController : MonoBehaviour
         cookedFoodObject = Instantiate(recipe.cookedFood);
         AddObjectToInventory(cookedFoodObject);
         CookedRecipeFlag = true;
+        StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
         return true;
     }    
+
+    public bool CheckIfRecipeCanBeCooked(Recipe recipe)
+    {
+        //TODO: copied code - worry about later
+        targetIngredients.Clear();
+        foreach (string ingredient in recipe.ingredients)
+        {
+            isIngredientInInventory = false;
+            for (int i = 0; i < inventorySize; i++)
+            {
+                if (inventory[i] == null)
+                {
+                    continue;
+                }
+                if (inventory[i].GetComponent<Item>().stringName == ingredient)
+                {
+                    targetIngredients.Add(inventory[i]);
+                    currentIngredient = RemoveObjectFromInventory(i);
+                    isIngredientInInventory = true;
+                    break;
+                }
+            }
+
+            if (isIngredientInInventory == false)
+            {
+                Debug.Log("Recipe Cannot be made because player does not have the correct ingredients");
+                //return the items to the inventory 
+                foreach (GameObject item in targetIngredients)
+                {
+                    AddObjectToInventory(item);
+                }
+
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void GetNextOpenQuestIndex()
     {
@@ -1004,76 +1057,23 @@ public class PlayerController : MonoBehaviour
             {
                 case 0:
                     //StartCoroutine(GetAssetBundle());
-                    StartCoroutine(PostData("Random"));
-                    StartCoroutine(SaveAID("Random"));
+                    StartCoroutine(telemetryUtil.PostData("QuestAlgorithm:Random"));
+                    StartCoroutine(telemetryUtil.SaveAID("Random"));
                     break;
                 case 1:
                     //StartCoroutine(GetAssetBundle());
-                    StartCoroutine(PostData("RLAID"));
-                    StartCoroutine(SaveAID("RLAID"));
+                    StartCoroutine(telemetryUtil.PostData("QuestAlgorithm:RLAID"));
+                    StartCoroutine(telemetryUtil.SaveAID("RLAID"));
                     break;
                 case 2:
                     //StartCoroutine(GetAssetBundle());
-                    StartCoroutine(PostData("Passage"));
-                    StartCoroutine(SaveAID("Passage"));
+                    StartCoroutine(telemetryUtil.PostData("QuestAlgorithm:Passage"));
+                    StartCoroutine(telemetryUtil.SaveAID("Passage"));
                     break;
                 default:
                     Debug.Log("ERROR: quest algorithm set to incorrect value. Expected value is 0, 1 or 2. Value is " + questAlgorithm.ToString());
                     break;
             }
-        }
-    }
-    IEnumerator SaveAID(string aid)
-    {
-        Debug.Log("starting save aid post request");
-        var cert = new CertificateValidator();
-
-        WWWForm form = new WWWForm();
-        form.AddField("data", aid);
-        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/save_aid.php", form);
-        www.certificateHandler = cert;
-        yield return www.SendWebRequest();
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("AID Saved as " + aid);
-        }
-    }
-
-    IEnumerator PostData(string msg)
-    {
-        Debug.Log("Starting Post Request");
-        var cert = new CertificateValidator();
-
-        // List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        //formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
-        WWWForm form = new WWWForm();
-        form.AddField("data", "QuestAlgorithm:" + msg + "; " + dt.ToString() + "\n");
-        //form.AddField("uuid", UUID.ToString()); 
-        //formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
-
-
-        //UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/cgi-bin/savedata.cgi", form);
-        UnityWebRequest www = UnityWebRequest.Post("https://inc0293516.cs.ualberta.ca/save_unity_data.php", form);
-        //NEEDED TO AVOID CERTIFICATE VALIDATION ERROR
-        www.certificateHandler = cert;
-        yield return www.SendWebRequest();
-
-        Debug.Log("Post Request Recieved");
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("Current Quest algorithm is " + msg);
-            Debug.Log(www.downloadHandler.text);
-            //Debug.Log("Form upload complete!");
         }
     }
 }
