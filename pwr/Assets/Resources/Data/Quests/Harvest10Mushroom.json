@@ -1,0 +1,5 @@
+{"questName": "Harvest 10 Mushroom",
+"questType": 3, 
+"reward": 100, 
+"eventListenerData": [ "mushroom", "10"]
+}

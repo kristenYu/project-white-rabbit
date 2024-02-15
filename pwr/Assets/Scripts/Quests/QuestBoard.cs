@@ -7,7 +7,6 @@ using TMPro;
 using System;
 using UnityEngine.Networking;
 
-
 public class QuestBoard : MonoBehaviour
 {
     //this enum is used for the reinforcement learning algorithm and for PaSSAGE
@@ -22,7 +21,7 @@ public class QuestBoard : MonoBehaviour
 
     public enum QuestBoardState
     {
-        submit = 0, 
+        submit = 0,
         accept,
     }
 
@@ -38,7 +37,7 @@ public class QuestBoard : MonoBehaviour
     private PlantingEventListener plantingEventListener;
     private CookingEventListener cookingEventListener;
     private PlaceEventListener placeEventListener;
-    private HarvestEventListener harvestEventListener; 
+    private HarvestEventListener harvestEventListener;
 
     //Algorithm Toggles 
     public Toggle randomToggle;
@@ -53,7 +52,7 @@ public class QuestBoard : MonoBehaviour
     public int[] questAcceptedAlreadyArray;
 
     //Questboard Quests 
-    public const int numberOfQuests = 3; 
+    public const int numberOfQuests = 3;
     public Quest[] displayQuests;
     private QuestAlgorithmBase currentQuestAlgorithm;
     private GameObject currentQuestGameObject;
@@ -63,7 +62,7 @@ public class QuestBoard : MonoBehaviour
 
     //quest setup 
     public QuestSetupScript questSetupScript;
-    private Quest[] usableQuestArray;
+    public Quest[] usableQuestArray;
     private bool skipQuest;
     private int usableQuestArrayIndex;
 
@@ -87,16 +86,16 @@ public class QuestBoard : MonoBehaviour
     public int currentQuestHudIndex;
 
     //player current coins
-    public TextMeshProUGUI currentCoins; 
+    public TextMeshProUGUI currentCoins;
 
     //update quest on the day 
     WorldController worldController;
-   
+
     private void Awake()
     {
 
 
-      
+
 
     }
 
@@ -111,9 +110,9 @@ public class QuestBoard : MonoBehaviour
         //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
         questHudIndex = 0;
         questHudGameobjectArray = new GameObject[numberOfQuests];
-        foreach(Transform child in playerObject.transform.GetChild(1).transform)
+        foreach (Transform child in playerObject.transform.GetChild(1).transform)
         {
-            if(child.gameObject.tag == "quest_hud")
+            if (child.gameObject.tag == "quest_hud")
             {
                 questHudGameobjectArray[questHudIndex] = child.gameObject;
                 questHudIndex++;
@@ -122,7 +121,7 @@ public class QuestBoard : MonoBehaviour
         playerController.isShouldMove = false;
         currentQuestHudIndex = 0;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
-        
+
 
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
         questSetupScript = GameObject.FindGameObjectWithTag("quest_setup").GetComponent<QuestSetupScript>();
@@ -139,7 +138,7 @@ public class QuestBoard : MonoBehaviour
         questAlgorithmIndex = playerController.questAlgorithm;
         */
 
-     
+
         //setup button delegates
         exitButton.onClick.AddListener(ExitScene);
         submitQuestsButton.onClick.AddListener(SetupSubmitQuestsUI);
@@ -173,8 +172,8 @@ public class QuestBoard : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    { 
-        
+    {
+
 
     }
     public void ExitScene()
@@ -183,17 +182,17 @@ public class QuestBoard : MonoBehaviour
         playerController.HUD.SetActive(true);
         Debug.Log(currentQuestAlgorithm);
         currentQuestAlgorithm.OnQuestClosed();
-       
+
         playerController.isShouldMove = true;
         playerObject.GetComponent<SpriteRenderer>().enabled = true;
-        if(SceneManager.GetActiveScene().name == "QuestBoard")
+        if (SceneManager.GetActiveScene().name == "QuestBoard")
         {
             playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
             //telemetry
             StartCoroutine(telemetryUtil.PostData("Transition:Main"));
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
         }
-        else if(SceneManager.GetActiveScene().name == "TutorialQuestBoard")
+        else if (SceneManager.GetActiveScene().name == "TutorialQuestBoard")
         {
             //telemetry
             StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
@@ -201,7 +200,7 @@ public class QuestBoard : MonoBehaviour
 
 
         }
-        
+
     }
 
     public void PopulateQuestBoard()
@@ -212,25 +211,25 @@ public class QuestBoard : MonoBehaviour
         //currentQuestAlgorithm = questSetupScript.questAlgorithms[questAlgorithmIndex].GetComponent<QuestAlgorithmBase>();
         usableQuestArray = new Quest[questSetupScript.questDataBase.Length - playerController.CountNumberOfActiveQuests()];
         usableQuestArrayIndex = 0;
-        for(int i = 0; i < questSetupScript.questDataBase.Length; i++)
+        for (int i = 0; i < questSetupScript.questDataBase.Length; i++)
         {
             skipQuest = false;
-            for(int j = 0; j < playerController.activeQuests.Length; j++)
+            for (int j = 0; j < playerController.activeQuests.Length; j++)
             {
-                if(questSetupScript.questDataBase[i].questName == playerController.activeQuests[j].questName)
+                if (questSetupScript.questDataBase[i].questName == playerController.activeQuests[j].questName)
                 {
                     skipQuest = true;
                 }
             }
-            if(!skipQuest)
+            if (!skipQuest)
             {
                 usableQuestArray[usableQuestArrayIndex] = questSetupScript.questDataBase[i];
                 usableQuestArrayIndex++;
             }
         }
-        displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, questSetupScript.questDataBase);
+        displayQuests = currentQuestAlgorithm.GetQuests(numberOfQuests, usableQuestArray);
 
-        for(int i = 0; i < displayQuests.Length; i++)
+        for (int i = 0; i < displayQuests.Length; i++)
         {
             SetQuestUI(questUIObjects[i], displayQuests[i], i);
             StartCoroutine(telemetryUtil.PostData("Quest:AvailableQuest" + displayQuests[i].questName));
@@ -247,13 +246,13 @@ public class QuestBoard : MonoBehaviour
 
         questName.text = quest.questName;
         questAcceptButton.onClick.RemoveAllListeners();
-        questAcceptButton.onClick.AddListener(delegate {AcceptQuest(quest, UIObjectPosition); });
+        questAcceptButton.onClick.AddListener(delegate { AcceptQuest(quest, UIObjectPosition); });
     }
 
     public void SetSubmitQuestUI(GameObject submitQuestUIObject, Quest quest)
     {
         //assumes that the prefab is used to create the submit quest UI in a particular order
-        questSubmitButton = submitQuestUIObject.GetComponent<Button>(); 
+        questSubmitButton = submitQuestUIObject.GetComponent<Button>();
         submitQuestName = submitQuestUIObject.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
 
         submitQuestName.text = quest.questName;
@@ -330,13 +329,13 @@ public class QuestBoard : MonoBehaviour
     //TODO: Turn this into functions
     public void AcceptQuest(Quest quest, int UIObjectPosition)
     {
-        if(playerController.CountNumberOfActiveQuests() == PlayerController.maxActiveQuests)
+        if (playerController.CountNumberOfActiveQuests() == PlayerController.maxActiveQuests)
         {
             Debug.Log("Maximum Quests Reached");
         }
         else
         {
-            
+
             //Instantiate Event Listener
             switch (quest.questType)
             {
@@ -433,7 +432,7 @@ public class QuestBoard : MonoBehaviour
                     break;
                 default:
                     break;
-               
+
             }
             questAccecptPanelObjects[UIObjectPosition].SetActive(true);
             //telemetry
@@ -441,12 +440,12 @@ public class QuestBoard : MonoBehaviour
             //questAcceptedAlreadyArray[UIObjectPosition] = 1;
         }
 
-       
-       
+
+
     }
     public void SubmitQuest(Quest quest, GameObject UIObject)
     {
-        
+
         playerController.addCurrency(quest.reward);
         playerController.RemoveQuestFromActiveQuestsArray(quest);
         currentQuestAlgorithm.OnQuestSubmitted();
@@ -458,9 +457,9 @@ public class QuestBoard : MonoBehaviour
         UIObject.SetActive(false);
         for (int i = 0; i < questHudGameobjectArray.Length; i++)
         {
-           if(questHudGameobjectArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == quest.questName)
+            if (questHudGameobjectArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text == quest.questName)
             {
-                questHudIndexToRemove = i; 
+                questHudIndexToRemove = i;
             }
         }
         questHudGameobjectArray[questHudIndexToRemove].SetActive(false);
@@ -473,7 +472,7 @@ public class QuestBoard : MonoBehaviour
 
     private void OnRandomToggleChanged(Toggle toggle)
     {
-        if(toggle.isOn)
+        if (toggle.isOn)
         {
             //turn others off 
             cmabToggle.isOn = false;
@@ -515,13 +514,13 @@ public class QuestBoard : MonoBehaviour
 
     private void SetCorrectQuestToggle(int index)
     {
-        if(index == 0)
+        if (index == 0)
         {
             randomToggle.isOn = true;
             cmabToggle.isOn = false;
             passageToggle.isOn = false;
         }
-        else if(index == 1)
+        else if (index == 1)
         {
             randomToggle.isOn = false;
             cmabToggle.isOn = true;
@@ -545,52 +544,5 @@ public class QuestBoard : MonoBehaviour
         questHudReward.text = quest.reward.ToString();
         playerController.questHudCurrentIndex++;
     }
-
-    //Telemetry function 
-    IEnumerator GetAssetBundle()
-    {
-        //hack to force validate certificate 
-        var cert = new CertificateValidator();
-
-        UnityWebRequest www = UnityWebRequest.Get("https://localhost:8000");
-        www.certificateHandler = cert;
-        yield return www.SendWebRequest();
-
-        Debug.Log("Request recieved");
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log(www.downloadHandler.text);
-        }
-    }
-
-    IEnumerator PostData(string msg)
-    {
-        Debug.Log("Starting Post Request");
-        var cert = new CertificateValidator();
-
-        List<IMultipartFormSection> formData = new List<IMultipartFormSection>();
-        formData.Add(new MultipartFormDataSection("field1=foo&field2=bar"));
-        formData.Add(new MultipartFormFileSection("my file data", "myfile.txt"));
-
-
-        UnityWebRequest www = UnityWebRequest.Post("https://localhost:8000", formData);
-        //NEEDED TO AVOID CERTIFICATE VALIDATION ERROR
-        www.certificateHandler = cert;
-        yield return www.SendWebRequest();
-
-        Debug.Log("Post Request Recieved");
-
-        if (www.result != UnityWebRequest.Result.Success)
-        {
-            Debug.Log(www.error);
-        }
-        else
-        {
-            Debug.Log("Form upload complete!");
-        }
-    }
 }
+
