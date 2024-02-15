@@ -14,6 +14,9 @@ public class ShopScript : MonoBehaviour
         Sell
     }
 
+    //telemetry 
+    public Telemetry_Util telemetryUtil; 
+
     //Exit Shop
     public Button ExitToMainButton;
     private Button ExitBtn;
@@ -76,7 +79,14 @@ public class ShopScript : MonoBehaviour
     Recipe recipe;
 
     //SaveData
-    private List<int> randomNumberList; 
+    private List<int> randomNumberList;
+
+    //quest tracking UI
+    public GameObject[] questTrackingUIArray;
+    private TextMeshProUGUI questTrackingUIQuestName;
+
+    //Tutorial
+    public bool tutorialBool; //set to true if a player sucessfully buys or sells something
 
     private void Awake()
     {
@@ -92,6 +102,7 @@ public class ShopScript : MonoBehaviour
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
         randomNumberList = new List<int>();
         recipeIngredientImageArray = new Image[3]; //hardcoded for the maximum number of ingredients in a recipe
         //store state 
@@ -124,6 +135,30 @@ public class ShopScript : MonoBehaviour
         UpdateSellingItemsPanel();
 
         playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
+
+        //tutorial
+        tutorialBool = false;
+
+        for(int i = 0; i < questTrackingUIArray.Length; i++)
+        {
+            questTrackingUIQuestName = questTrackingUIArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            Debug.Log(questTrackingUIQuestName);
+            if (playerController.activeQuests[i].questType == QuestBoard.QuestType.invalid)
+            {
+                questTrackingUIArray[i].SetActive(false);
+            }
+            else
+            {
+                questTrackingUIArray[i].SetActive(true);
+                questTrackingUIQuestName.text = playerController.activeQuests[i].questName;
+            }
+        }
+
+        //telemetry
+        StartCoroutine(telemetryUtil.PostData("Shop:StartCoins" + playerController.currency.ToString()));
+
+
+        
     }
 
     // Update is called once per frame
@@ -276,12 +311,20 @@ public class ShopScript : MonoBehaviour
             SetItemSoldPanels(storeState);
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
             rabbitAnimator.speechText.text = "Thanks for buying something!";
+
+            //tutorial
+            tutorialBool = true; 
+
+            //telemetry 
+            StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
         }
         else
         {
             //message saying no money :(, make into a pop up in game later?
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
             rabbitAnimator.speechText.text = "Sorry you don't have enough money";
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
         }
     }
 
@@ -293,6 +336,12 @@ public class ShopScript : MonoBehaviour
         playerController.RemoveObjectFromInventory(index);
         //hide button 
         sellingUIObject.SetActive(false);
+
+        //tutorial
+        tutorialBool = true; 
+
+        //telemetry
+        StartCoroutine(telemetryUtil.PostData("Shop:Sold" + item.GetComponent<Item>().stringName));
     }
     private void UpdateSellingItemsPanel()
     {
@@ -362,7 +411,7 @@ public class ShopScript : MonoBehaviour
         {
             if(amountToPay <= playerController.currency && amountToPay > 0)
             {
-                if(amountToPay <= moneyOwed)
+                if(amountToPay < moneyOwed)
                 {
                     moneyOwed -= amountToPay;
                     playerController.currency -= amountToPay;
@@ -374,7 +423,10 @@ public class ShopScript : MonoBehaviour
                     playerController.currency -= moneyOwed;
                     moneyOwedText.text = moneyOwed.ToString();
                 }
+                //telemetry
+                StartCoroutine(telemetryUtil.PostData("Shop:Pay" + amountToPay.ToString()));
             }
+            StartCoroutine(telemetryUtil.PostData("Shop:TriedPay" + amountToPay.ToString()));
         }
     }
     private void SetItemSoldPanels(StoreState state)
@@ -406,10 +458,14 @@ public class ShopScript : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "TutorialShop")
         {
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
         }
         else if (SceneManager.GetActiveScene().name == "Shop")
         {
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Transition:Main"));
         }
         
     }
@@ -459,6 +515,8 @@ public class ShopScript : MonoBehaviour
             randomNumberList.Add(randNum);
             //previousRandNum = randNum;
             shopSaveData.furnitureArray[i] = itemManager.furnitureArray[randNum];
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Shop:AvailableFurniture" + shopSaveData.furnitureArray[i].GetComponent<Furniture>().stringName));
         }
         //load a new seeds array 
         randomNumberList.Clear();
@@ -471,6 +529,8 @@ public class ShopScript : MonoBehaviour
             }
             randomNumberList.Add(randNum);
             shopSaveData.seedArray[i] = itemManager.seedArray[randNum];
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Shop:AvailableSeed" + shopSaveData.seedArray[i].GetComponent<Seed>().stringName));
         }
         //load a new recipes array 
         randomNumberList.Clear();
@@ -483,6 +543,8 @@ public class ShopScript : MonoBehaviour
             }
             randomNumberList.Add(randNum);
             shopSaveData.recipeArray[i] = itemManager.recipeArray[randNum];
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Shop:AvailableRecipe" + shopSaveData.recipeArray[i].GetComponent<Recipe>().stringName));
         }
 
         switch (state)

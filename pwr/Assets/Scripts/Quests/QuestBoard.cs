@@ -26,6 +26,12 @@ public class QuestBoard : MonoBehaviour
         accept,
     }
 
+    //telemetry
+    public Telemetry_Util telemetryUtil;
+
+
+
+    //
     public Button exitButton;
     public GameObject playerObject;
     private PlayerController playerController;
@@ -80,10 +86,11 @@ public class QuestBoard : MonoBehaviour
     private TextMeshProUGUI questHudReward;
     public int currentQuestHudIndex;
 
-    //update quest on the day 
-    WorldController worldController; 
-            
+    //player current coins
+    public TextMeshProUGUI currentCoins; 
 
+    //update quest on the day 
+    WorldController worldController;
    
     private void Awake()
     {
@@ -98,7 +105,9 @@ public class QuestBoard : MonoBehaviour
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
-        playerObject.GetComponent<SpriteRenderer>().enabled = false; 
+        playerObject.GetComponent<SpriteRenderer>().enabled = false;
+
+
         //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
         questHudIndex = 0;
         questHudGameobjectArray = new GameObject[numberOfQuests];
@@ -151,11 +160,15 @@ public class QuestBoard : MonoBehaviour
         //get the current quest algorithm 
         currentQuestAlgorithm = questSetupScript.questAlgorithms[playerController.questAlgorithm].GetComponent<QuestAlgorithmBase>();
 
+        //set the current amount of coins
+        currentCoins.text = playerController.currency.ToString();
+
         //telemetry
         //StartCoroutine(GetAssetBundle());
         //StartCoroutine(PostData("test"));
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
 
-        
+
     }
 
     // Update is called once per frame
@@ -176,11 +189,17 @@ public class QuestBoard : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "QuestBoard")
         {
             playerObject.transform.position = new Vector3(-0.5f, 10.5f, 0f);
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Transition:Main"));
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
         }
         else if(SceneManager.GetActiveScene().name == "TutorialQuestBoard")
         {
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+
+
         }
         
     }
@@ -214,6 +233,7 @@ public class QuestBoard : MonoBehaviour
         for(int i = 0; i < displayQuests.Length; i++)
         {
             SetQuestUI(questUIObjects[i], displayQuests[i], i);
+            StartCoroutine(telemetryUtil.PostData("Quest:AvailableQuest" + displayQuests[i].questName));
         }
     }
 
@@ -316,6 +336,7 @@ public class QuestBoard : MonoBehaviour
         }
         else
         {
+            
             //Instantiate Event Listener
             switch (quest.questType)
             {
@@ -412,8 +433,11 @@ public class QuestBoard : MonoBehaviour
                     break;
                 default:
                     break;
+               
             }
             questAccecptPanelObjects[UIObjectPosition].SetActive(true);
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Quest:Accept" + quest.questName));
             //questAcceptedAlreadyArray[UIObjectPosition] = 1;
         }
 
@@ -422,8 +446,8 @@ public class QuestBoard : MonoBehaviour
     }
     public void SubmitQuest(Quest quest, GameObject UIObject)
     {
+        
         playerController.addCurrency(quest.reward);
-        Debug.Log(quest);
         playerController.RemoveQuestFromActiveQuestsArray(quest);
         currentQuestAlgorithm.OnQuestSubmitted();
 
@@ -442,6 +466,9 @@ public class QuestBoard : MonoBehaviour
         questHudGameobjectArray[questHudIndexToRemove].SetActive(false);
         playerController.questHudCurrentIndex = questHudIndexToRemove;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
+
+        //telemetry
+        StartCoroutine(telemetryUtil.PostData("Quest:Submit" + quest.questName));
     }
 
     private void OnRandomToggleChanged(Toggle toggle)

@@ -56,7 +56,9 @@ public class WorldController : MonoBehaviour
     public Vector3 backgroundPosition;
 
     //Tutorial
-    public List<GameObject> tutorialCropList; 
+    public List<GameObject> tutorialCropList;
+    public GameObject tutorialHarvestable;
+    public Telemetry_Util telemetryUtil; 
 
     //Singleton 
     private static WorldController instance;
@@ -112,9 +114,9 @@ public class WorldController : MonoBehaviour
         foregroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, 10f);
         backgroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, -10f);
 
-        foreach(GameObject tutorialCrop in tutorialCropList)
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
+        foreach (GameObject tutorialCrop in tutorialCropList)
         {
-            Debug.Log(tutorialCrop.gameObject.name);
             tutorialCrop.GetComponent<Crop>().currentStage = Crop.CropStage.FullyGrown;
             tutorialCrop.GetComponent<Crop>().isReadyToGrow = false;
             tutorialCrop.GetComponent<SpriteRenderer>().sprite = tutorialCrop.GetComponent<Crop>().SpriteGrowingArray[3];
@@ -139,7 +141,7 @@ public class WorldController : MonoBehaviour
     {
         foreach (GameObject furniture in placedFurnitureObjects)
         {
-            if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial")
+            if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial" || SceneManager.GetActiveScene().name == "TutorialHome")
             {
                 furniture.GetComponent<SpriteRenderer>().enabled = true;
                 furniture.GetComponent<BoxCollider2D>().enabled = true;
@@ -276,6 +278,7 @@ public class WorldController : MonoBehaviour
                 isNewDayQuests = true;
                 //set to false in the harvestable spawner script
                 shouldSpawnMushrooms = true;
+                StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
             }
         }
     }

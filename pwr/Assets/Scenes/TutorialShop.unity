@@ -2199,6 +2199,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840912938}
   m_CullTransparentMesh: 1
+--- !u!1 &842511053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842511055}
+  - component: {fileID: 842511054}
+  m_Layer: 0
+  m_Name: TelemetryUtilObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &842511054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842511053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86450cc5fee238b4dbd86da2dd997140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &842511055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842511053}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 111.98377, y: -1.875219, z: -10.377112}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &866947020
 GameObject:
   m_ObjectHideFlags: 0
@@ -3609,7 +3652,7 @@ GameObject:
   - component: {fileID: 1182845923}
   m_Layer: 0
   m_Name: ShopScriptObject
-  m_TagString: Untagged
+  m_TagString: shop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3626,6 +3669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a3c2424b1ce947b7b49ed2f848b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  telemetryUtil: {fileID: 842511054}
   ExitToMainButton: {fileID: 1265185744}
   itemManager: {fileID: 0}
   playerControllerObject: {fileID: 8205332308754028206, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
@@ -5656,6 +5700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be4a3c2424b1ce947b7b49ed2f848b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  telemetryUtil: {fileID: 0}
   ExitToMainButton: {fileID: 1265185744}
   itemManager: {fileID: 3386998514311731856, guid: 80d4d3faa083f9b42876aedfad88c66c,
     type: 3}

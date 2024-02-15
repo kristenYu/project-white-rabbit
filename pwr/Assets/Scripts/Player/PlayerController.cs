@@ -110,10 +110,7 @@ public class PlayerController : MonoBehaviour
     private int layerMask;
     public GameObject HUD;
 
-    //Telemetry 
-    public Telemetry_Util telemetryUtil;
-    string UUID; 
-    System.DateTime dt = System.DateTime.Now;
+   
 
     //Debug
     private GameObject testObject; 
@@ -127,6 +124,14 @@ public class PlayerController : MonoBehaviour
     public int[] actionFrequencyArray;
     public int questAlgorithm;
 
+    //tutorial
+    public bool hasPlacedFurniture;
+    public bool hasShopped; 
+
+    //Telemetry 
+    public Telemetry_Util telemetryUtil;
+    string UUID;
+    System.DateTime dt = System.DateTime.Now;
     //session variable from php 
     private string sessionQuestAlgorithm; 
 
@@ -145,6 +150,7 @@ public class PlayerController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         //telemetry
+      //  telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>(); 
         StartCoroutine(telemetryUtil.PostData("Event:SessionStart"));
         StartCoroutine(selectQuestAlgorithm());
         previousInventoryIndex = 0;
@@ -154,6 +160,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+       // telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
         currency = 500;
         inventory = new GameObject[inventorySize];
 
@@ -201,6 +208,8 @@ public class PlayerController : MonoBehaviour
             deactivateItem(i);
         }
         setActiveItem(previousInventoryIndex);
+
+        hasPlacedFurniture = false;
     }
 
     void Update()
@@ -389,7 +398,7 @@ public class PlayerController : MonoBehaviour
                 //transitions scenes 
                 if (hit.transform.gameObject.tag == "new_scene")
                 {
-                    if(hit.transform.gameObject.name == "Home")
+                    if(hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
                     {
                         //assumes that the object matches the name of the scene you want to load
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
@@ -403,7 +412,12 @@ public class PlayerController : MonoBehaviour
                         this.transform.position = new Vector3(-13.5f, 3.5f, 0f);
                         StartCoroutine(telemetryUtil.PostData("Transition:Main"));
                     }
-
+                    if(hit.transform.gameObject.name == "Tutorial")
+                    {
+                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        this.transform.position = new Vector3(123.5f, -4.25f, 0f); //HARDCODED VALUE FOR TUTORIAL LOCATION
+                        StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
+                    }
                     //Hide hud
                     if (hit.transform.gameObject.name == "Shop" 
                         || hit.transform.gameObject.name == "QuestBoard" 
@@ -456,8 +470,8 @@ public class PlayerController : MonoBehaviour
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     if(cropScript.currentStage == Crop.CropStage.FullyGrown)
                     {
-                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
                         AddObjectToInventory(cropScript.HarvestCrop());
+                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
                     }
                     //actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
@@ -491,6 +505,7 @@ public class PlayerController : MonoBehaviour
                             PlaceFurniture(hit);
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
                             placeFurnitureFlag = true;
+                            hasPlacedFurniture = true;
                         }
                     }
                 }
@@ -691,7 +706,7 @@ public class PlayerController : MonoBehaviour
         {
             if (activeItem.gameObject.tag == "furniture")
             {
-                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial")
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "Tutorial" || SceneManager.GetActiveScene().name == "TutorialHome")
                 {
                     activeItem.SetActive(true);
                     activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
@@ -894,6 +909,7 @@ public class PlayerController : MonoBehaviour
         cookedFoodObject = Instantiate(recipe.cookedFood);
         AddObjectToInventory(cookedFoodObject);
         CookedRecipeFlag = true;
+        currentInventoryIndex = 0;
         StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
         return true;
     }    

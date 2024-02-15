@@ -32,6 +32,8 @@ TagManager:
   - night_filter
   - twilight_filter
   - quest_setup
+  - shop
+  - telemetry
   layers:
   - Default
   - TransparentFX

@@ -6,11 +6,34 @@ public class howto_harvest_tutorial : MonoBehaviour
 {
 
     public bool hasHarvested;
-    public WorldController worldController; 
+    public WorldController worldController;
+    public PlayerController playerController;
     // Start is called before the first frame update
-    void Start()
+
+    //Singleton 
+    private static howto_harvest_tutorial instance;
+    // Read-only public access
+    public static howto_harvest_tutorial Instance => instance;
+
+    void Awake()
     {
-        
+
+        // Does another instance already exist?
+        if (instance && instance != this)
+        {
+            // Destroy myself
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise store my reference and make me DontDestroyOnLoad
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
     }
 
     // Update is called once per frame
@@ -21,8 +44,18 @@ public class howto_harvest_tutorial : MonoBehaviour
             if(worldController.tutorialCropList[i].GetComponent<Crop>().currentStage == Crop.CropStage.Harvested)
             {
                 hasHarvested = true;
-                Destroy(this.gameObject);
             }
+        }
+
+        if(worldController.tutorialHarvestable == null)
+        {
+            hasHarvested = true;
+        }
+        
+
+        if(hasHarvested)
+        {
+            Destroy(this.gameObject);
         }
     }
 }
