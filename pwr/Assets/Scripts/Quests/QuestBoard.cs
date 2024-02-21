@@ -216,6 +216,10 @@ public class QuestBoard : MonoBehaviour
             skipQuest = false;
             for (int j = 0; j < playerController.activeQuests.Length; j++)
             {
+                if(playerController.activeQuests[j] == null)
+                {
+                    continue;
+                }
                 if (questSetupScript.questDataBase[i].questName == playerController.activeQuests[j].questName)
                 {
                     skipQuest = true;
@@ -266,8 +270,6 @@ public class QuestBoard : MonoBehaviour
         //Get quests to submit
         for (int i = 0; i < playerController.activeQuests.Length; i++)
         {
-            Debug.Log(i);
-            Debug.Log(playerController.activeQuests[i].questName);
             //this is going to look weird - needs a clean up pass
             if (playerController.activeQuests[i].questType == QuestType.invalid)
             {
