@@ -855,14 +855,19 @@ public class PlayerController : MonoBehaviour
         
         for (int i = 0; i < recipe.ingredients.Length; i++)
         {
+            Debug.Log(recipe.ingredients[i]);
             for (int j = 0; j < itemManager.foodArray.Length; j++)
             {
+                Debug.Log(itemManager.foodArray[j].GetComponent<Item>().stringName);
                 if (recipe.ingredients[i].Equals(itemManager.foodArray[j].GetComponent<Item>().stringName))
                 {
+                    Debug.Log(recipe.ingredients[i]);
+                    Debug.Log(itemManager.foodArray[j]);
                     recipeIngredientItem = itemManager.foodArray[j].GetComponent<Item>();
                     break;
                 }
             }
+            Debug.Log(recipeIngredientItem);
             recipeUIIngredientImageArray[i].overrideSprite = recipeIngredientItem.itemSprite;
         }
 
