@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 70
-  sellingPrice: 50
+  cost: 10
+  sellingPrice: 5
   stringName: Small Plant
   itemSprite: {fileID: -7015520497380103165, guid: db1d665a13b7a4f41a735e0e4d330c7f,
     type: 3}

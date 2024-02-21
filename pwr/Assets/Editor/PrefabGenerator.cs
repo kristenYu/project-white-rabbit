@@ -10,7 +10,7 @@ public class PrefabGenerator : MonoBehaviour
     [MenuItem("My Generators/Generate Furniture Prefab From Texture2D Selection")]
     static void GenerateFurniturePrefab()
     {
-        Debug.Log("Generating Crops " + Selection.count + " Prefabs...");
+        Debug.Log("Generating furniture " + Selection.count + " Prefabs...");
         Texture2D[] textureArray = Selection.GetFiltered<Texture2D>(SelectionMode.Assets);
 
         foreach (Texture2D texture in textureArray)
@@ -42,23 +42,25 @@ public class PrefabGenerator : MonoBehaviour
             string[] nameStrings = texture.name.Split(' ');
             if (nameStrings[1] == "Chair")
             {
-                furnitureScript.cost = 150; //hardcoded value 
-                furnitureScript.sellingPrice = 100; //hardcoded value
+                prefabGameObject.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.0f);
+                furnitureScript.cost = 30; //hardcoded value 
+                furnitureScript.sellingPrice = 10; //hardcoded value
             }
             else if (nameStrings[1] == "Bed")
             {
-                furnitureScript.cost = 200; //hardcoded value 
-                furnitureScript.sellingPrice = 150; //hardcoded value
+                prefabGameObject.gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.0f);
+                furnitureScript.cost = 40; //hardcoded value 
+                furnitureScript.sellingPrice = 20; //hardcoded value
             }
             else if (nameStrings[1] == "Lamp")
             {
-                furnitureScript.cost = 50; //hardcoded value 
-                furnitureScript.sellingPrice = 30; //hardcoded value
+                furnitureScript.cost = 10; //hardcoded value 
+                furnitureScript.sellingPrice = 5; //hardcoded value
             }
             else if (nameStrings[1] == "Plant" || nameStrings[1] == "Flower")
             {
-                furnitureScript.cost = 70; //hardcoded value 
-                furnitureScript.sellingPrice = 50; //hardcoded value
+                furnitureScript.cost = 10; //hardcoded value 
+                furnitureScript.sellingPrice = 5; //hardcoded value
             }
 
             furnitureScript.itemSprite = furnitureScript.spriteArray[0];
@@ -278,7 +280,7 @@ public class PrefabGenerator : MonoBehaviour
             cookedFoodRenderer.sprite = cookedFoodScript.itemSprite;
             cookedFoodRenderer.sortingLayerName = "foreground";
             //So that the cooked food can be placed and displayed
-            cookedFoodObject.tag = "furniture";
+            //cookedFoodObject.tag = "furniture";
 
             //Create Recipe Prefab
             GameObject recipeObject = new GameObject();

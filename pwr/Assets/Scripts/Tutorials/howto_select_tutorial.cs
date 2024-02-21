@@ -4,7 +4,28 @@ using UnityEngine;
 
 public class howto_select_tutorial : MonoBehaviour
 {
-    public bool hasSelected; 
+    public bool hasSelected;
+
+    private static howto_select_tutorial instance;
+    // Read-only public access
+    public static howto_select_tutorial Instance => instance;
+
+    void Awake()
+    {
+
+        // Does another instance already exist?
+        if (instance && instance != this)
+        {
+            // Destroy myself
+            Destroy(gameObject);
+            return;
+        }
+
+        // Otherwise store my reference and make me DontDestroyOnLoad
+        instance = this;
+        //DontDestroyOnLoad(gameObject);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

@@ -58,7 +58,8 @@ public class WorldController : MonoBehaviour
     //Tutorial
     public List<GameObject> tutorialCropList;
     public GameObject tutorialHarvestable;
-    public Telemetry_Util telemetryUtil; 
+    public Telemetry_Util telemetryUtil;
+    public GameObject[] invalidTutorialCropArray;
 
     //Singleton 
     private static WorldController instance;
@@ -134,6 +135,21 @@ public class WorldController : MonoBehaviour
         checkValidSceneForFilters();
         growActiveCrops();
         updateTOD(currentTimer);
+
+        //tutorial 
+        invalidTutorialCropArray = GameObject.FindGameObjectsWithTag("crop");
+        for(int i = 0; i < invalidTutorialCropArray.Length; i++)
+        {
+            if(!tutorialCropList.Contains(invalidTutorialCropArray[i]))
+            {
+                if(!activeCropList.Contains(invalidTutorialCropArray[i]))
+                {
+                    Destroy(invalidTutorialCropArray[i]);
+                    
+                }
+                
+            }
+        }
         
     }
 

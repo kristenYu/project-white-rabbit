@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 7812139864170866191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 150
-  sellingPrice: 100
+  cost: 30
+  sellingPrice: 10
   stringName: Red Chair
   itemSprite: {fileID: 2747418107614025355, guid: 7d32dd59483bca9419053d1fa8e3ccfe,
     type: 3}

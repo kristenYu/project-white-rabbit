@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 50
-  sellingPrice: 30
+  cost: 10
+  sellingPrice: 5
   stringName: Red Lamp
   itemSprite: {fileID: -1205527058152223994, guid: 0b14228875896314fb3552eecb83ff65,
     type: 3}

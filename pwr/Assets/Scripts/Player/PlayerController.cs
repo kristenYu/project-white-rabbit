@@ -126,7 +126,8 @@ public class PlayerController : MonoBehaviour
 
     //tutorial
     public bool hasPlacedFurniture;
-    public bool hasShopped; 
+    public bool hasShopped;
+    public bool hasDebugCooking;
 
     //Telemetry 
     public Telemetry_Util telemetryUtil;
@@ -155,6 +156,8 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(selectQuestAlgorithm());
         previousInventoryIndex = 0;
         currentInventoryIndex = 0;
+
+        hasDebugCooking = false;
 
     }
 
@@ -518,6 +521,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
+                    hasDebugCooking = true;
                     Debug_UnlockAllRecipes();
                 }
             }

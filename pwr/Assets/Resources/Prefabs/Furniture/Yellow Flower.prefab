@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 418aca928381c7849a8ebdf293682cb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cost: 70
-  sellingPrice: 50
+  cost: 10
+  sellingPrice: 5
   stringName: Yellow Flower
   itemSprite: {fileID: -3104840966130708947, guid: dd898ebe049835840aeb61c35b81336f,
     type: 3}
