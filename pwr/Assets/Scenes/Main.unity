@@ -5426,7 +5426,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &490748157
 GameObject:
@@ -8816,7 +8816,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &819299053
 GameObject:
@@ -13385,7 +13385,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1278739313
 GameObject:
@@ -13856,6 +13856,80 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1001 &1302853779
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3529238550309940380, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_Name
+      value: Berry Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3.709638
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 12.1351
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 523ea4e06cb2131408014b0651bdd233, type: 3}
 --- !u!1 &1302920890
 GameObject:
   m_ObjectHideFlags: 0
@@ -18205,7 +18279,7 @@ PrefabInstance:
     - target: {fileID: 7057646911960160284, guid: b960f90136904484b9c67f73a5ca9d17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 7057646911960160284, guid: b960f90136904484b9c67f73a5ca9d17,
         type: 3}
@@ -18294,7 +18368,7 @@ PrefabInstance:
     - target: {fileID: 7057646911960160284, guid: b960f90136904484b9c67f73a5ca9d17,
         type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 7057646911960160284, guid: b960f90136904484b9c67f73a5ca9d17,
         type: 3}
@@ -19089,7 +19163,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562996446 stripped
 GameObject:
@@ -20373,6 +20447,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1712402936 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3529238550309940380, guid: 523ea4e06cb2131408014b0651bdd233,
+    type: 3}
+  m_PrefabInstance: {fileID: 1302853779}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1712402937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712402936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 920fb4dfba25c63458894173f5cd1205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mushroomGameObject: {fileID: 8329520493770811169, guid: 55e28ae68957c9b4aac2713f54849ebd,
+    type: 3}
+  worldController: {fileID: 0}
 --- !u!1 &1717762459
 GameObject:
   m_ObjectHideFlags: 0
@@ -33035,7 +33130,7 @@ Transform:
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1842297138
 GameObject:
@@ -34864,7 +34959,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1993442223
 GameObject:
@@ -36611,7 +36706,7 @@ PrefabInstance:
     - target: {fileID: 3529238550309940380, guid: 523ea4e06cb2131408014b0651bdd233,
         type: 3}
       propertyPath: m_Name
-      value: Harvestable Spawner
+      value: Mushroom Spawner
       objectReference: {fileID: 0}
     - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
         type: 3}
@@ -36779,7 +36874,7 @@ PrefabInstance:
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -254.99997
+      value: -255.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -36919,7 +37014,7 @@ PrefabInstance:
     - target: {fileID: 4202776943164621919, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -254.99997
+      value: -255.00003
       objectReference: {fileID: 0}
     - target: {fileID: 4202776943164621919, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -36944,7 +37039,7 @@ PrefabInstance:
     - target: {fileID: 5757910410578877877, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.49997
+      value: -255.50003
       objectReference: {fileID: 0}
     - target: {fileID: 5757910410578877877, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37253,7 +37348,7 @@ PrefabInstance:
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 288.45
+      value: 288.45007
       objectReference: {fileID: 0}
     - target: {fileID: 9126032421763068891, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
