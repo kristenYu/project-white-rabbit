@@ -1,0 +1,5 @@
+{"questName": "Cook 2 mushroom recipes",
+"questType": 1, 
+"reward": 100, 
+"eventListenerData": [ "mushroom", "2"]
+}
