@@ -56,6 +56,25 @@ Where
 * place uses array  ["\<number of furniture to place\>"]
 * harvest uses array   ["\<type of harvestable\>", "\<number of harvests\>"]
 
+## Adding a New Recipe
+Recipes can be added to the game, but they require a little bit of work. There are two pieces that need to be done by hand - the recipe JSON and the cooked food sprite. First, the recipe JSON is configured as follows:
+
+```
+{"stringName": "lettuce sandwich", 
+"ingredients": ["lettuce", "carrot", "tomato"],
+"cost": 50,
+"cookedFoodSellingPrice": 50
+}
+```
+Where
+
+1. stringName is the name that the player sees
+2. The ingredients list is the string names of the ingredients that need to be made. They have to be valid food objects, and there is minimum 1 maximum 3 ingredients
+3. The cost is the cost to unlock the recipe as an int
+4. The cookedFoodSellingPrice is the price of selling the final cooked food as an int
+
+Second, add in a sprite with the exact name of the cooked food in the cooked food folder in sprites. 
+
 ## Credits 
 Art Credits: 
 https://helm3t.itch.io/farmlandia-fruit
