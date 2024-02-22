@@ -422,6 +422,9 @@ public class ShopScript : MonoBehaviour
                     moneyOwed = 0;
                     playerController.currency -= moneyOwed;
                     moneyOwedText.text = moneyOwed.ToString();
+
+                    //playerController.HUD.SetActive(false);
+                    SceneManager.LoadScene("Win", LoadSceneMode.Single);
                 }
                 //telemetry
                 StartCoroutine(telemetryUtil.PostData("Shop:Pay" + amountToPay.ToString()));
