@@ -82,13 +82,9 @@ https://cupnooble.itch.io/
 https://ghostpixxells.itch.io/pixelfood
 
 Music by: 
-
 "Farm Village" by Kirk Osamayo from Free Music Archive liscence [CC by 4.0 ](https://creativecommons.org/licenses/by/4.0/)
-
 Mixkit "bonus earned in video game" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
-
 Mixkit "quick jump arcade" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
-
-
-
+Mixkit "Catching a Basketball" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
+Mixkit "Crunchy road fast walking loop" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
 
