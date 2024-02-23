@@ -16,6 +16,9 @@ public class ContextScene : MonoBehaviour
 
     public int currentTextNumber;
 
+    public AudioSource audioSource;
+    public AudioClip audioClip; 
+
     void Start()
     {
         currentTextNumber = 0;
@@ -30,14 +33,17 @@ public class ContextScene : MonoBehaviour
             currentTextNumber++;
             if (currentTextNumber == 1)
             {
+                audioSource.PlayOneShot(audioClip);
                 welcomeText.text = text1;
             }
             else if (currentTextNumber == 2)
             {
+                audioSource.PlayOneShot(audioClip);
                 welcomeText.text = text2; 
             }
             else if(currentTextNumber >= 3)
             {
+                audioSource.PlayOneShot(audioClip);
                 SceneManager.LoadScene("Main", LoadSceneMode.Single);
             }
         }
