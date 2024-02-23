@@ -110,6 +110,9 @@ public class PlayerController : MonoBehaviour
     private int layerMask;
     public GameObject HUD;
 
+    //sound effects
+    public AudioSource audioSource;
+    public AudioClip walkingClip;
    
 
     //Debug
@@ -213,13 +216,17 @@ public class PlayerController : MonoBehaviour
         setActiveItem(previousInventoryIndex);
 
         hasPlacedFurniture = false;
+
+        //sound 
+        //audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        audioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
     {
         ShowActiveItem();
 
-        if(isShouldMove)
+        if (isShouldMove)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
@@ -258,26 +265,44 @@ public class PlayerController : MonoBehaviour
         //Interaction raycasts
         if (horizontal < 0)
         {
+            if(!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(walkingClip);
+            }
+            
             hit = drawRay(Vector2.left, false);
             previousDirection = Vector2.left;
         }
         else if (horizontal > 0)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(walkingClip);
+            }
             hit = drawRay(Vector2.right, false);
             previousDirection = Vector2.right;
         }
         else if (vertical < 0)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(walkingClip);
+            }
             hit = drawRay(Vector2.down, false);
             previousDirection = Vector2.down;
         }
         else if (vertical > 0)
         {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(walkingClip);
+            }
             hit = drawRay(Vector2.up, false);
             previousDirection = Vector2.up;
         }
         else
         {
+            audioSource.Stop();
             hit = drawRay(previousDirection, false);
         }
 

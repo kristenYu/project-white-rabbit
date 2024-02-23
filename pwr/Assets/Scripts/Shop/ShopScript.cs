@@ -88,6 +88,10 @@ public class ShopScript : MonoBehaviour
     //Tutorial
     public bool tutorialBool; //set to true if a player sucessfully buys or sells something
 
+    //sound 
+    public AudioSource audioSource;
+    public AudioClip changeTabClip;
+
     private void Awake()
     {
         playerControllerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
@@ -103,6 +107,7 @@ public class ShopScript : MonoBehaviour
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
         telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
+        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         randomNumberList = new List<int>();
         recipeIngredientImageArray = new Image[3]; //hardcoded for the maximum number of ingredients in a recipe
         //store state 
@@ -579,7 +584,9 @@ public class ShopScript : MonoBehaviour
     private void SetStoreState(StoreState state)
     {
         storeState = state;
+        audioSource.PlayOneShot(changeTabClip);
         updateStorePanels();
+        
     }
     private bool checkIfShopShouldUpdate()
     {

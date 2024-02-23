@@ -399,6 +399,8 @@ MonoBehaviour:
   moneyOwed: 0
   questTrackingUIArray: []
   tutorialBool: 0
+  audioSource: {fileID: 0}
+  changeTabClip: {fileID: 0}
 --- !u!1001 &160237175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1739,6 +1741,8 @@ MonoBehaviour:
   - {fileID: 1485310802}
   - {fileID: 887233765}
   tutorialBool: 0
+  audioSource: {fileID: 0}
+  changeTabClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
 --- !u!4 &675460447
 Transform:
   m_ObjectHideFlags: 0

@@ -89,7 +89,11 @@ public class QuestBoard : MonoBehaviour
     public TextMeshProUGUI currentCoins;
 
     //update quest on the day 
-    WorldController worldController;
+    public WorldController worldController;
+
+    //sound 
+    public AudioSource audioSource;
+    public AudioClip questTabClip;
 
     private void Awake()
     {
@@ -105,6 +109,7 @@ public class QuestBoard : MonoBehaviour
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerController = playerObject.GetComponent<PlayerController>();
         playerObject.GetComponent<SpriteRenderer>().enabled = false;
+        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>(); 
 
 
         //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
@@ -265,6 +270,7 @@ public class QuestBoard : MonoBehaviour
 
     public void SetupSubmitQuestsUI()
     {
+        audioSource.PlayOneShot(questTabClip);
         currentQuestboardState = QuestBoardState.submit;
         questDescriptionText.text = "Quests to Submit:";
         //Get quests to submit
@@ -306,6 +312,7 @@ public class QuestBoard : MonoBehaviour
 
     public void SetupAcceptQuestsUI()
     {
+        audioSource.PlayOneShot(questTabClip);
         if (currentQuestboardState == QuestBoardState.submit)
         {
             PopulateQuestBoard();

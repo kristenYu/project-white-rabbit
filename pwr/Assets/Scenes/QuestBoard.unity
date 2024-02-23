@@ -825,6 +825,7 @@ MonoBehaviour:
   displayQuests: []
   questsToSubmit: []
   questSetupScript: {fileID: 0}
+  usableQuestArray: []
   questUIObjects:
   - {fileID: 1388832661}
   - {fileID: 2145081983}
@@ -841,6 +842,9 @@ MonoBehaviour:
   questHudGameobjectArray: []
   currentQuestHudIndex: 0
   currentCoins: {fileID: 1117243930}
+  worldController: {fileID: 0}
+  audioSource: {fileID: 0}
+  questTabClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
 --- !u!1 &567353382
 GameObject:
   m_ObjectHideFlags: 0
@@ -2187,12 +2191,12 @@ PrefabInstance:
     - target: {fileID: 3608193963525767399, guid: 3ae9d8227bf0da14ca0ae3753bd8ce63,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 92.000046
+      value: 92.00006
       objectReference: {fileID: 0}
     - target: {fileID: 3608193963525767399, guid: 3ae9d8227bf0da14ca0ae3753bd8ce63,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -13.9990425
+      value: -13.999054
       objectReference: {fileID: 0}
     - target: {fileID: 3608193963525767399, guid: 3ae9d8227bf0da14ca0ae3753bd8ce63,
         type: 3}
@@ -4272,7 +4276,7 @@ PrefabInstance:
     - target: {fileID: 3608193963525767399, guid: 3ae9d8227bf0da14ca0ae3753bd8ce63,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -14.000019
+      value: -14.0000305
       objectReference: {fileID: 0}
     - target: {fileID: 3608193963525767399, guid: 3ae9d8227bf0da14ca0ae3753bd8ce63,
         type: 3}
