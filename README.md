@@ -82,7 +82,7 @@ https://cupnooble.itch.io/
 https://ghostpixxells.itch.io/pixelfood
 
 Music by: 
-Music by Pixabay
+Farm Village by Kirk Osamayo from Free Music Archive liscence CC by 4.0 https://creativecommons.org/licenses/by/4.0/
 
 
 
