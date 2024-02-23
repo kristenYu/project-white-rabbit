@@ -83,9 +83,11 @@ https://ghostpixxells.itch.io/pixelfood
 
 Music by: 
 
-Farm Village by Kirk Osamayo from Free Music Archive liscence CC by 4.0 https://creativecommons.org/licenses/by/4.0/
+"Farm Village" by Kirk Osamayo from Free Music Archive liscence [CC by 4.0 ](https://creativecommons.org/licenses/by/4.0/)
 
-mixkit bonus earend in video game sound effect by mixkit liscence https://mixkit.co/license/
+Mixkit "bonus earned in video game" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
+
+Mixkit "quick jump arcade" sound effect by [mixkit liscence](https://mixkit.co/license/#sfxFree)
 
 
 
