@@ -3,7 +3,28 @@ guid: c05ae40e7bf81424dbf4477493399d39
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - itemManagerObject: {instanceID: 0}
+  - worldControllerObject: {instanceID: 0}
+  - cookingUI: {instanceID: 0}
+  - cookingUIScrollBar: {instanceID: 0}
+  - recipeUIPrefab: {instanceID: 0}
+  - recipeIngredientItem: {instanceID: 0}
+  - cookedFoodObject: {instanceID: 0}
+  - activeItem: {instanceID: 0}
+  - activeItemSprite: {instanceID: 0}
+  - inventorySprite: {instanceID: 0}
+  - currencyText: {instanceID: 0}
+  - furnitureObject: {instanceID: 0}
+  - interactPopup: {instanceID: 0}
+  - interactPlantSprite: {instanceID: 0}
+  - interactBasicSprite: {instanceID: 0}
+  - interactCookSprite: {instanceID: 0}
+  - HUD: {instanceID: 0}
+  - audioSource: {instanceID: 0}
+  - walkingClip: {fileID: 8300000, guid: bf3c465683f155c41b244b7189816d00, type: 3}
+  - plantingClip: {instanceID: 0}
+  - telemetryUtil: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

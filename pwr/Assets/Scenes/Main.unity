@@ -7619,8 +7619,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bf3c465683f155c41b244b7189816d00, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
+  m_Volume: 0.489
+  m_Pitch: 1.5
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -9763,7 +9763,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ee3a182a67bdb8e49bd3a9850fd0683b, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.495
   m_Pitch: 1
@@ -10855,6 +10855,102 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3020716752335871443}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &1061004653
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1061004650}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ee3a182a67bdb8e49bd3a9850fd0683b, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.089
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1063666560
 GameObject:
   m_ObjectHideFlags: 0
@@ -26361,8 +26457,8 @@ Tilemap:
   - first: {x: -8, y: 2, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 5
-      m_TileSpriteIndex: 18
+      m_TileIndex: 19
+      m_TileSpriteIndex: 16
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -32010,7 +32106,7 @@ Tilemap:
     m_Data: {fileID: 0}
   - m_RefCount: 2
     m_Data: {fileID: 11400000, guid: 186e6633273f90f4bab513a0330a4d05, type: 2}
-  - m_RefCount: 824
+  - m_RefCount: 823
     m_Data: {fileID: 11400000, guid: 318fefa1aec4c9048b0a57065aa403bd, type: 2}
   - m_RefCount: 10
     m_Data: {fileID: 11400000, guid: d25b598114119b9428e01451970a38a8, type: 2}
@@ -32038,7 +32134,7 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 91337919a09544b4fb01679084cf1de2, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: f06646fdddedeac40bb2f49be57b8d2a, type: 2}
-  - m_RefCount: 25
+  - m_RefCount: 26
     m_Data: {fileID: 11400000, guid: f64910e8f63a92f449d7f9f1449928d2, type: 2}
   - m_RefCount: 3
     m_Data: {fileID: 11400000, guid: c5d390f2dcd616440a276a778fa6003c, type: 2}
@@ -32083,13 +32179,13 @@ Tilemap:
   - m_RefCount: 24
     m_Data: {fileID: 4226905133579764001, guid: b1096f3c32fdf6647920822ac6329796,
       type: 3}
-  - m_RefCount: 25
+  - m_RefCount: 26
     m_Data: {fileID: -7645372005702169758, guid: b1096f3c32fdf6647920822ac6329796,
       type: 3}
   - m_RefCount: 2
     m_Data: {fileID: -9108806569825453820, guid: b1096f3c32fdf6647920822ac6329796,
       type: 3}
-  - m_RefCount: 824
+  - m_RefCount: 823
     m_Data: {fileID: -1848801932137997923, guid: b1096f3c32fdf6647920822ac6329796,
       type: 3}
   - m_RefCount: 2
@@ -33057,6 +33153,16 @@ Tilemap:
       m_TileObjectToInstantiateIndex: 65535
       dummyAlignment: 0
       m_AllTileFlags: 1073741825
+  - first: {x: -8, y: 2, z: 0}
+    second:
+      serializedVersion: 2
+      m_TileIndex: 5
+      m_TileSpriteIndex: 5
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_TileObjectToInstantiateIndex: 65535
+      dummyAlignment: 0
+      m_AllTileFlags: 1073741825
   - first: {x: -10, y: 3, z: 0}
     second:
       serializedVersion: 2
@@ -33119,8 +33225,8 @@ Tilemap:
     m_Data: {fileID: 11400000, guid: 97f19fa802a46174cae6abf551b4cf26, type: 2}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 11400000, guid: d00afb6e71404224b8a7d43b72dcdde3, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 2
     m_Data: {fileID: -9115244458946301960, guid: 763f88465aa7d724d9b2de1944fd98a6,
@@ -33136,10 +33242,11 @@ Tilemap:
       type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: -3975216232760467619, guid: 4c921f16f5981654f8aa410f7e95879d,
+      type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 10
+  - m_RefCount: 11
     m_Data:
       e00: 1
       e01: 0
@@ -33158,7 +33265,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 10
+  - m_RefCount: 11
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
@@ -36672,9 +36779,19 @@ PrefabInstance:
       objectReference: {fileID: 257207033}
     - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
+      propertyPath: newDayClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 3e4e46731af134640b4caf634d5af31f, type: 3}
+    - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
       propertyPath: nightFilter
       value: 
       objectReference: {fileID: 477141926}
+    - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
+      propertyPath: growCropsClip
+      value: 
+      objectReference: {fileID: 8300000, guid: efd9e793704151b40940e888e7d7a218, type: 3}
     - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
       propertyPath: twilightFilter
@@ -37363,6 +37480,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
+      propertyPath: canCookClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 31fe15e1336cbc84198559d1ce93f010, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: walkingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bf3c465683f155c41b244b7189816d00, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: plantingClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 5375993a863c44246a0e958e16acf53a, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
       propertyPath: testUIPrefab
       value: 
       objectReference: {fileID: 908839126264181946, guid: aa983e0d4e43cfa4dad3e8bb0ac5d5d2,
@@ -37372,6 +37504,21 @@ PrefabInstance:
       propertyPath: telemetryUtil
       value: 
       objectReference: {fileID: 2130653386}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: bushRustleclip
+      value: 
+      objectReference: {fileID: 8300000, guid: f113bb8bdddbc3f458e0a5f971f14b78, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: cannotCookClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 38b00ce4e385834438787ef1b67c1de0, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: placeFurniture
+      value: 
+      objectReference: {fileID: 8300000, guid: abaafc4aff386f647ad2eb3288f4e420, type: 3}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: cookingUIPrefab
@@ -37386,10 +37533,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
+      propertyPath: rotateFurniture
+      value: 
+      objectReference: {fileID: 8300000, guid: 94aab87b128959b4fb38a7b04181907b, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
       propertyPath: activeItemSprite
       value: 
       objectReference: {fileID: 21300000, guid: 3e419ddd54006ad429755979ea3d5f55,
         type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: harvestPlantClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 715352c68047ba44ab1c3c0503e916bc, type: 3}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: itemManagerObject
@@ -37400,6 +37557,26 @@ PrefabInstance:
       propertyPath: cookingUIScrollBar
       value: 
       objectReference: {fileID: 555694682}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: placeFurnitureClip
+      value: 
+      objectReference: {fileID: 8300000, guid: abaafc4aff386f647ad2eb3288f4e420, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: inventoryRustleClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bef8d31a35695b94e9aba474d1fe76c5, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: mushroomHarvestClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7c07ef1da2b8a19458510e0a28ac2cd8, type: 3}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: rotateFurnitureClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 94aab87b128959b4fb38a7b04181907b, type: 3}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: worldControllerObject
@@ -37498,7 +37675,7 @@ PrefabInstance:
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 288.44998
+      value: 293.25525
       objectReference: {fileID: 0}
     - target: {fileID: 9126032421763068891, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}

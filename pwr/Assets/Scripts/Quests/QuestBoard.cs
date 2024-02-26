@@ -94,6 +94,9 @@ public class QuestBoard : MonoBehaviour
     //sound 
     public AudioSource audioSource;
     public AudioClip questTabClip;
+    public AudioClip exitButtonClip;
+    public AudioClip acceptQuestClip;
+    public AudioClip submitQuestClip;
 
     private void Awake()
     {
@@ -183,6 +186,7 @@ public class QuestBoard : MonoBehaviour
     }
     public void ExitScene()
     {
+        audioSource.PlayOneShot(exitButtonClip);
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
         Debug.Log(currentQuestAlgorithm);
@@ -344,7 +348,7 @@ public class QuestBoard : MonoBehaviour
         }
         else
         {
-
+            audioSource.PlayOneShot(acceptQuestClip);
             //Instantiate Event Listener
             switch (quest.questType)
             {
@@ -454,7 +458,7 @@ public class QuestBoard : MonoBehaviour
     }
     public void SubmitQuest(Quest quest, GameObject UIObject)
     {
-
+        audioSource.PlayOneShot(submitQuestClip);
         playerController.addCurrency(quest.reward);
         playerController.RemoveQuestFromActiveQuestsArray(quest);
         currentQuestAlgorithm.OnQuestSubmitted();

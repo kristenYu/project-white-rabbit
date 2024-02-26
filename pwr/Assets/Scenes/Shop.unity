@@ -401,6 +401,10 @@ MonoBehaviour:
   tutorialBool: 0
   audioSource: {fileID: 0}
   changeTabClip: {fileID: 0}
+  exitButtonClip: {fileID: 0}
+  buyItemClip: {fileID: 0}
+  cantBuyItemClip: {fileID: 0}
+  sellItemClip: {fileID: 0}
 --- !u!1001 &160237175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1743,6 +1747,10 @@ MonoBehaviour:
   tutorialBool: 0
   audioSource: {fileID: 0}
   changeTabClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
+  exitButtonClip: {fileID: 8300000, guid: 024000a1dabc60046a0afa8864c6b19c, type: 3}
+  buyItemClip: {fileID: 8300000, guid: 31fe15e1336cbc84198559d1ce93f010, type: 3}
+  cantBuyItemClip: {fileID: 8300000, guid: 38b00ce4e385834438787ef1b67c1de0, type: 3}
+  sellItemClip: {fileID: 8300000, guid: cd500eb3904196b428c4fad20c9160b9, type: 3}
 --- !u!4 &675460447
 Transform:
   m_ObjectHideFlags: 0

@@ -845,6 +845,9 @@ MonoBehaviour:
   worldController: {fileID: 0}
   audioSource: {fileID: 0}
   questTabClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
+  exitButtonClip: {fileID: 8300000, guid: 024000a1dabc60046a0afa8864c6b19c, type: 3}
+  acceptQuestClip: {fileID: 8300000, guid: 31fe15e1336cbc84198559d1ce93f010, type: 3}
+  submitQuestClip: {fileID: 8300000, guid: cd500eb3904196b428c4fad20c9160b9, type: 3}
 --- !u!1 &567353382
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,9 +89,13 @@ public class ShopScript : MonoBehaviour
     public bool tutorialBool; //set to true if a player sucessfully buys or sells something
 
     //sound 
+    private AudioSource playerAudioSource;
     public AudioSource audioSource;
     public AudioClip changeTabClip;
-
+    public AudioClip exitButtonClip;
+    public AudioClip buyItemClip;
+    public AudioClip cantBuyItemClip;
+    public AudioClip sellItemClip;
     private void Awake()
     {
         playerControllerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
@@ -103,6 +107,12 @@ public class ShopScript : MonoBehaviour
         //load the item manager, player controller, and save data
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerController.isShouldMove = false;
+        playerAudioSource = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
+        if(playerAudioSource.isPlaying)
+        {
+            Debug.Log("player audio source is playing");
+            playerAudioSource.Stop();
+        }
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
@@ -290,6 +300,7 @@ public class ShopScript : MonoBehaviour
 
     private void ItemPurchased(GameObject item)
     {
+        audioSource.PlayOneShot(buyItemClip);
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
@@ -325,6 +336,7 @@ public class ShopScript : MonoBehaviour
         }
         else
         {
+            audioSource.PlayOneShot(cantBuyItemClip);
             //message saying no money :(, make into a pop up in game later?
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
             rabbitAnimator.speechText.text = "Sorry you don't have enough money";
@@ -335,6 +347,7 @@ public class ShopScript : MonoBehaviour
 
     private void ItemSold(GameObject item, GameObject sellingUIObject, int index)
     {
+        audioSource.PlayOneShot(sellItemClip);
         //add currency to player
         playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
         //remove item from inventory 
@@ -416,6 +429,7 @@ public class ShopScript : MonoBehaviour
         {
             if(amountToPay <= playerController.currency && amountToPay > 0)
             {
+                audioSource.PlayOneShot(sellItemClip);
                 if(amountToPay < moneyOwed)
                 {
                     moneyOwed -= amountToPay;
@@ -458,6 +472,7 @@ public class ShopScript : MonoBehaviour
     private void ExitButtonClicked()
     {
         //load main and enable player movement
+        audioSource.PlayOneShot(exitButtonClip);
         playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
         playerController.HUD.SetActive(true);
         playerController.enabled = true;

@@ -111,9 +111,19 @@ public class PlayerController : MonoBehaviour
     public GameObject HUD;
 
     //sound effects
-    public AudioSource audioSource;
+    public AudioSource playerAudioSource;
+    public AudioSource cameraAudioSource; 
     public AudioClip walkingClip;
-   
+    public AudioClip plantingClip;
+    public AudioClip bushRustleclip;
+    public AudioClip mushroomHarvestClip;
+    public AudioClip inventoryRustleClip;
+    public AudioClip placeFurnitureClip;
+    public AudioClip rotateFurnitureClip;
+    public AudioClip canCookClip;
+    public AudioClip cannotCookClip;
+    public AudioClip harvestPlantClip;
+
 
     //Debug
     private GameObject testObject; 
@@ -218,8 +228,8 @@ public class PlayerController : MonoBehaviour
         hasPlacedFurniture = false;
 
         //sound 
-        //audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
-        audioSource = this.GetComponent<AudioSource>();
+        cameraAudioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        playerAudioSource = this.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -230,6 +240,10 @@ public class PlayerController : MonoBehaviour
         {
             horizontal = Input.GetAxisRaw("Horizontal");
             vertical = Input.GetAxisRaw("Vertical");
+        }
+        else
+        {
+            playerAudioSource.Stop();
         }
         //player animation
         if (horizontal != 0 && vertical != 0)
@@ -265,9 +279,9 @@ public class PlayerController : MonoBehaviour
         //Interaction raycasts
         if (horizontal < 0)
         {
-            if(!audioSource.isPlaying)
+            if(!playerAudioSource.isPlaying)
             {
-                audioSource.PlayOneShot(walkingClip);
+                playerAudioSource.PlayOneShot(walkingClip);
             }
             
             hit = drawRay(Vector2.left, false);
@@ -275,34 +289,34 @@ public class PlayerController : MonoBehaviour
         }
         else if (horizontal > 0)
         {
-            if (!audioSource.isPlaying)
+            if (!playerAudioSource.isPlaying)
             {
-                audioSource.PlayOneShot(walkingClip);
+                playerAudioSource.PlayOneShot(walkingClip);
             }
             hit = drawRay(Vector2.right, false);
             previousDirection = Vector2.right;
         }
         else if (vertical < 0)
         {
-            if (!audioSource.isPlaying)
+            if (!playerAudioSource.isPlaying)
             {
-                audioSource.PlayOneShot(walkingClip);
+                playerAudioSource.PlayOneShot(walkingClip);
             }
             hit = drawRay(Vector2.down, false);
             previousDirection = Vector2.down;
         }
         else if (vertical > 0)
         {
-            if (!audioSource.isPlaying)
+            if (!playerAudioSource.isPlaying)
             {
-                audioSource.PlayOneShot(walkingClip);
+                playerAudioSource.PlayOneShot(walkingClip);
             }
             hit = drawRay(Vector2.up, false);
             previousDirection = Vector2.up;
         }
         else
         {
-            audioSource.Stop();
+            playerAudioSource.Stop();
             hit = drawRay(previousDirection, false);
         }
 
@@ -313,6 +327,7 @@ public class PlayerController : MonoBehaviour
             {
                 if (activeItem.tag == "furniture")
                 {
+                    cameraAudioSource.PlayOneShot(rotateFurnitureClip);
                     //TODO: This could be filled with bugs! It gets the furniture object from the last instantiated object
                     furnitureObject = activeItem;
                     furnitureSpriteRenderer = furnitureObject.GetComponent<SpriteRenderer>();
@@ -344,42 +359,52 @@ public class PlayerController : MonoBehaviour
         //inventory QOL Update
         if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(0);
         }
         if (Input.GetKeyDown(KeyCode.Keypad2) || Input.GetKeyDown(KeyCode.Alpha2))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(1);
         }
         if (Input.GetKeyDown(KeyCode.Keypad3) || Input.GetKeyDown(KeyCode.Alpha3))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(2);
         }
         if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Alpha4))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(3);
         }
         if (Input.GetKeyDown(KeyCode.Keypad5) || Input.GetKeyDown(KeyCode.Alpha5))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(4);
         }
         if (Input.GetKeyDown(KeyCode.Keypad6) || Input.GetKeyDown(KeyCode.Alpha6))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(5);
         }
         if (Input.GetKeyDown(KeyCode.Keypad7) || Input.GetKeyDown(KeyCode.Alpha7))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(6);
         }
         if (Input.GetKeyDown(KeyCode.Keypad8) || Input.GetKeyDown(KeyCode.Alpha8))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(7);
         }
         if (Input.GetKeyDown(KeyCode.Keypad9) || Input.GetKeyDown(KeyCode.Alpha9))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(8);
         }
         if (Input.GetKeyDown(KeyCode.Keypad0) || Input.GetKeyDown(KeyCode.Alpha0))
         {
+            cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(9);
         }
 
@@ -419,6 +444,26 @@ public class PlayerController : MonoBehaviour
                     interactPopup.SetActive(false);
                 }    
             }
+            else if(hit.transform.tag == "placeable")
+            {
+                if(activeItem != null)
+                {
+                    if (activeItem.tag == "furniture")
+                    {
+                        interactPopup.SetActive(true);
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                    }
+                    else
+                    {
+                        interactPopup.SetActive(false);
+                    }
+                }
+                else
+                {
+                    interactPopup.SetActive(false);
+                }
+               
+            }
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -428,6 +473,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if(hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
                     {
+                        playerAudioSource.Stop();
                         //assumes that the object matches the name of the scene you want to load
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
@@ -437,7 +483,7 @@ public class PlayerController : MonoBehaviour
                     {
                         
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
-                        this.transform.position = new Vector3(-13.5f, 3.5f, 0f);
+                        this.transform.position = new Vector3(-7.5f, 2.5f, 0f);
                         StartCoroutine(telemetryUtil.PostData("Transition:Main"));
                     }
                     if(hit.transform.gameObject.name == "Tutorial")
@@ -454,7 +500,7 @@ public class PlayerController : MonoBehaviour
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
-                        
+                        playerAudioSource.Stop();
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
                     }
@@ -473,7 +519,10 @@ public class PlayerController : MonoBehaviour
                     if (activeItem != null)
                     {
                         if (activeItem.tag == "seed")
-                        { 
+                        {
+                            cameraAudioSource.volume = 0.5f;
+                            cameraAudioSource.PlayOneShot(plantingClip);
+                            cameraAudioSource.volume = 0.2f;
                             seedScript = activeItem.GetComponent<Seed>();
                             cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
                             cropObject.GetComponent<SpriteRenderer>().enabled = true;
@@ -498,6 +547,7 @@ public class PlayerController : MonoBehaviour
                     cropScript = hit.transform.gameObject.GetComponent<Crop>();
                     if(cropScript.currentStage == Crop.CropStage.FullyGrown)
                     {
+                        cameraAudioSource.PlayOneShot(harvestPlantClip);
                         AddObjectToInventory(cropScript.HarvestCrop());
                         StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
                     }
@@ -513,7 +563,16 @@ public class PlayerController : MonoBehaviour
                     justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
                     Object.Destroy(hit.transform.gameObject);
                     actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
-                    StartCoroutine(telemetryUtil.PostData("Interaction:HarvestMushroom"));
+                    if(harvestableScript.stringName == "mushroom")
+                    {
+                        cameraAudioSource.PlayOneShot(mushroomHarvestClip);
+                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestMushroom"));
+                    }
+                    else
+                    {
+                        cameraAudioSource.PlayOneShot(bushRustleclip);
+                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestBerry"));
+                    }
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
@@ -529,11 +588,13 @@ public class PlayerController : MonoBehaviour
                         if (activeItem.tag == "furniture")
                         {
                             StartCoroutine(telemetryUtil.PostData("Interaction:PlaceFurniture" + activeItem.gameObject.GetComponent<Furniture>().stringName));
+                            cameraAudioSource.PlayOneShot(placeFurnitureClip);
                             RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
                             placeFurnitureFlag = true;
                             hasPlacedFurniture = true;
+                            
                         }
                     }
                 }
@@ -930,6 +991,7 @@ public class PlayerController : MonoBehaviour
 
             if(isIngredientInInventory == false)
             {
+                cameraAudioSource.PlayOneShot(cannotCookClip);
                 Debug.Log("Recipe Cannot be made because player does not have the correct ingredients");
                 //return the items to the inventory 
                 foreach(GameObject item in targetIngredients)
@@ -940,6 +1002,7 @@ public class PlayerController : MonoBehaviour
                 return false; 
             }
         }
+        cameraAudioSource.PlayOneShot(canCookClip);
         cookedFoodObject = Instantiate(recipe.cookedFood);
         AddObjectToInventory(cookedFoodObject);
         CookedRecipeFlag = true;

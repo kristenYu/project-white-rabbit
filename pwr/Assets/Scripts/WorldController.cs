@@ -61,6 +61,12 @@ public class WorldController : MonoBehaviour
     public Telemetry_Util telemetryUtil;
     public GameObject[] invalidTutorialCropArray;
 
+    //audio
+    public AudioSource audioSource;
+    public AudioClip newDayClip;
+    public AudioClip growCropsClip;
+    public bool hasPlayedGrowCropsClip;
+
     //Singleton 
     private static WorldController instance;
     // Read-only public access
@@ -122,6 +128,9 @@ public class WorldController : MonoBehaviour
             tutorialCrop.GetComponent<Crop>().isReadyToGrow = false;
             tutorialCrop.GetComponent<SpriteRenderer>().sprite = tutorialCrop.GetComponent<Crop>().SpriteGrowingArray[3];
         }
+
+        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        hasPlayedGrowCropsClip = false;
     }
 
     // Update is called once per frame
@@ -237,7 +246,6 @@ public class WorldController : MonoBehaviour
 
     public void growActiveCrops()
     {
-
         foreach (GameObject crop in activeCropList)
         {
             currentCropScript = crop.GetComponent<Crop>();
@@ -265,13 +273,31 @@ public class WorldController : MonoBehaviour
         {
             if (timer >= dayDuration)
             {
-                currentTOD = TOD.Twilight;
+                foreach (GameObject crop in activeCropList)
+                {
+                    currentCropScript = crop.GetComponent<Crop>();
+                    if (currentCropScript.isReadyToGrow)
+                    {
+                        audioSource.PlayOneShot(growCropsClip);
+                        break;
+                    }
+                }
+                    currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[1];
             }
         }
         else if (currentTOD == TOD.Twilight)
         {
+            foreach (GameObject crop in activeCropList)
+            {
+                currentCropScript = crop.GetComponent<Crop>();
+                if (currentCropScript.isReadyToGrow)
+                {
+                    audioSource.PlayOneShot(growCropsClip);
+                    break;
+                }
+            }
             if (timer >= twilightDuration)
             {
                 currentTOD = TOD.Night;
@@ -283,6 +309,16 @@ public class WorldController : MonoBehaviour
         {
             if (timer >= nightDuration)
             {
+                foreach (GameObject crop in activeCropList)
+                {
+                    currentCropScript = crop.GetComponent<Crop>();
+                    if (currentCropScript.isReadyToGrow)
+                    {
+                        audioSource.PlayOneShot(growCropsClip);
+                        break;
+                    }
+                }
+                audioSource.PlayOneShot(newDayClip);
                 currentTOD = TOD.Day;
                 currentTimer = 0.0f;
                 currentDay++;
