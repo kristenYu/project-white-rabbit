@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 10
+  sellingPrice: 0
   stringName: tomato
-  itemSprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  itemSprite: {fileID: 21300000, guid: 348b5265b07ff1946917f481da890a3d, type: 3}
+  shopSprite: {fileID: 21300000, guid: 5dfab08cb0a10f249ba7c474c36fbbbf, type: 3}
   crop: {fileID: 8342067618130913555, guid: a9a641de0864e994199e35e72bc038b4, type: 3}
 --- !u!212 &8513734995723363282
 SpriteRenderer:
@@ -88,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 348b5265b07ff1946917f481da890a3d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

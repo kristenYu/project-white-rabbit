@@ -3716,6 +3716,14 @@ MonoBehaviour:
   payMortageButton: {fileID: 143714501}
   amountToPayInput: {fileID: 952506282}
   moneyOwed: 1000
+  questTrackingUIArray: []
+  tutorialBool: 0
+  audioSource: {fileID: 0}
+  changeTabClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
+  exitButtonClip: {fileID: 8300000, guid: 0c71fb7ecd850b04394c670cea2bb185, type: 3}
+  buyItemClip: {fileID: 8300000, guid: 31fe15e1336cbc84198559d1ce93f010, type: 3}
+  cantBuyItemClip: {fileID: 8300000, guid: 38b00ce4e385834438787ef1b67c1de0, type: 3}
+  sellItemClip: {fileID: 8300000, guid: cd500eb3904196b428c4fad20c9160b9, type: 3}
 --- !u!4 &1182845924
 Transform:
   m_ObjectHideFlags: 0
@@ -5732,6 +5740,14 @@ MonoBehaviour:
   payMortageButton: {fileID: 0}
   amountToPayInput: {fileID: 0}
   moneyOwed: 0
+  questTrackingUIArray: []
+  tutorialBool: 0
+  audioSource: {fileID: 0}
+  changeTabClip: {fileID: 0}
+  exitButtonClip: {fileID: 0}
+  buyItemClip: {fileID: 0}
+  cantBuyItemClip: {fileID: 0}
+  sellItemClip: {fileID: 0}
 --- !u!114 &1544483232
 MonoBehaviour:
   m_ObjectHideFlags: 0

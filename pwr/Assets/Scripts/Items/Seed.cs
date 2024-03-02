@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Seed : Item
 {
+    public Sprite shopSprite;
     public GameObject crop; 
 
     // Start is called before the first frame update

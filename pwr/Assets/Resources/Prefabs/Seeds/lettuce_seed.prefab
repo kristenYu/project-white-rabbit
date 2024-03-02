@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 10
+  sellingPrice: 0
   stringName: lettuce
-  itemSprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  itemSprite: {fileID: 21300000, guid: 7a61d05798ebad54aa6a95bcdf6167eb, type: 3}
+  shopSprite: {fileID: 21300000, guid: 479ec888239acbd4bb7d6588577d27d9, type: 3}
   crop: {fileID: 2074823181845200404, guid: 9d7c0a921d7f0af40819e4b789418eed, type: 3}
 --- !u!212 &1722414999434473606
 SpriteRenderer:
@@ -88,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7a61d05798ebad54aa6a95bcdf6167eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 10
+  sellingPrice: 0
   stringName: onion
-  itemSprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  itemSprite: {fileID: 21300000, guid: 602496ad3b8b16149bf1ab994145a91c, type: 3}
+  shopSprite: {fileID: 21300000, guid: f11ee49b05a1d024a9d9dda421a01153, type: 3}
   crop: {fileID: 9179806520390031379, guid: 0aaeb4e80b5d4104c969d59a84808171, type: 3}
 --- !u!212 &3777040544400731560
 SpriteRenderer:
@@ -88,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 602496ad3b8b16149bf1ab994145a91c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

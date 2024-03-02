@@ -84,6 +84,8 @@ public class ShopScript : MonoBehaviour
     //quest tracking UI
     public GameObject[] questTrackingUIArray;
     private TextMeshProUGUI questTrackingUIQuestName;
+    private TextMeshProUGUI questTrackingUITargetNumText;
+    private TextMeshProUGUI questTrackingUICurrentNumText;
 
     //Tutorial
     public bool tutorialBool; //set to true if a player sucessfully buys or sells something
@@ -156,7 +158,10 @@ public class ShopScript : MonoBehaviour
 
         for(int i = 0; i < questTrackingUIArray.Length; i++)
         {
+            //HARDCODED VALUE FOR THE ORDER OF THE PREFAB - DO NOT CHANGE ORDER OF PREFAB
             questTrackingUIQuestName = questTrackingUIArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            questTrackingUITargetNumText = questTrackingUIArray[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+            questTrackingUICurrentNumText = questTrackingUIArray[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
             if (playerController.activeQuests[i].questType == QuestBoard.QuestType.invalid)
             {
                 questTrackingUIArray[i].SetActive(false);
@@ -165,6 +170,30 @@ public class ShopScript : MonoBehaviour
             {
                 questTrackingUIArray[i].SetActive(true);
                 questTrackingUIQuestName.text = playerController.activeQuests[i].questName;
+                switch (playerController.activeQuests[i].questType)
+                {
+                    case QuestBoard.QuestType.cook:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        questTrackingUITargetNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).checkNumRecipes.ToString();
+                        questTrackingUICurrentNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();
+                        break;
+                    case QuestBoard.QuestType.harvest:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        questTrackingUITargetNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                        questTrackingUICurrentNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
+                        break;
+                    case QuestBoard.QuestType.place:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        questTrackingUITargetNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                        questTrackingUICurrentNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
+                        break;
+                    case QuestBoard.QuestType.plant:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        questTrackingUITargetNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                        questTrackingUICurrentNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
+                        break;
+
+                }
             }
         }
 
@@ -248,9 +277,17 @@ public class ShopScript : MonoBehaviour
         itemName = obj.transform.GetChild(1).GetComponent<Text>();
         itemCost = obj.transform.GetChild(2).GetComponent<Text>();
 
-        itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
         itemName.text = currentItem.GetComponent<Item>().stringName;
         itemCost.text = currentItem.GetComponent<Item>().cost.ToString();
+
+        if (storeState == StoreState.Seeds)
+        {
+            itemImage.sprite = currentItem.GetComponent<Seed>().shopSprite;       
+        }
+        else
+        {
+            itemImage.sprite = currentItem.GetComponent<Item>().itemSprite;
+        }
 
         if(storeState == StoreState.Recipes)
         {
@@ -363,13 +400,11 @@ public class ShopScript : MonoBehaviour
         //add currency to player
         if(item != null)
         {
-            Debug.Log("item sold");
             playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
             //remove item from inventory 
             playerController.RemoveObjectFromInventory(index);
             if (playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1) == item)
             {
-                Debug.Log("Found child object that is item");
                 Destroy(playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1));
             }
             //hide button 
@@ -582,7 +617,7 @@ public class ShopScript : MonoBehaviour
         for (int i = 0; i < shopSaveData.recipeArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.recipeArray.Length);
-            while (randomNumberList.Contains(randNum))
+            while (randomNumberList.Contains(randNum) || playerController.CheckRecipeUnlocked(itemManager.recipeArray[randNum].GetComponent<Recipe>()))
             {
                 randNum = Random.Range(0, itemManager.recipeArray.Length);
             }

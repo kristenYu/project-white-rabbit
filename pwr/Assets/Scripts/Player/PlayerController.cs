@@ -57,7 +57,8 @@ public class PlayerController : MonoBehaviour
     public Sprite activeItemSprite;
     public Sprite inventorySprite;
     public int currentInventoryIndex = 0;
-    public int previousInventoryIndex = 0; 
+    public int previousInventoryIndex = 0;
+    public int backendInventoryIndex = 0;
     private const int inventorySize = 10;
     private GameObject tempObject;
     private Item currentItem;
@@ -71,6 +72,7 @@ public class PlayerController : MonoBehaviour
     public GameObject[] questHudObjectArray;
     public int questHudCurrentIndex;
     private int activeQuestNum;
+    private TextMeshProUGUI questTrackingUICurrentNumText;
   //  private QuestAlgorithmBase currentQuestAlgorithm;
   //  public GameObject[] questAlgorithms; //Should be set to the number of algorithms 
 
@@ -726,7 +728,7 @@ public class PlayerController : MonoBehaviour
         {
             if(inventory[i] ==  null)
             {
-                currentInventoryIndex = i;
+                backendInventoryIndex = i;
                 break;
             }
         }
@@ -751,9 +753,9 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("Attempted to add a null item");
             return false;
         }
-        if(currentInventoryIndex < inventorySize)
+        if(backendInventoryIndex < inventorySize)
         {
-            if(inventory[currentInventoryIndex] == null)
+            if(inventory[backendInventoryIndex] == null)
             {
                 currentItem = item.GetComponent<Item>();
                 if (currentItem == null)
@@ -769,15 +771,15 @@ public class PlayerController : MonoBehaviour
                         tempObject.gameObject.transform.parent = this.transform;
                         tempObject.SetActive(false);
 
-                        inventory[currentInventoryIndex] = tempObject;
+                        inventory[backendInventoryIndex] = tempObject;
                     }
                     else
                     {
-                        inventory[currentInventoryIndex] = item;
+                        inventory[backendInventoryIndex] = item;
                     }
-                    inventoryItemImageArray[currentInventoryIndex].sprite = currentItem.itemSprite;
-                    inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(true);
-                    activeItem = inventory[currentInventoryIndex];
+                    inventoryItemImageArray[backendInventoryIndex].sprite = currentItem.itemSprite;
+                    inventoryItemImageArray[backendInventoryIndex].gameObject.SetActive(true);
+                    //activeItem = inventory[currentInventoryIndex];
                    
                     
                     return true;
@@ -785,13 +787,13 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("Inventory at CurrentInventoryIndex is not null");
+                Debug.LogWarning("Inventory at backendInventoryIndex is not null");
                 return false;
             }
         }
         else
         {
-            Debug.LogWarning("CurrentInventoryIndex is greater than inventory Size");
+            Debug.LogWarning("backendInventoryindex is greater than inventory Size");
             return false;
         }
     }
@@ -817,10 +819,10 @@ public class PlayerController : MonoBehaviour
             else
             {
                 inventory[indexAt] = item;
-                inventoryItemImageArray[currentInventoryIndex].sprite = currentItem.itemSprite;
-                inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(true);
-                currentInventoryIndex = indexAt;
-                activeItem = item;
+                inventoryItemImageArray[backendInventoryIndex].sprite = currentItem.itemSprite;
+                inventoryItemImageArray[backendInventoryIndex].gameObject.SetActive(true);
+                //currentInventoryIndex = indexAt;
+                //activeItem = item;
                 return true;
             }
         }
@@ -838,11 +840,11 @@ public class PlayerController : MonoBehaviour
                 tempObject = inventory[i];
                 savedIndex = i;
                 inventory[i] = null;
-                currentInventoryIndex = i;
+                backendInventoryIndex = i;
                 break;
             }
         }
-        inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(false);
+        inventoryItemImageArray[backendInventoryIndex].gameObject.SetActive(false);
         
         return tempObject;
     }
@@ -852,7 +854,7 @@ public class PlayerController : MonoBehaviour
         tempObject = inventory[indexAt];
         inventory[indexAt] = null;
         inventoryItemImageArray[indexAt].gameObject.SetActive(false);
-        currentInventoryIndex = indexAt;
+        backendInventoryIndex = indexAt;
         for(int i = 0; i < this.transform.childCount; i++)
         {
             if (this.transform.GetChild(i).GetComponent<Item>() != null)
@@ -1076,7 +1078,8 @@ public class PlayerController : MonoBehaviour
         }
         cameraAudioSource.PlayOneShot(canCookClip);
         cookedFoodObject = Instantiate(recipe.cookedFood);
-        AddObjectToInventory(cookedFoodObject);   
+        AddObjectToInventory(cookedFoodObject);
+        cookedFoodObject.SetActive(false);
         currentInventoryIndex = 0;
         BroadcastToCookingEL();
         StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
@@ -1285,7 +1288,15 @@ public class PlayerController : MonoBehaviour
                             this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum++;
                         }
                     }
-
+                    /*
+                    for(int j = 0; j < activeQuests.Length; j++)
+                    {
+                        if(activeQuests[j].questType == QuestBoard.QuestType.harvest)
+                        {
+                            questHudObjectArray[j].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum.ToString();
+                        }
+                    }
+                    */
                 }
             }
         }

@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 10
+  sellingPrice: 0
   stringName: potato
-  itemSprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  itemSprite: {fileID: 21300000, guid: 80795b513938cd1458f32ffbf2ece08f, type: 3}
+  shopSprite: {fileID: 21300000, guid: 0d691a7da1cc2084d81bc237ada32966, type: 3}
   crop: {fileID: 8209651030735852168, guid: 6bf94c8b44b19e346a6a83ce1bbc71b3, type: 3}
 --- !u!212 &5740305694616329705
 SpriteRenderer:
@@ -88,7 +90,7 @@ SpriteRenderer:
   m_SortingLayerID: 1312270775
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f9e3582cf5b3ec54b9e11e330061d2a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 80795b513938cd1458f32ffbf2ece08f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
