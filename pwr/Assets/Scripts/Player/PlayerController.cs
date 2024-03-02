@@ -494,18 +494,9 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                
-                Debug.Log("PlayerAudio is playing");
-                playerAudioSource.Stop();
                 //transitions scenes 
                 if (hit.transform.gameObject.tag == "new_scene")
                 {
-                    
-                    if (playerAudioSource.isPlaying)
-                    {
-                        Debug.Log("PlayerAudio is playing");
-                        playerAudioSource.Stop();
-                    }
                     if (hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
                     {
                         //assumes that the object matches the name of the scene you want to load
@@ -569,8 +560,8 @@ public class PlayerController : MonoBehaviour
                             activeItem = null;
                             //for Passage
                             actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1;
-                            StartCoroutine(telemetryUtil.PostData("Interaction:Plant" + cropScript.cropname));
 
+                            StartCoroutine(telemetryUtil.PostData("Interaction:Plant" + cropScript.cropname));
                         }
                     }
                 }
@@ -998,7 +989,6 @@ public class PlayerController : MonoBehaviour
     }
     private void Debug_UnlockAllRecipes()
     {
-        Debug.Log("Unlock all recipes");
         for(int i = 0; i < itemManager.recipeArray.Length; i++)
         {
             currentRecipe = itemManager.recipeArray[i].GetComponent<Recipe>();
@@ -1288,15 +1278,25 @@ public class PlayerController : MonoBehaviour
                             this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum++;
                         }
                     }
-                    /*
-                    for(int j = 0; j < activeQuests.Length; j++)
+                    
+                 
+                }
+            }
+        }
+        //search for an active harvest quest
+        for (int j = 0; j < activeQuests.Length; j++)
+        {
+            if (activeQuests[j].questType == QuestBoard.QuestType.harvest)
+            {
+                //questHudObjectArray[j].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum.ToString();
+                //find the harvest quest that matches in the UI
+                for (int k = 0; k < questHudObjectArray.Length; k++)
+                {
+                    //check is quest name is the same
+                    if (activeQuests[j].questName.Contains(questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
                     {
-                        if(activeQuests[j].questType == QuestBoard.QuestType.harvest)
-                        {
-                            questHudObjectArray[j].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum.ToString();
-                        }
+                        questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)activeQuests[j].eventListener).currentHarvestedNum.ToString();
                     }
-                    */
                 }
             }
         }
@@ -1314,6 +1314,23 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+        //search for an active placing quest
+        for (int j = 0; j < activeQuests.Length; j++)
+        {
+            if (activeQuests[j].questType == QuestBoard.QuestType.place)
+            {
+                 //find the place quest that matches in the UI
+                for (int k = 0; k < questHudObjectArray.Length; k++)
+                {
+                    //check is quest name is the same
+                    if (activeQuests[j].questName.Contains(questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
+                    {
+                        questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)activeQuests[j].eventListener).currentNumPlaced.ToString();
+                    }
+                }
+            }
+        }
+
     }
 
     public void BroadcastToCookingEL()
@@ -1325,6 +1342,22 @@ public class PlayerController : MonoBehaviour
                 if (this.transform.GetChild(i).GetComponent<CookingEventListener>() != null)
                 {
                     this.transform.GetChild(i).GetComponent<CookingEventListener>().CheckCookedRecipe();
+                }
+            }
+        }
+        //search for an active cooking quest
+        for (int j = 0; j < activeQuests.Length; j++)
+        {
+            if (activeQuests[j].questType == QuestBoard.QuestType.cook)
+            {
+                //find the cook quest that matches in the UI
+                for (int k = 0; k < questHudObjectArray.Length; k++)
+                {
+                    //check is quest name is the same
+                    if (activeQuests[j].questName.Contains(questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
+                    {
+                        questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener)activeQuests[j].eventListener).currentNumRecipes.ToString();
+                    }
                 }
             }
         }

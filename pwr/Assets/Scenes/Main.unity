@@ -5428,6 +5428,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &485971625 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7796371734411297633, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8205332309057092332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490748157
 GameObject:
   m_ObjectHideFlags: 0
@@ -37216,6 +37222,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -255.00003
       objectReference: {fileID: 0}
@@ -37586,6 +37597,11 @@ PrefabInstance:
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: questHudObjectArray.Array.data[1]
+      value: 
+      objectReference: {fileID: 485971625}
+    - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: questHudObjectArray.Array.data[2]
       value: 
       objectReference: {fileID: 8205332309057092333}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,

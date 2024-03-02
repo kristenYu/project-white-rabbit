@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EventListenerStructs;
+using TMPro;
 
 public class PlantingEventListener : AEventListener
 {
+    public PlayerController playerController;
     public PlantSeedStruct structToCheck;
     public GameObject worldControllerObject;
     private WorldController worldController;
@@ -27,6 +29,7 @@ public class PlantingEventListener : AEventListener
     {
         worldControllerObject = GameObject.FindGameObjectWithTag("world_c");
         worldController = worldControllerObject.GetComponent<WorldController>();
+        playerController = this.GetComponentInParent<PlayerController>();
 
         startingNumTargetCrops = 0; 
 
@@ -79,7 +82,31 @@ public class PlantingEventListener : AEventListener
             currentCrop = cropObject.GetComponent<Crop>(); 
             if(currentCrop.cropname == structToCheck.name)
             {
-                currentNumTargetCrops++; 
+                currentNumTargetCrops++;
+                //search for an active placing quest
+                for (int j = 0; j < playerController.activeQuests.Length; j++)
+                {
+                    
+                    if(playerController.activeQuests[j] != null)
+                    {
+                        if (playerController.activeQuests[j].questType == QuestBoard.QuestType.plant)
+                        {
+                            if (playerController.activeQuests[j].eventListenerData[0].Contains(structToCheck.name))
+                            {
+                                //find the place quest that matches in the UI
+                                for (int k = 0; k < playerController.questHudObjectArray.Length; k++)
+                                {
+                                    //check is quest name is the same
+                                    if (playerController.activeQuests[j].questName.Contains(playerController.questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
+                                    {
+                                        playerController.questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = currentNumTargetCrops.ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                   
+                }
             }
         }
         if(currentNumTargetCrops == checkNumTargetCrops)

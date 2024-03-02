@@ -813,8 +813,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -103.36922, y: 0.6418152}
-  m_SizeDelta: {x: -229.8184, y: -183.2157}
+  m_AnchoredPosition: {x: -103.36922, y: 14.482}
+  m_SizeDelta: {x: -229.8184, y: -155.54}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &519275620
 MonoBehaviour:
@@ -916,6 +916,8 @@ MonoBehaviour:
   currentAcceptedQuestNumText: {fileID: 909804244}
   questHudGameobjectArray: []
   currentQuestHudIndex: 0
+  questHudTargetNumText: {fileID: 0}
+  questHudCurrentNumText: {fileID: 0}
   currentCoins: {fileID: 1117243930}
   worldController: {fileID: 0}
   audioSource: {fileID: 0}
@@ -1647,7 +1649,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -74.1, y: 183.89}
+  m_AnchoredPosition: {x: -72.3, y: 180}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &817554051
@@ -2547,7 +2549,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 101.72, y: 183.89}
+  m_AnchoredPosition: {x: 101.72, y: 180}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1244929427

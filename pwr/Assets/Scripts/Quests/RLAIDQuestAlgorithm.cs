@@ -14,9 +14,9 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     
     //player profile 
     private string currentKey;
-    private Dictionary<string, int> banditCountDictionary;
-    private Dictionary<string, float> banditRewardDictionary;
-    private Dictionary<string, float> qValueDictionary;
+    public Dictionary<string, int> banditCountDictionary;
+    public Dictionary<string, float> banditRewardDictionary;
+    public Dictionary<string, float> qValueDictionary;
 
     //generating a cba job (calculate qValue and generate job)
     private float value;
@@ -68,7 +68,6 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     {
         questsToGive = new Quest[questNum];
         job = generateCBAJob(time);
-        Debug.Log(job);
         potentialQuests.Clear();
         for(int i = 0; i < questDataBase.Length; i++)
         {
@@ -151,7 +150,6 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     //update the bandit based on the current rewardArray; 
     private void rewardBandit(int[] reward)
     {
-        Debug.Log(banditCountDictionary.Count);
         foreach(KeyValuePair<string, int> kvp in banditCountDictionary)
         {
             currentReward = 0;
