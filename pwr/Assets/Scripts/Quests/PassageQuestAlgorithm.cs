@@ -29,6 +29,7 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
     private List<Quest> questsOfType;
     private int questTypeCatch;
 
+    private List<Quest> potentialQuests;
 
     //set up for the algorithm as needed, runs at start()
     public override void SetUpAlgorithm()
@@ -37,6 +38,7 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
         questCategories = (int)QuestBoard.QuestType.invalid;
         playerActionFrequency = new int[questCategories];
         questProposalValues = new int[questCategories];
+        potentialQuests = new List<Quest>();
 
         questCategoryArray = new int[questCategories];
         for (int i = 0; i < questCategories; i++)
@@ -56,12 +58,18 @@ public class PassageQuestAlgorithm : QuestAlgorithmBase
         questsToGive = new Quest[questNum];
         UpdateplayerActionFrequency();
         job = SearchTreeForBestAction();
+        potentialQuests.Clear();
+        for (int i = 0; i < questDataBase.Length; i++)
+        {
+            potentialQuests.Add(questDataBase[i]);
+        }
+        
         for (int i = 0; i < job.Length; i++)
         {
             questTypeCatch = (int)job[i] - 48;
-            questsOfType = GetAllQuestsOfType(questTypeCatch, questDataBase);
+            questsOfType = GetAllQuestsOfType(questTypeCatch, potentialQuests.ToArray());
             questsToGive[i] = questsOfType[Random.Range(0, questsOfType.Count)];
-            questsOfType.Remove(questsToGive[i]);
+            potentialQuests.Remove(questsToGive[i]);
         }
         return questsToGive;
     }

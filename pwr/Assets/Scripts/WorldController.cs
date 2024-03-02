@@ -45,9 +45,11 @@ public class WorldController : MonoBehaviour
     public bool isNewDayQuests;
 
     //harvestable
-    public List<GameObject> harvestableList;
-    public const int maxMushroomSpawn = 5; 
-    public bool shouldSpawnMushrooms;
+    public List<GameObject> mushroomHarvestableList;
+    public List<GameObject> berryHarvestableList;
+    public const int maxMushroomSpawn = 5;
+    public const int maxBerrySpawn = 5;
+    public bool shouldSpawnHarvestables;
 
     //filters 
     public GameObject nightFilter;
@@ -104,7 +106,7 @@ public class WorldController : MonoBehaviour
         //bool for resetting quests
         isNewDayQuests = false;
         //spawn mushrooms on start
-        shouldSpawnMushrooms = true;
+        shouldSpawnHarvestables = true;
 
         //Days are one minute total to complete
         dayDuration = 30.0f;
@@ -198,7 +200,7 @@ public class WorldController : MonoBehaviour
 
     public void checkValidSceneForHarvestables()
     {
-        foreach (GameObject harvestable in harvestableList)
+        foreach (GameObject harvestable in mushroomHarvestableList)
         {
             if (SceneManager.GetActiveScene().name == "Main" || SceneManager.GetActiveScene().name == "Tutorial")
             {
@@ -213,7 +215,21 @@ public class WorldController : MonoBehaviour
                 harvestable.GetComponent<BoxCollider2D>().enabled = false;
             }
         }
-
+        foreach (GameObject harvestable in berryHarvestableList)
+        {
+            if (SceneManager.GetActiveScene().name == "Main" || SceneManager.GetActiveScene().name == "Tutorial")
+            {
+                harvestable.GetComponent<SpriteRenderer>().enabled = true;
+                harvestable.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
+                harvestable.GetComponent<BoxCollider2D>().enabled = true;
+            }
+            else
+            {
+                harvestable.GetComponent<SpriteRenderer>().enabled = false;
+                harvestable.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
+                harvestable.GetComponent<BoxCollider2D>().enabled = false;
+            }
+        }
     }
 
     public void checkValidSceneForFilters()
@@ -329,7 +345,7 @@ public class WorldController : MonoBehaviour
                 //set to true in quest script
                 isNewDayQuests = true;
                 //set to false in the harvestable spawner script
-                shouldSpawnMushrooms = true;
+                shouldSpawnHarvestables = true;
                 StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
             }
         }

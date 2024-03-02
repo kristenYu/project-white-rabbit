@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public GameObject recipeUIPrefab;
     private List<GameObject> knownRecipeUIObjects;
     private const float knownRecipeUIOffset = 60.0f;
-    private const float cookingUIContentMaximum = 260.0f; 
+    private const float cookingUIContentMaximum = 720.0f; //need to make this bigger if you add recipes
     private GameObject cookingUIContent;
     private Image recipeUIImage;
     private Button recipeUIButton; 
@@ -56,11 +56,12 @@ public class PlayerController : MonoBehaviour
     public GameObject activeItem;
     public Sprite activeItemSprite;
     public Sprite inventorySprite;
-    public int currentInventoryIndex;
-    public int previousInventoryIndex; 
+    public int currentInventoryIndex = 0;
+    public int previousInventoryIndex = 0; 
     private const int inventorySize = 10;
     private GameObject tempObject;
     private Item currentItem;
+    public Sprite inventoryFullSprite;
 
     //Quests 
     public const int maxActiveQuests = 3; 
@@ -85,7 +86,8 @@ public class PlayerController : MonoBehaviour
 
     //harvestables
     private Harvestable harvestableScript;
-    public bool hasHarvestedItem;
+    public bool hasHarvestedMushroom;
+    public bool hasHarvestedBerry;
     public string justHarvestedName; 
 
     //Movement
@@ -167,8 +169,6 @@ public class PlayerController : MonoBehaviour
       //  telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>(); 
         StartCoroutine(telemetryUtil.PostData("Event:SessionStart"));
         StartCoroutine(selectQuestAlgorithm());
-        previousInventoryIndex = 0;
-        currentInventoryIndex = 0;
 
         hasDebugCooking = false;
 
@@ -177,7 +177,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
        // telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
-        currency = 500;
+        currency = 300;
         inventory = new GameObject[inventorySize];
 
         recipeIndex = 0;
@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
         knownRecipeUIObjects = new List<GameObject>();
         targetIngredients = new List<GameObject>();
         CookedRecipeFlag = false;
-        hasHarvestedItem = false; 
+        hasHarvestedMushroom = false; 
 
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
@@ -230,6 +230,10 @@ public class PlayerController : MonoBehaviour
         //sound 
         cameraAudioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         playerAudioSource = this.GetComponent<AudioSource>();
+        if(playerAudioSource.isPlaying)
+        {
+            playerAudioSource.Stop();
+        }
     }
 
     void Update()
@@ -281,7 +285,7 @@ public class PlayerController : MonoBehaviour
         {
             if(!playerAudioSource.isPlaying)
             {
-                playerAudioSource.PlayOneShot(walkingClip);
+                playerAudioSource.Play();
             }
             
             hit = drawRay(Vector2.left, false);
@@ -291,7 +295,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
-                playerAudioSource.PlayOneShot(walkingClip);
+                playerAudioSource.Play();
             }
             hit = drawRay(Vector2.right, false);
             previousDirection = Vector2.right;
@@ -300,7 +304,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
-                playerAudioSource.PlayOneShot(walkingClip);
+                playerAudioSource.Play();
             }
             hit = drawRay(Vector2.down, false);
             previousDirection = Vector2.down;
@@ -309,7 +313,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
-                playerAudioSource.PlayOneShot(walkingClip);
+                playerAudioSource.Play();
             }
             hit = drawRay(Vector2.up, false);
             previousDirection = Vector2.up;
@@ -414,7 +418,18 @@ public class PlayerController : MonoBehaviour
             if(hit.transform.tag != "non_interact")
             {
                 interactPopup.SetActive(true);
-                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                if(IsInventoryFull())
+                {
+                    if(hit.transform.tag != "new_scene")
+                    {
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                    }
+                }
+                else
+                {
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                }
+                
             }
             if(hit.transform.tag == "cooking")
             {
@@ -438,6 +453,15 @@ public class PlayerController : MonoBehaviour
                 if(hit.transform.gameObject.GetComponent<Crop>().currentStage == Crop.CropStage.FullyGrown)
                 {
                     interactPopup.SetActive(true);
+                    if (IsInventoryFull())
+                    {
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                    }
+                    else
+                    {
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                    }
+                    
                 }
                 else
                 {
@@ -468,12 +492,20 @@ public class PlayerController : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
+                
+                Debug.Log("PlayerAudio is playing");
+                playerAudioSource.Stop();
                 //transitions scenes 
                 if (hit.transform.gameObject.tag == "new_scene")
                 {
-                    if(hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
+                    
+                    if (playerAudioSource.isPlaying)
                     {
+                        Debug.Log("PlayerAudio is playing");
                         playerAudioSource.Stop();
+                    }
+                    if (hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
+                    {
                         //assumes that the object matches the name of the scene you want to load
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
@@ -498,13 +530,13 @@ public class PlayerController : MonoBehaviour
                         || hit.transform.gameObject.name == "TutorialShop" 
                         || hit.transform.gameObject.name =="TutorialQuestBoard") 
                     {
+                       
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
-                        playerAudioSource.Stop();
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
                     }
-
+                    
 
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
@@ -543,36 +575,51 @@ public class PlayerController : MonoBehaviour
                 //Harvest food from a crop that is fully grown 
                 else if(hit.transform.gameObject.tag == "crop")
                 {
-                    //check if the crop can be harvested and harvests if it can 
-                    cropScript = hit.transform.gameObject.GetComponent<Crop>();
-                    if(cropScript.currentStage == Crop.CropStage.FullyGrown)
+                    if(!IsInventoryFull())
                     {
-                        cameraAudioSource.PlayOneShot(harvestPlantClip);
-                        AddObjectToInventory(cropScript.HarvestCrop());
-                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
+                        //check if the crop can be harvested and harvests if it can 
+                        cropScript = hit.transform.gameObject.GetComponent<Crop>();
+                        if (cropScript.currentStage == Crop.CropStage.FullyGrown)
+                        {
+                            cameraAudioSource.PlayOneShot(harvestPlantClip);
+                            AddObjectToInventory(cropScript.HarvestCrop());
+                            StartCoroutine(telemetryUtil.PostData("Interaction:HarvestCrop" + cropScript.cropname));
+                        }
                     }
-                    //actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
 
                 }
                 else if(hit.transform.gameObject.tag == "harvestable")
                 {
-                    harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
-                    AddObjectToInventory(harvestableScript.harvestedItem);
-                    worldController.harvestableList.Remove(hit.transform.gameObject);
-                    hasHarvestedItem = true; //flag is turned off in harvest event listner
-                    justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
-                    Object.Destroy(hit.transform.gameObject);
-                    actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
-                    if(harvestableScript.stringName == "mushroom")
+                    if(!IsInventoryFull())
                     {
-                        cameraAudioSource.PlayOneShot(mushroomHarvestClip);
-                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestMushroom"));
+                        harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
+                        AddObjectToInventory(harvestableScript.harvestedItem);
+                        worldController.mushroomHarvestableList.Remove(hit.transform.gameObject);
+                        justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
+                        Object.Destroy(hit.transform.gameObject);
+                        actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
+                        if (harvestableScript.stringName == "mushroom")
+                        {
+                            BroadcastToHarvestEL("mushroom");
+                            hasHarvestedMushroom = true; //flag is turned off in harvest event listner
+                            cameraAudioSource.PlayOneShot(mushroomHarvestClip);
+                            StartCoroutine(telemetryUtil.PostData("Interaction:HarvestMushroom"));
+                        }
+                        else
+                        {
+                            BroadcastToHarvestEL("berry");
+                            hasHarvestedBerry = true; //flag is turned off in harvest event listener
+                            cameraAudioSource.PlayOneShot(bushRustleclip);
+                            StartCoroutine(telemetryUtil.PostData("Interaction:HarvestBerry"));
+                        }
                     }
                     else
                     {
-                        cameraAudioSource.PlayOneShot(bushRustleclip);
-                        StartCoroutine(telemetryUtil.PostData("Interaction:HarvestBerry"));
+                        //interactPopup.SetActive(true);
+                        //interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+
                     }
+                   
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
@@ -591,8 +638,9 @@ public class PlayerController : MonoBehaviour
                             cameraAudioSource.PlayOneShot(placeFurnitureClip);
                             RemoveObjectFromInventory(activeItem);
                             PlaceFurniture(hit);
+                            BroadcastToPlEL();
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
-                            placeFurnitureFlag = true;
+                            //placeFurnitureFlag = true;
                             hasPlacedFurniture = true;
                             
                         }
@@ -622,10 +670,17 @@ public class PlayerController : MonoBehaviour
         //update player currency to view in HUD
         currencyText.text = currency.ToString();
 
-        //check for shop enabled and disable player movement
-        if (SceneManager.GetActiveScene().name == "Shop")
+        //check for shop enabled and disable player movement; fix sound bugs when transitioning scenes
+        if (SceneManager.GetActiveScene().name == "Shop" || 
+            SceneManager.GetActiveScene().name == "TutorialShop" ||
+            SceneManager.GetActiveScene().name == "QuestBoard" ||
+            SceneManager.GetActiveScene().name == "TutorialQuestBoard")
         {
             this.GetComponent<PlayerController>().enabled = false;
+            if (playerAudioSource.isPlaying)
+            {
+                playerAudioSource.Stop();
+            }
             //GameObject.Find("WorldController").GetComponent<WorldController>().enabled = false;
         }
         
@@ -633,7 +688,6 @@ public class PlayerController : MonoBehaviour
 	
     private void FixedUpdate()
     {
-        
         if(isShouldMove)
         {
             //Movemement 
@@ -678,6 +732,17 @@ public class PlayerController : MonoBehaviour
         }
     }    
 	
+    public bool IsInventoryFull()
+    {
+        for(int i = 0; i < inventory.Length; i++)
+        {
+            if(inventory[i] == null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public bool AddObjectToInventory(GameObject item)
     {
         SetNextOpenInventory();
@@ -778,6 +843,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         inventoryItemImageArray[currentInventoryIndex].gameObject.SetActive(false);
+        
         return tempObject;
     }
 
@@ -786,7 +852,17 @@ public class PlayerController : MonoBehaviour
         tempObject = inventory[indexAt];
         inventory[indexAt] = null;
         inventoryItemImageArray[indexAt].gameObject.SetActive(false);
-        currentInventoryIndex = indexAt; 
+        currentInventoryIndex = indexAt;
+        for(int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<Item>() != null)
+            {
+                if(this.transform.GetChild(i).GetComponent<Item>().stringName == tempObject.GetComponent<Item>().stringName)
+                {
+                    Destroy(this.transform.GetChild(i).gameObject);
+                }   
+            }
+        }
         return tempObject;
     }
 
@@ -846,6 +922,7 @@ public class PlayerController : MonoBehaviour
         worldController.placedFurnitureObjects.Add(furnitureObject);
         //have to do clean up with active item
         activeItem = null;
+        previousInventoryIndex = currentInventoryIndex;
     }
     private void PickUpFurniture(RaycastHit2D hit2D)
     {
@@ -941,19 +1018,14 @@ public class PlayerController : MonoBehaviour
         
         for (int i = 0; i < recipe.ingredients.Length; i++)
         {
-            Debug.Log(recipe.ingredients[i]);
             for (int j = 0; j < itemManager.foodArray.Length; j++)
             {
-                Debug.Log(itemManager.foodArray[j].GetComponent<Item>().stringName);
                 if (recipe.ingredients[i].Equals(itemManager.foodArray[j].GetComponent<Item>().stringName))
                 {
-                    Debug.Log(recipe.ingredients[i]);
-                    Debug.Log(itemManager.foodArray[j]);
                     recipeIngredientItem = itemManager.foodArray[j].GetComponent<Item>();
                     break;
                 }
             }
-            Debug.Log(recipeIngredientItem);
             recipeUIIngredientImageArray[i].overrideSprite = recipeIngredientItem.itemSprite;
         }
 
@@ -1004,9 +1076,9 @@ public class PlayerController : MonoBehaviour
         }
         cameraAudioSource.PlayOneShot(canCookClip);
         cookedFoodObject = Instantiate(recipe.cookedFood);
-        AddObjectToInventory(cookedFoodObject);
-        CookedRecipeFlag = true;
+        AddObjectToInventory(cookedFoodObject);   
         currentInventoryIndex = 0;
+        BroadcastToCookingEL();
         StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
         return true;
     }    
@@ -1100,7 +1172,8 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Length; i++)
         {
-            if(activeQuests[i].questName == quest.questName)
+            Debug.Log(activeQuests[i].questName);
+            if(activeQuests[i].questName.Contains(quest.questName))
             {
                 activeQuests[i] = null;
                 break;
@@ -1186,6 +1259,62 @@ public class PlayerController : MonoBehaviour
                 default:
                     Debug.Log("ERROR: quest algorithm set to incorrect value. Expected value is 0, 1 or 2. Value is " + questAlgorithm.ToString());
                     break;
+            }
+        }
+    }
+
+    public void BroadcastToHarvestEL(string harvestableType)
+    {
+        for(int i = 0; i < this.transform.childCount; i++)
+        {
+            if(this.transform.GetChild(i).GetComponent<AEventListener>() != null)
+            {
+                if(this.transform.GetChild(i).GetComponent<HarvestEventListener>() != null)
+                {
+                    if(harvestableType.Contains("mushroom"))
+                    {
+                        if(this.transform.GetChild(i).GetComponent<HarvestEventListener>().structToCheck.name.Contains("mushroom"))
+                        {
+                            this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum++;
+                        }
+                        
+                    }else if(harvestableType.Contains("berry"))
+                    {
+                        if (this.transform.GetChild(i).GetComponent<HarvestEventListener>().structToCheck.name.Contains("berry"))
+                        {
+                            this.transform.GetChild(i).GetComponent<HarvestEventListener>().currentHarvestedNum++;
+                        }
+                    }
+
+                }
+            }
+        }
+    }
+
+    public void BroadcastToPlEL()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<AEventListener>() != null)
+            {
+                if (this.transform.GetChild(i).GetComponent<PlaceEventListener>() != null)
+                {
+                    this.transform.GetChild(i).GetComponent<PlaceEventListener>().currentNumPlaced++;
+                }
+            }
+        }
+    }
+
+    public void BroadcastToCookingEL()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<AEventListener>() != null)
+            {
+                if (this.transform.GetChild(i).GetComponent<CookingEventListener>() != null)
+                {
+                    this.transform.GetChild(i).GetComponent<CookingEventListener>().CheckCookedRecipe();
+                }
             }
         }
     }

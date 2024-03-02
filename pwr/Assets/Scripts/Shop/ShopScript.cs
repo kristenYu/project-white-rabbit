@@ -133,7 +133,7 @@ public class ShopScript : MonoBehaviour
         ExitBtn.onClick.AddListener(ExitButtonClicked);
         payMortageButton.onClick.AddListener(PayMortage);
         moneyOwedText.text = shopSaveData.mortage.ToString();
-
+        moneyOwed = shopSaveData.mortage;
 
         if(shopSaveData.furnitureArray[0] == null)
         {
@@ -157,7 +157,6 @@ public class ShopScript : MonoBehaviour
         for(int i = 0; i < questTrackingUIArray.Length; i++)
         {
             questTrackingUIQuestName = questTrackingUIArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            Debug.Log(questTrackingUIQuestName);
             if (playerController.activeQuests[i].questType == QuestBoard.QuestType.invalid)
             {
                 questTrackingUIArray[i].SetActive(false);
@@ -187,6 +186,7 @@ public class ShopScript : MonoBehaviour
             worldController.isNewDay = false;
             updateStorePanels();
             setItemButtonDelegates();
+            
         }
     }
 
@@ -305,34 +305,46 @@ public class ShopScript : MonoBehaviour
         cost = item.GetComponent<Item>().cost;
         if (playerController.removeCurrency(cost)) 
         {
-            if(storeState == StoreState.Recipes)
+            if(!playerController.IsInventoryFull())
             {
-                recipe = item.GetComponent<Recipe>();
-                playerController.UnlockRecipe(recipe, playerController.recipeIndex);
-                playerController.recipeIndex++;
-            }
-            else if(storeState == StoreState.Seeds)
-            {
-                for(int i = 0; i < maxSeedPurchased; i ++)
+                if (storeState == StoreState.Recipes)
+                {
+                    recipe = item.GetComponent<Recipe>();
+                    playerController.UnlockRecipe(recipe, playerController.recipeIndex);
+                    playerController.recipeIndex++;
+                }
+                else if (storeState == StoreState.Seeds)
+                {
+                    for (int i = 0; i < maxSeedPurchased; i++)
+                    {
+                        playerController.AddObjectToInventory(item);
+                    }
+                }
+                else
                 {
                     playerController.AddObjectToInventory(item);
                 }
+                shopSaveData.soldItemList.Add(item);
+                soldItems.Add(item);
+                SetItemSoldPanels(storeState);
+                rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                rabbitAnimator.speechText.text = "Thanks for buying something!";
+
+                //tutorial
+                tutorialBool = true;
+
+                //telemetry 
+                StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
             }
             else
             {
-                playerController.AddObjectToInventory(item);
+                audioSource.PlayOneShot(cantBuyItemClip);
+                rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                rabbitAnimator.speechText.text = "Sorry you don't have any room in your inventory";
+                //telemetry
+                StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
             }
-            shopSaveData.soldItemList.Add(item);
-            soldItems.Add(item);
-            SetItemSoldPanels(storeState);
-            rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-            rabbitAnimator.speechText.text = "Thanks for buying something!";
-
-            //tutorial
-            tutorialBool = true; 
-
-            //telemetry 
-            StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
+            
         }
         else
         {
@@ -349,17 +361,28 @@ public class ShopScript : MonoBehaviour
     {
         audioSource.PlayOneShot(sellItemClip);
         //add currency to player
-        playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
-        //remove item from inventory 
-        playerController.RemoveObjectFromInventory(index);
-        //hide button 
-        sellingUIObject.SetActive(false);
+        if(item != null)
+        {
+            Debug.Log("item sold");
+            playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
+            //remove item from inventory 
+            playerController.RemoveObjectFromInventory(index);
+            if (playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1) == item)
+            {
+                Debug.Log("Found child object that is item");
+                Destroy(playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1));
+            }
+            //hide button 
+            sellingUIObject.SetActive(false);
 
-        //tutorial
-        tutorialBool = true; 
+            //tutorial
+            tutorialBool = true;
 
-        //telemetry
-        StartCoroutine(telemetryUtil.PostData("Shop:Sold" + item.GetComponent<Item>().stringName));
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Shop:Sold" + item.GetComponent<Item>().stringName));
+        }
+        
+       
     }
     private void UpdateSellingItemsPanel()
     {
@@ -439,10 +462,9 @@ public class ShopScript : MonoBehaviour
                 else
                 {
                     moneyOwed = 0;
-                    playerController.currency -= moneyOwed;
+                    playerController.currency -= amountToPay;
                     moneyOwedText.text = moneyOwed.ToString();
-
-                    //playerController.HUD.SetActive(false);
+                    shopSaveData.mortage = moneyOwed;
                     SceneManager.LoadScene("Win", LoadSceneMode.Single);
                 }
                 //telemetry
@@ -601,7 +623,8 @@ public class ShopScript : MonoBehaviour
         storeState = state;
         audioSource.PlayOneShot(changeTabClip);
         updateStorePanels();
-        
+        UpdateSellingItemsPanel();
+
     }
     private bool checkIfShopShouldUpdate()
     {

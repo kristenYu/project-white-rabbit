@@ -59,9 +59,20 @@ MonoBehaviour:
   placedFurnitureObjects: []
   shopScript: {fileID: 0}
   isNewDay: 0
+  isNewDayQuests: 0
   harvestableList: []
   shouldSpawnMushrooms: 0
   nightFilter: {fileID: 3012832033870043740, guid: 796f2ac9d85406e46a3665e0c1995c01,
     type: 3}
   twilightFilter: {fileID: 2491782709855706674, guid: 535601b2a291d1e4b9ce285dcbf00b57,
     type: 3}
+  foregroundPosition: {x: 0, y: 0, z: 0}
+  backgroundPosition: {x: 0, y: 0, z: 0}
+  tutorialCropList: []
+  tutorialHarvestable: {fileID: 0}
+  telemetryUtil: {fileID: 0}
+  invalidTutorialCropArray: []
+  audioSource: {fileID: 0}
+  newDayClip: {fileID: 8300000, guid: 3e4e46731af134640b4caf634d5af31f, type: 3}
+  growCropsClip: {fileID: 8300000, guid: efd9e793704151b40940e888e7d7a218, type: 3}
+  hasPlayedGrowCropsClip: 0

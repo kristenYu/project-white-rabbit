@@ -17,10 +17,6 @@ public class WinScreen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.anyKeyDown)
-        {
-            player.GetComponent<SpriteRenderer>().enabled = true;
-            SceneManager.LoadScene("Shop", LoadSceneMode.Single);
-        }
+        
     }
 }

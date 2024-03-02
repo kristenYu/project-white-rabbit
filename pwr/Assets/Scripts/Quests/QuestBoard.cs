@@ -110,6 +110,7 @@ public class QuestBoard : MonoBehaviour
     void Start()
     {
         playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerObject.GetComponent<AudioSource>().Stop();
         playerController = playerObject.GetComponent<PlayerController>();
         playerObject.GetComponent<SpriteRenderer>().enabled = false;
         audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>(); 
@@ -246,6 +247,18 @@ public class QuestBoard : MonoBehaviour
         {
             SetQuestUI(questUIObjects[i], displayQuests[i], i);
             StartCoroutine(telemetryUtil.PostData("Quest:AvailableQuest" + displayQuests[i].questName));
+            switch(i)
+            {
+                case 0:
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Left"));
+                    break;
+                case 1:
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Middle"));
+                    break;
+                case 2:
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Right"));
+                    break;
+            }
         }
     }
 
@@ -277,31 +290,55 @@ public class QuestBoard : MonoBehaviour
         audioSource.PlayOneShot(questTabClip);
         currentQuestboardState = QuestBoardState.submit;
         questDescriptionText.text = "Quests to Submit:";
-        //Get quests to submit
+        //Show all active quests
         for (int i = 0; i < playerController.activeQuests.Length; i++)
         {
             //this is going to look weird - needs a clean up pass
             if (playerController.activeQuests[i].questType == QuestType.invalid)
             {
-                Debug.Log(playerController.activeQuests[i] + " is considered invalid");
                 submitQuestUIObjects[i].SetActive(false);
             }
             else
             {
-                Debug.Log(playerController.activeQuests[i].eventListener.IsEventCompleted);
-                //Debug.Log(i);
-                //Debug.Log(playerController.activeQuests[i].questName);
-                //Debug.Log(playerController.activeQuests[i].eventListener.IsEventCompleted);
+                
+                submitQuestUIObjects[i].SetActive(true);
+                SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
+                switch (playerController.activeQuests[i].questType)
+                {
+                    case QuestType.cook:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener) playerController.activeQuests[i].eventListener).checkNumRecipes.ToString(); 
+                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();  
+                        break;
+                    case QuestType.harvest:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
+                        break;
+                    case QuestType.place:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString(); 
+                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
+                        break;
+                    case QuestType.plant:
+                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
+                        break;
+
+                }
                 if (playerController.activeQuests[i].eventListener.IsEventCompleted)
                 {
-                    Debug.Log(playerController.activeQuests[i].questName + " is considered completed");
-                    submitQuestUIObjects[i].SetActive(true);
-                    SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
+                    submitQuestUIObjects[i].GetComponent<Button>().enabled = true;
+                    submitQuestUIObjects[i].GetComponent<Image>().color = Color.green;
+                    //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(69f, 154f, 63f, 255f);
                 }
                 else
                 {
-                    Debug.Log(playerController.activeQuests[i].questName + " is not considered completed");
-                    submitQuestUIObjects[i].SetActive(false);
+                    submitQuestUIObjects[i].GetComponent<Button>().enabled = false;
+                    submitQuestUIObjects[i].GetComponent<Image>().color = Color.red;
+                    //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(191f, 99f, 68f, 255f);
+                    //submitQuestUIObjects[i].SetActive(false);
                 }
             }
         }
@@ -312,6 +349,11 @@ public class QuestBoard : MonoBehaviour
             questUIObjects[i].SetActive(false);
             questAccecptPanelObjects[i].SetActive(false);
         }
+        if(currentQuestAlgorithm != null)
+        {
+            currentQuestAlgorithm.OnQuestClosed();
+        }
+        
     }
 
     public void SetupAcceptQuestsUI()
@@ -478,6 +520,9 @@ public class QuestBoard : MonoBehaviour
         questHudGameobjectArray[questHudIndexToRemove].SetActive(false);
         playerController.questHudCurrentIndex = questHudIndexToRemove;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
+
+        //set the current amount of coins
+        currentCoins.text = playerController.currency.ToString();
 
         //telemetry
         StartCoroutine(telemetryUtil.PostData("Quest:Submit" + quest.questName));

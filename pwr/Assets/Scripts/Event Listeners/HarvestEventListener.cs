@@ -13,7 +13,6 @@ public class HarvestEventListener : AEventListener
     private PlayerController playerController;
 
     public int currentHarvestedNum;
-    public int targetHarvestedNum; 
     // Start is called before the first frame update
     void Start()
     {
@@ -29,10 +28,11 @@ public class HarvestEventListener : AEventListener
     public override void OnStartListening()
     {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-        playerController.hasHarvestedItem = false; 
+        playerController.hasHarvestedMushroom = false;
+        playerController.hasHarvestedBerry = false;
         currentHarvestedNum = 0;
-        targetHarvestedNum = structToCheck.targetValue; 
     }
+        
     public override void OnEndListening()
     {
         Debug.Log("End Listening");
@@ -66,23 +66,60 @@ public class HarvestEventListener : AEventListener
 
     private void CheckForHarvest()
     {
-        //flag is turned on in player controller script
-        if (playerController.hasHarvestedItem)
-        {
-            if (playerController.justHarvestedName == structToCheck.name)
-            { 
-                currentHarvestedNum++;
-            }
-        }
-        if (currentHarvestedNum >= targetHarvestedNum)
+        //actual harvesting check done in player controller in BroadcastToHarvestEL
+        if (currentHarvestedNum >= structToCheck.targetValue)
         {
             IsEventCompleted = true;
         }
-
         else if (currentHarvestedNum > 0)
         {
             IsEventHasBeenUpdated = true;
         }
-        playerController.hasHarvestedItem = false;
+        /*
+        if(structToCheck.name.Contains("mushroom"))
+        {
+            //flag is turned on in player controller script
+            if (playerController.hasHarvestedMushroom)
+            {
+                if (playerController.justHarvestedName.Contains(structToCheck.name))
+                {
+                    currentHarvestedNum++;
+                }
+            }
+            if (currentHarvestedNum >= structToCheck.targetValue)
+            {
+                IsEventCompleted = true;
+            }
+
+            else if (currentHarvestedNum > 0)
+            {
+                IsEventHasBeenUpdated = true;
+            }
+            playerController.hasHarvestedMushroom = false;
+        }
+        */
+        /*
+        else if(structToCheck.name.Contains("berry"))
+        {
+            //flag is turned on in player controller script
+            if (playerController.hasHarvestedBerry)
+            {
+                if (playerController.justHarvestedName.Contains(structToCheck.name))
+                {
+                    currentHarvestedNum++;
+                }
+            }
+            if (currentHarvestedNum >= structToCheck.targetValue)
+            {
+                IsEventCompleted = true;
+            }
+
+            else if (currentHarvestedNum > 0)
+            {
+                IsEventHasBeenUpdated = true;
+            }
+            playerController.hasHarvestedBerry = false;
+        }
+        */
     }
 }

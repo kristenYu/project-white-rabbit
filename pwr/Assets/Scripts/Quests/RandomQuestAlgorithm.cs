@@ -5,10 +5,11 @@ using UnityEngine;
 public class RandomQuestAlgorithm : QuestAlgorithmBase
 {
     private Quest[] questsToGive;
+    private List<Quest> potentialQuests; 
 
     public override void SetUpAlgorithm()
     {
-        
+        potentialQuests = new List<Quest>();
     }
 
     //QuestAlgorithmBase functions
@@ -16,9 +17,16 @@ public class RandomQuestAlgorithm : QuestAlgorithmBase
     {
         questsToGive = null;
         questsToGive = new Quest[questNum];
+
+        potentialQuests.Clear();
+        for(int i = 0; i < questDataBase.Length; i++)
+        {
+            potentialQuests.Add(questDataBase[i]);
+        }
         for(int i = 0; i < questNum; i++)
         {
-           questsToGive[i] = questDataBase[Random.Range(0, questDataBase.Length)];
+            questsToGive[i] = potentialQuests[Random.Range(0, potentialQuests.Count)];
+            potentialQuests.Remove(questsToGive[i]);
         }
 
         return questsToGive;

@@ -61,12 +61,13 @@ public class PlaceEventListener : AEventListener
 
     private void CheckPlacedFurniture()
     {
+        /*
         if(playerController.placeFurnitureFlag == true)
         {
             currentNumPlaced++;
             playerController.placeFurnitureFlag = false;
         }
-
+        */
         if (currentNumPlaced == checkNumPlaced)
         {
             IsEventCompleted = true;

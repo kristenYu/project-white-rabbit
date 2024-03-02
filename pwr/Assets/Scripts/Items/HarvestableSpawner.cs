@@ -4,14 +4,21 @@ using UnityEngine;
 
 public class HarvestableSpawner : MonoBehaviour
 {
+    public enum harvestable
+    {
+        mushrooom = 0,
+        berry,
+    }
+    
     public GameObject mushroomGameObject;
     public WorldController worldController;
 
     private float randomX;
     private float randomY;
-    private const int mushroomSpawnNumber = 3;
+    private const int harvestableSpawnNumber = 3;
     private GameObject spawnedObject;
 
+    public harvestable currentHarvestable; 
     void Start()
     {
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
@@ -19,25 +26,48 @@ public class HarvestableSpawner : MonoBehaviour
 
     private void Update()
     {
-        if(worldController.harvestableList.Count >= WorldController.maxMushroomSpawn)
+        switch(currentHarvestable)
         {
-            worldController.shouldSpawnMushrooms = false;
+            case harvestable.mushrooom:
+                if (worldController.mushroomHarvestableList.Count >= WorldController.maxMushroomSpawn)
+                {
+                    worldController.shouldSpawnHarvestables = false;
+                }
+                if (worldController.shouldSpawnHarvestables)
+                {
+                    if (WorldController.maxMushroomSpawn - worldController.mushroomHarvestableList.Count > harvestableSpawnNumber)
+                    {
+                        SpawnNewHarvestable(harvestableSpawnNumber);
+                    }
+                    else
+                    {
+                        SpawnNewHarvestable(WorldController.maxMushroomSpawn - worldController.mushroomHarvestableList.Count);
+                    }
+                }
+                break;
+            case harvestable.berry:
+                if (worldController.mushroomHarvestableList.Count >= WorldController.maxBerrySpawn)
+                {
+                    worldController.shouldSpawnHarvestables = false;
+                }
+                if (worldController.shouldSpawnHarvestables)
+                {
+                    if (WorldController.maxBerrySpawn - worldController.berryHarvestableList.Count > harvestableSpawnNumber)
+                    {
+                        SpawnNewHarvestable(harvestableSpawnNumber);
+                    }
+                    else
+                    {
+                        SpawnNewHarvestable(WorldController.maxMushroomSpawn - worldController.berryHarvestableList.Count);
+                    }
+                }
+                break;
+
         }
-        if(worldController.shouldSpawnMushrooms)
-        {
-            if(WorldController.maxMushroomSpawn - worldController.harvestableList.Count > mushroomSpawnNumber)
-            {
-                SpawnNewMushrooms(mushroomSpawnNumber);
-            }
-            else
-            {
-                SpawnNewMushrooms(WorldController.maxMushroomSpawn - worldController.harvestableList.Count);
-            }
-            
-        }
+       
     }
 
-    public void SpawnNewMushrooms(int amountToSpawn)
+    public void SpawnNewHarvestable(int amountToSpawn)
     {
         for(int i = 0; i < amountToSpawn; i++)
         {
@@ -47,15 +77,19 @@ public class HarvestableSpawner : MonoBehaviour
                 this.gameObject.transform.position.y + (this.gameObject.transform.localScale.y / 2));
 
             spawnedObject = Instantiate(mushroomGameObject, new Vector3(randomX, randomY, 0.0f), Quaternion.identity);
-            worldController.harvestableList.Add(spawnedObject);
+            worldController.mushroomHarvestableList.Add(spawnedObject);
             spawnedObject.transform.parent = worldController.transform;
 
         }
     }
 
-    public void RespawnExistingMushrooms()
+    public void RespawnExistingHarvestable()
     {
-        foreach(GameObject harvestable in worldController.harvestableList)
+        foreach(GameObject harvestable in worldController.mushroomHarvestableList)
+        {
+            Instantiate(harvestable, harvestable.transform.position, Quaternion.identity);
+        }
+        foreach (GameObject harvestable in worldController.berryHarvestableList)
         {
             Instantiate(harvestable, harvestable.transform.position, Quaternion.identity);
         }

@@ -69,7 +69,7 @@ public class Telemetry_Util : MonoBehaviour
         }
         else
         {
-            Debug.Log(www.downloadHandler.text);
+            //Debug.Log(www.downloadHandler.text);
         }
     }
 }

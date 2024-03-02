@@ -26,7 +26,7 @@ public class CookingEventListener : AEventListener
     // Update is called once per frame
     void Update()
     {
-        CheckCookedRecipe();
+        //CheckCookedRecipe();
     }
 
     public override void OnStartListening()
@@ -61,95 +61,117 @@ public class CookingEventListener : AEventListener
     }
 
     //TODO: UNHACK THIS this is a hardcoded mess
-    private void CheckCookedRecipe()
+    public void CheckCookedRecipe()
     {
-        if (playerController.CookedRecipeFlag == true)
+        switch (playerController.cookedFoodObject.GetComponent<CookedFood>().stringName)
         {
-            switch(playerController.cookedFoodObject.name)
-            {
-                case "french fries":
-                    if(structToCheck.ingredientType == "potato")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "potato chips":
-                    if (structToCheck.ingredientType == "potato")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "tomato soup":
-                    if (structToCheck.ingredientType == "tomato")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "veggie soup":
-                    if (structToCheck.ingredientType == "tomato" || 
-                        structToCheck.ingredientType == "carrot" || 
-                        structToCheck.ingredientType == "onion")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "spaghetti sauce":
-                    if (structToCheck.ingredientType == "tomato" ||
-                        structToCheck.ingredientType == "onion")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "onion soup":
-                    if (structToCheck.ingredientType == "greenonion" ||
-                        structToCheck.ingredientType == "onion")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "potato buns":
-                    if (structToCheck.ingredientType == "greenonion" ||
-                        structToCheck.ingredientType == "potato")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "veggie dumplings":
-                    if (structToCheck.ingredientType == "greenonion" ||
-                       structToCheck.ingredientType == "carrot" ||
-                       structToCheck.ingredientType == "onion")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-                case "lettuce sandwich":
-                    if (structToCheck.ingredientType == "lettuce" ||
-                       structToCheck.ingredientType == "carrot" ||
-                       structToCheck.ingredientType == "tomato")
-                    {
-                        currentNumRecipes++;
-                        playerController.CookedRecipeFlag = false;
-                    }
-                    break;
-            }
-            if(currentNumRecipes >= checkNumRecipes)
-            {
-                IsEventCompleted = true;
-            }
-            else
-            {
-                IsEventCompleted = false;
-            }
+            case "french fries":
+                if (structToCheck.ingredientType.Contains("potato"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "potato chips":
+                if (structToCheck.ingredientType.Contains("potato"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "tomato soup":
+                if (structToCheck.ingredientType.Contains("tomato"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "veggie soup":
+                if (structToCheck.ingredientType.Contains("tomato") ||
+                    structToCheck.ingredientType.Contains("carrot") ||
+                    structToCheck.ingredientType.Contains("onion"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "spaghetti sauce":
+                if (structToCheck.ingredientType.Contains("tomato") ||
+                    structToCheck.ingredientType.Contains("onion"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "onion soup":
+                if (structToCheck.ingredientType.Contains("greenonion") ||
+                    structToCheck.ingredientType.Contains("onion"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "veggie dumplings":
+                if (structToCheck.ingredientType.Contains("greenonion") ||
+                    structToCheck.ingredientType.Contains("carrot") ||
+                    structToCheck.ingredientType.Contains("onion"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "lettuce sandwich":
+                if (structToCheck.ingredientType.Contains("lettuce") ||
+                    structToCheck.ingredientType.Contains("carrot") ||
+                    structToCheck.ingredientType.Contains("tomato"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "berry jam":
+                if (structToCheck.ingredientType.Contains("berry"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "berry cake":
+                if (structToCheck.ingredientType.Contains("berry"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "mushroom soup":
+                if (structToCheck.ingredientType.Contains("mushroom"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            case "mushroom steak":
+                if (structToCheck.ingredientType.Contains("mushroom") ||
+                    structToCheck.ingredientType.Contains("greenonion") ||
+                    structToCheck.ingredientType.Contains("onion"))
+                {
+                    currentNumRecipes++;
+                    playerController.CookedRecipeFlag = false;
+                }
+                break;
+            default:
+                playerController.CookedRecipeFlag = false;
+                break;
         }
-    }
+        if(currentNumRecipes >= checkNumRecipes)
+        {
+            IsEventCompleted = true;
+        }
+        else
+        {
+            IsEventCompleted = false;
+        }
+     }
 }
 
 /*

@@ -38,6 +38,8 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
     private Quest[] questsToGive;
     private List<Quest> questsOfType;
     private int questTypeCatch;
+    private List<Quest> potentialQuests;
+
 
     //set up for the algorithm as needed 
     public override void SetUpAlgorithm()
@@ -45,8 +47,7 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         questNum = 3;
         time = 0;
         questCategories = (int)QuestBoard.QuestType.invalid;
-       // questCategories = 3;
-        Debug.Log(questCategories);
+        potentialQuests = new List<Quest>();
         questCategoryArray = new int[questCategories];
         rewardArray = new int[questCategories];
         for(int i =0; i < questCategories; i++)
@@ -68,11 +69,18 @@ public class RLAIDQuestAlgorithm : QuestAlgorithmBase
         questsToGive = new Quest[questNum];
         job = generateCBAJob(time);
         Debug.Log(job);
+        potentialQuests.Clear();
+        for(int i = 0; i < questDataBase.Length; i++)
+        {
+            potentialQuests.Add(questDataBase[i]);
+        }
+
         for(int i = 0; i < job.Length; i++)
         {
             questTypeCatch = (int)job[i] - 48;
-            questsOfType = GetAllQuestsOfType(questTypeCatch, questDataBase);
+            questsOfType = GetAllQuestsOfType(questTypeCatch, potentialQuests.ToArray());
             questsToGive[i] = questsOfType[Random.Range(0, questsOfType.Count)];
+            potentialQuests.Remove(questsToGive[i]);
             //questsOfType.Remove(questsToGive[i]);
         }
         

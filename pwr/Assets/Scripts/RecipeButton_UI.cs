@@ -26,14 +26,14 @@ public class RecipeButton_UI : MonoBehaviour
         {
             //Changes the button's Highlighted color to the new color.
             cb = button.colors;
-            cb.highlightedColor = new Color(203, 224, 174);
+            cb.highlightedColor = Color.green;
             button.colors = cb;
         }
         else
         {
             //Changes the button's Highlighted color to the new color.
             cb = button.colors;
-            cb.highlightedColor = new Color(224, 185, 174);
+            cb.highlightedColor = Color.red;
             button.colors = cb;
         }
     }
