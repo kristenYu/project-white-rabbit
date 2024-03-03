@@ -109,12 +109,6 @@ public class ShopScript : MonoBehaviour
         //load the item manager, player controller, and save data
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         playerController.isShouldMove = false;
-        playerAudioSource = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
-        if(playerAudioSource.isPlaying)
-        {
-            Debug.Log("player audio source is playing");
-            playerAudioSource.Stop();
-        }
         itemManager = GameObject.FindGameObjectWithTag("item_manager").GetComponent<ItemManager>();
         shopSaveData = GameObject.FindGameObjectWithTag("shop_save").GetComponent<ShopSaveData>();
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
@@ -145,6 +139,12 @@ public class ShopScript : MonoBehaviour
         {
             LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
         }
+
+        FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
         updateStorePanels();
         setItemButtonDelegates();
         SetItemSoldPanels(storeState);
@@ -340,7 +340,7 @@ public class ShopScript : MonoBehaviour
         audioSource.PlayOneShot(buyItemClip);
         //check if player can purchase item, if so remove item from store and add to player inventory
         cost = item.GetComponent<Item>().cost;
-        if (playerController.removeCurrency(cost)) 
+        if (playerController.currency >= cost) 
         {
             if(!playerController.IsInventoryFull())
             {
@@ -349,35 +349,72 @@ public class ShopScript : MonoBehaviour
                     recipe = item.GetComponent<Recipe>();
                     playerController.UnlockRecipe(recipe, playerController.recipeIndex);
                     playerController.recipeIndex++;
+                    playerController.removeCurrency(cost);
+                    shopSaveData.soldItemList.Add(item);
+                    soldItems.Add(item);
+                    SetItemSoldPanels(storeState);
+                    rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                    rabbitAnimator.speechText.text = "Thanks for buying something!";
+
+                    //tutorial
+                    //tutorialBool = true;
+
+                    //telemetry 
+                    StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
                 }
                 else if (storeState == StoreState.Seeds)
                 {
-                    for (int i = 0; i < maxSeedPurchased; i++)
+                    if (playerController.GetOpenInventory() < maxSeedPurchased)
                     {
-                        playerController.AddObjectToInventory(item);
+                        audioSource.PlayOneShot(cantBuyItemClip);
+                        rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                        rabbitAnimator.speechText.text = "Sorry, you don't have any room in your inventory.";
+                        //telemetry
+                        StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
+                    }
+                    else
+                    {
+                        for (int i = 0; i < maxSeedPurchased; i++)
+                        {
+                            playerController.AddObjectToInventory(item);
+                        }
+                        playerController.removeCurrency(cost);
+                        shopSaveData.soldItemList.Add(item);
+                        soldItems.Add(item);
+                        SetItemSoldPanels(storeState);
+                        rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                        rabbitAnimator.speechText.text = "Thanks for buying something!";
+
+                        //tutorial
+                        //tutorialBool = true;
+
+                        //telemetry 
+                        StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
                     }
                 }
                 else
                 {
+                    playerController.removeCurrency(cost);
                     playerController.AddObjectToInventory(item);
+                    shopSaveData.soldItemList.Add(item);
+                    soldItems.Add(item);
+                    SetItemSoldPanels(storeState);
+                    rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
+                    rabbitAnimator.speechText.text = "Thanks for buying something!";
+
+                    //tutorial
+                    //tutorialBool = true;
+
+                    //telemetry 
+                    StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
                 }
-                shopSaveData.soldItemList.Add(item);
-                soldItems.Add(item);
-                SetItemSoldPanels(storeState);
-                rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-                rabbitAnimator.speechText.text = "Thanks for buying something!";
-
-                //tutorial
-                tutorialBool = true;
-
-                //telemetry 
-                StartCoroutine(telemetryUtil.PostData("Shop:Bought" + item.GetComponent<Item>().stringName));
+               
             }
             else
             {
                 audioSource.PlayOneShot(cantBuyItemClip);
                 rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-                rabbitAnimator.speechText.text = "Sorry you don't have any room in your inventory";
+                rabbitAnimator.speechText.text = "Sorry, you don't have any room in your inventory.";
                 //telemetry
                 StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
             }
@@ -659,6 +696,38 @@ public class ShopScript : MonoBehaviour
         audioSource.PlayOneShot(changeTabClip);
         updateStorePanels();
         UpdateSellingItemsPanel();
+
+        switch(state)
+        {
+            case StoreState.Furniture:
+                //HARDCODED TO EXPECT AN IMAGE CHILD AT CHILD 0
+                FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+            case StoreState.Seeds:
+                //HARDCODED TO EXPECT AN IMAGE CHILD AT CHILD 0
+                FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+            case StoreState.Recipes:
+                //HARDCODED TO EXPECT AN IMAGE CHILD AT CHILD 0
+                FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                break;
+            case StoreState.Sell:
+                //HARDCODED TO EXPECT AN IMAGE CHILD AT CHILD 0
+                FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+                SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+                break;
+        }
 
     }
     private bool checkIfShopShouldUpdate()

@@ -355,7 +355,11 @@ public class QuestBoard : MonoBehaviour
         {
             currentQuestAlgorithm.OnQuestClosed();
         }
-        
+
+        //HARDCODED FOR THE PANEL BEING THE FIRST CHILD OF THE BUTTON
+        submitQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        acceptQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+
     }
 
     public void SetupAcceptQuestsUI()
@@ -381,6 +385,9 @@ public class QuestBoard : MonoBehaviour
         {
             submitQuestUIObjects[i].SetActive(false);
         }
+        //HARDCODED FOR THE PANEL BEING THE FIRST CHILD OF THE BUTTON
+        submitQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        acceptQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
 
     }
     //TODO: Turn this into functions

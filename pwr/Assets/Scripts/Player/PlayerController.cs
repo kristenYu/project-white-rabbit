@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private GameObject tempObject;
     private Item currentItem;
     public Sprite inventoryFullSprite;
+    private int openInventory;
 
     //Quests 
     public const int maxActiveQuests = 3; 
@@ -725,6 +726,18 @@ public class PlayerController : MonoBehaviour
         }
     }    
 	
+    public int GetOpenInventory()
+    {
+        openInventory = 0;
+        for(int i = 0; i < inventory.Length; i++)
+        {
+            if(inventory[i] == null)
+            {
+                openInventory++;
+            }
+        }
+        return openInventory;
+    }
     public bool IsInventoryFull()
     {
         for(int i = 0; i < inventory.Length; i++)
@@ -1165,7 +1178,6 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Length; i++)
         {
-            Debug.Log(activeQuests[i].questName);
             if(activeQuests[i].questName.Contains(quest.questName))
             {
                 activeQuests[i] = null;
