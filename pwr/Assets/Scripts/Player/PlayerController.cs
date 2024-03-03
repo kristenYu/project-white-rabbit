@@ -560,7 +560,7 @@ public class PlayerController : MonoBehaviour
                             activeItem = null;
                             //for Passage
                             actionFrequencyArray[(int)QuestBoard.QuestType.plant] += 1;
-
+                            BroadcastToPEL();
                             StartCoroutine(telemetryUtil.PostData("Interaction:Plant" + cropScript.cropname));
                         }
                     }
@@ -1362,6 +1362,37 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    public void BroadcastToPEL()
+    {
+        for (int i = 0; i < this.transform.childCount; i++)
+        {
+            if (this.transform.GetChild(i).GetComponent<AEventListener>() != null)
+            {
+                if (this.transform.GetChild(i).GetComponent<PlantingEventListener>() != null)
+                {
+                    this.transform.GetChild(i).GetComponent<PlantingEventListener>().CheckForSeedPlanted();
+                }
+            }
+        }
+        //search for an active cooking quest
+        for (int j = 0; j < activeQuests.Length; j++)
+        {
+            if (activeQuests[j].questType == QuestBoard.QuestType.plant)
+            {
+                //find the cook quest that matches in the UI
+                for (int k = 0; k < questHudObjectArray.Length; k++)
+                {
+                    //check is quest name is the same
+                    if (activeQuests[j].questName.Contains(questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
+                    {
+                        questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)activeQuests[j].eventListener).currentNumTargetCrops.ToString();
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 

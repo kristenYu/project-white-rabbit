@@ -23,7 +23,6 @@ public class PlantingEventListener : AEventListener
     // Update is called once per frame
     void Update()
     {
-        CheckForSeedPlanted();
     }
     public override void OnStartListening()
     {
@@ -74,7 +73,7 @@ public class PlantingEventListener : AEventListener
         structToCheck.name = name;
         structToCheck.targetValue = targetValue; 
     }
-    private void CheckForSeedPlanted()
+    public void CheckForSeedPlanted()
     {
         currentNumTargetCrops = 0; 
         foreach(GameObject cropObject in worldController.activeCropList)
@@ -83,30 +82,6 @@ public class PlantingEventListener : AEventListener
             if(currentCrop.cropname == structToCheck.name)
             {
                 currentNumTargetCrops++;
-                //search for an active placing quest
-                for (int j = 0; j < playerController.activeQuests.Length; j++)
-                {
-                    
-                    if(playerController.activeQuests[j] != null)
-                    {
-                        if (playerController.activeQuests[j].questType == QuestBoard.QuestType.plant)
-                        {
-                            if (playerController.activeQuests[j].eventListenerData[0].Contains(structToCheck.name))
-                            {
-                                //find the place quest that matches in the UI
-                                for (int k = 0; k < playerController.questHudObjectArray.Length; k++)
-                                {
-                                    //check is quest name is the same
-                                    if (playerController.activeQuests[j].questName.Contains(playerController.questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
-                                    {
-                                        playerController.questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = currentNumTargetCrops.ToString();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                   
-                }
             }
         }
         if(currentNumTargetCrops == checkNumTargetCrops)
