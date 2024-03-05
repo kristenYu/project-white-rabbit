@@ -31,9 +31,9 @@ public class HarvestableSpawner : MonoBehaviour
             case harvestable.mushrooom:
                 if (worldController.mushroomHarvestableList.Count >= WorldController.maxMushroomSpawn)
                 {
-                    worldController.shouldSpawnHarvestables = false;
+                    worldController.shouldSpawnMushroom = false;
                 }
-                if (worldController.shouldSpawnHarvestables)
+                if (worldController.shouldSpawnMushroom)
                 {
                     if (WorldController.maxMushroomSpawn - worldController.mushroomHarvestableList.Count > harvestableSpawnNumber)
                     {
@@ -48,9 +48,9 @@ public class HarvestableSpawner : MonoBehaviour
             case harvestable.berry:
                 if (worldController.mushroomHarvestableList.Count >= WorldController.maxBerrySpawn)
                 {
-                    worldController.shouldSpawnHarvestables = false;
+                    worldController.shouldSpawnBerries = false;
                 }
-                if (worldController.shouldSpawnHarvestables)
+                if (worldController.shouldSpawnBerries)
                 {
                     if (WorldController.maxBerrySpawn - worldController.berryHarvestableList.Count > harvestableSpawnNumber)
                     {
@@ -77,8 +77,19 @@ public class HarvestableSpawner : MonoBehaviour
                 this.gameObject.transform.position.y + (this.gameObject.transform.localScale.y / 2));
 
             spawnedObject = Instantiate(mushroomGameObject, new Vector3(randomX, randomY, 0.0f), Quaternion.identity);
-            worldController.mushroomHarvestableList.Add(spawnedObject);
-            spawnedObject.transform.parent = worldController.transform;
+            switch(currentHarvestable)
+            {
+                case harvestable.mushrooom:
+                    worldController.mushroomHarvestableList.Add(spawnedObject);
+                    spawnedObject.transform.parent = worldController.transform;
+                    break;
+                case harvestable.berry:
+                    worldController.berryHarvestableList.Add(spawnedObject);
+                    spawnedObject.transform.parent = worldController.transform;
+                    break;
+
+            }
+
 
         }
     }

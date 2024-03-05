@@ -296,53 +296,56 @@ public class QuestBoard : MonoBehaviour
         for (int i = 0; i < playerController.activeQuests.Length; i++)
         {
             //this is going to look weird - needs a clean up pass
-            if (playerController.activeQuests[i].questType == QuestType.invalid)
+            if(playerController.activeQuests[i] != null)
             {
-                submitQuestUIObjects[i].SetActive(false);
-            }
-            else
-            {
-                
-                submitQuestUIObjects[i].SetActive(true);
-                SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
-                switch (playerController.activeQuests[i].questType)
+                if (playerController.activeQuests[i].questType == QuestType.invalid)
                 {
-                    case QuestType.cook:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener) playerController.activeQuests[i].eventListener).checkNumRecipes.ToString(); 
-                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();  
-                        break;
-                    case QuestType.harvest:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
-                        break;
-                    case QuestType.place:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString(); 
-                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
-                        break;
-                    case QuestType.plant:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                        submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
-                        break;
-
-                }
-                if (playerController.activeQuests[i].eventListener.IsEventCompleted)
-                {
-                    submitQuestUIObjects[i].GetComponent<Button>().enabled = true;
-                    submitQuestUIObjects[i].GetComponent<Image>().color = Color.green;
-                    //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(69f, 154f, 63f, 255f);
+                    submitQuestUIObjects[i].SetActive(false);
                 }
                 else
                 {
-                    submitQuestUIObjects[i].GetComponent<Button>().enabled = false;
-                    submitQuestUIObjects[i].GetComponent<Image>().color = Color.red;
-                    //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(191f, 99f, 68f, 255f);
-                    //submitQuestUIObjects[i].SetActive(false);
+                    submitQuestUIObjects[i].SetActive(true);
+                    SetSubmitQuestUI(submitQuestUIObjects[i], playerController.activeQuests[i]);
+                    switch (playerController.activeQuests[i].questType)
+                    {
+                        case QuestType.cook:
+                            //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                            submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener)playerController.activeQuests[i].eventListener).checkNumRecipes.ToString();
+                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();
+                            break;
+                        case QuestType.harvest:
+                            //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                            submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
+                            break;
+                        case QuestType.place:
+                            //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                            submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
+                            break;
+                        case QuestType.plant:
+                            //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                            submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
+                            break;
+
+                    }
+                    if (playerController.activeQuests[i].eventListener.IsEventCompleted)
+                    {
+                        submitQuestUIObjects[i].GetComponent<Button>().enabled = true;
+                        submitQuestUIObjects[i].GetComponent<Image>().color = Color.green;
+                        //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(69f, 154f, 63f, 255f);
+                    }
+                    else
+                    {
+                        submitQuestUIObjects[i].GetComponent<Button>().enabled = false;
+                        submitQuestUIObjects[i].GetComponent<Image>().color = Color.red;
+                        //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(191f, 99f, 68f, 255f);
+                        //submitQuestUIObjects[i].SetActive(false);
+                    }
                 }
             }
+  
         }
 
         //turn off accept quest UI
@@ -603,41 +606,43 @@ public class QuestBoard : MonoBehaviour
 
     private void SetQuestHudObject(Quest quest)
     {
-        questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
-        //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
-        questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-        questHudTMP.text = quest.questName;
-        questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-        questHudReward.text = quest.reward.ToString();
-        questHudTargetNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-        questHudCurrentNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
-        switch (quest.questType)
+        Debug.Log("QuestHudCurrentIndex: " + playerController.questHudCurrentIndex);
+        if(playerController.questHudCurrentIndex < PlayerController.maxActiveQuests)
         {
-            case QuestType.cook:
-                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                questHudTargetNumText.text = ((CookingEventListener)quest.eventListener).checkNumRecipes.ToString();
-                questHudCurrentNumText.text = ((CookingEventListener)quest.eventListener).currentNumRecipes.ToString();
-                break;
-            case QuestType.harvest:
-                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                questHudTargetNumText.text = ((HarvestEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                questHudCurrentNumText.text = ((HarvestEventListener)quest.eventListener).currentHarvestedNum.ToString();
-                break;
-            case QuestType.place:
-                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                questHudTargetNumText.text = ((PlaceEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                questHudCurrentNumText.text = ((PlaceEventListener)quest.eventListener).currentNumPlaced.ToString();
-                break;
-            case QuestType.plant:
-                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                questHudTargetNumText.text = ((PlantingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                questHudCurrentNumText.text = ((PlantingEventListener)quest.eventListener).currentNumTargetCrops.ToString();
-                break;
+            questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
+            //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
+            questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+            questHudTMP.text = quest.questName;
+            questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+            questHudReward.text = quest.reward.ToString();
+            questHudTargetNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+            questHudCurrentNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+            switch (quest.questType)
+            {
+                case QuestType.cook:
+                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                    questHudTargetNumText.text = ((CookingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                    questHudCurrentNumText.text = ((CookingEventListener)quest.eventListener).currentNumRecipes.ToString();
+                    break;
+                case QuestType.harvest:
+                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                    questHudTargetNumText.text = ((HarvestEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                    questHudCurrentNumText.text = ((HarvestEventListener)quest.eventListener).currentHarvestedNum.ToString();
+                    break;
+                case QuestType.place:
+                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                    questHudTargetNumText.text = ((PlaceEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                    questHudCurrentNumText.text = ((PlaceEventListener)quest.eventListener).currentNumPlaced.ToString();
+                    break;
+                case QuestType.plant:
+                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                    questHudTargetNumText.text = ((PlantingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                    questHudCurrentNumText.text = ((PlantingEventListener)quest.eventListener).currentNumTargetCrops.ToString();
+                    break;
 
+            }
+            playerController.questHudCurrentIndex++;
         }
-        playerController.questHudCurrentIndex++;
-
-
     }
 }
 

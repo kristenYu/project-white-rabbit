@@ -601,12 +601,11 @@ public class PlayerController : MonoBehaviour
                     {
                         harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
                         AddObjectToInventory(harvestableScript.harvestedItem);
-                        worldController.mushroomHarvestableList.Remove(hit.transform.gameObject);
                         justHarvestedName = hit.transform.gameObject.GetComponent<Harvestable>().stringName;
-                        Object.Destroy(hit.transform.gameObject);
                         actionFrequencyArray[(int)QuestBoard.QuestType.harvest] += 1;
                         if (harvestableScript.stringName == "mushroom")
                         {
+                            worldController.mushroomHarvestableList.Remove(hit.transform.gameObject);
                             BroadcastToHarvestEL("mushroom");
                             hasHarvestedMushroom = true; //flag is turned off in harvest event listner
                             cameraAudioSource.PlayOneShot(mushroomHarvestClip);
@@ -614,11 +613,13 @@ public class PlayerController : MonoBehaviour
                         }
                         else
                         {
+                            worldController.berryHarvestableList.Remove(hit.transform.gameObject);
                             BroadcastToHarvestEL("berry");
                             hasHarvestedBerry = true; //flag is turned off in harvest event listener
                             cameraAudioSource.PlayOneShot(bushRustleclip);
                             StartCoroutine(telemetryUtil.PostData("Interaction:HarvestBerry"));
                         }
+                        Object.Destroy(hit.transform.gameObject);
                     }
                     else
                     {
@@ -1192,10 +1193,13 @@ public class PlayerController : MonoBehaviour
     {
         for(int i = 0; i < activeQuests.Length; i++)
         {
-            if(activeQuests[i].questName.Contains(quest.questName))
+            if(activeQuests[i] != null)
             {
-                activeQuests[i] = null;
-                break;
+                if (activeQuests[i].questName == (quest.questName))
+                {
+                    activeQuests[i] = null;
+                    break;
+                }
             }
         }
     }
