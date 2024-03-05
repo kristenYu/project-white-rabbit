@@ -445,11 +445,14 @@ public class ShopScript : MonoBehaviour
         {
             playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
             //remove item from inventory 
-            playerController.RemoveObjectFromInventory(index);
-            if (playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1) == item)
+            playerController.RemoveObjectFromInventory(item);
+            for(int i = 0; i < playerController.transform.childCount; i++)
             {
-                Destroy(playerControllerObject.transform.GetChild(playerControllerObject.transform.childCount - 1));
-            }
+                if(playerController.transform.GetChild(i).gameObject == item)
+                {
+                    Destroy(playerController.transform.GetChild(i).gameObject);
+                }
+            }   
             //hide button 
             sellingUIObject.SetActive(false);
 
