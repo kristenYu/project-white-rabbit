@@ -127,81 +127,87 @@ public class ShopScript : MonoBehaviour
         SellTabButton.onClick.AddListener(delegate { SetStoreState(StoreState.Sell); });
         ExitBtn = ExitToMainButton.GetComponent<Button>();
         ExitBtn.onClick.AddListener(ExitButtonClicked);
+        
         payMortageButton.onClick.AddListener(PayMortage);
+        
         moneyOwedText.text = shopSaveData.mortage.ToString();
         moneyOwed = shopSaveData.mortage;
-
-        if(shopSaveData.furnitureArray[0] == null)
-        {
-            PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
-        }
+        
+       if (shopSaveData.furnitureArray[0] == null)
+       {
+            Debug.Log("populate new store data");
+           PopulateNewItemsForShopSaveData(storeState, currentItemObjectArray);
+       }
         else
         {
+            Debug.Log("Load store data");
             LoadShopSaveData(storeState, currentItemObjectArray, soldItems);
         }
 
         FurnitureTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
-        SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+       SeedTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+       RecipeTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
+       SellTabButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
-        updateStorePanels();
-        setItemButtonDelegates();
-        SetItemSoldPanels(storeState);
-        sellingUIPanel.SetActive(false);
-        UpdateSellingItemsPanel();
+       updateStorePanels();
+       setItemButtonDelegates();
+       SetItemSoldPanels(storeState);
+       sellingUIPanel.SetActive(false);
+       UpdateSellingItemsPanel();
 
-        playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
+       playerControllerObject.transform.position = new Vector3(8.5f, -2f, 0f);
 
-        //tutorial
-        tutorialBool = false;
+       //tutorial
+       tutorialBool = false;
 
-        for(int i = 0; i < questTrackingUIArray.Length; i++)
-        {
-            //HARDCODED VALUE FOR THE ORDER OF THE PREFAB - DO NOT CHANGE ORDER OF PREFAB
-            questTrackingUIQuestName = questTrackingUIArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            questTrackingUITargetNumText = questTrackingUIArray[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-            questTrackingUICurrentNumText = questTrackingUIArray[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
-            if (playerController.activeQuests[i].questType == QuestBoard.QuestType.invalid)
-            {
-                questTrackingUIArray[i].SetActive(false);
-            }
-            else
-            {
-                questTrackingUIArray[i].SetActive(true);
-                questTrackingUIQuestName.text = playerController.activeQuests[i].questName;
-                switch (playerController.activeQuests[i].questType)
-                {
-                    case QuestBoard.QuestType.cook:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        questTrackingUITargetNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).checkNumRecipes.ToString();
-                        questTrackingUICurrentNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();
-                        break;
-                    case QuestBoard.QuestType.harvest:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        questTrackingUITargetNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                        questTrackingUICurrentNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
-                        break;
-                    case QuestBoard.QuestType.place:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        questTrackingUITargetNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                        questTrackingUICurrentNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
-                        break;
-                    case QuestBoard.QuestType.plant:
-                        //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                        questTrackingUITargetNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                        questTrackingUICurrentNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
-                        break;
+       for(int i = 0; i < questTrackingUIArray.Length; i++)
+       {
+           //HARDCODED VALUE FOR THE ORDER OF THE PREFAB - DO NOT CHANGE ORDER OF PREFAB
+           questTrackingUIQuestName = questTrackingUIArray[i].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+           questTrackingUITargetNumText = questTrackingUIArray[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+           questTrackingUICurrentNumText = questTrackingUIArray[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+           if (playerController.activeQuests[i].questType == QuestBoard.QuestType.invalid)
+           {
+               questTrackingUIArray[i].SetActive(false);
+           }
+           else
+           {
+               questTrackingUIArray[i].SetActive(true);
+               questTrackingUIQuestName.text = playerController.activeQuests[i].questName;
+               switch (playerController.activeQuests[i].questType)
+               {
+                   case QuestBoard.QuestType.cook:
+                       //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                       questTrackingUITargetNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).checkNumRecipes.ToString();
+                       questTrackingUICurrentNumText.text = ((CookingEventListener)playerController.activeQuests[i].eventListener).currentNumRecipes.ToString();
+                       break;
+                   case QuestBoard.QuestType.harvest:
+                       //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                       questTrackingUITargetNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                       questTrackingUICurrentNumText.text = ((HarvestEventListener)playerController.activeQuests[i].eventListener).currentHarvestedNum.ToString();
+                       break;
+                   case QuestBoard.QuestType.place:
+                       //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                       questTrackingUITargetNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                       questTrackingUICurrentNumText.text = ((PlaceEventListener)playerController.activeQuests[i].eventListener).currentNumPlaced.ToString();
+                       break;
+                   case QuestBoard.QuestType.plant:
+                       //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                       questTrackingUITargetNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
+                       questTrackingUICurrentNumText.text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
+                       break;
 
-                }
-            }
-        }
-
-        //telemetry
-        StartCoroutine(telemetryUtil.PostData("Shop:StartCoins" + playerController.currency.ToString()));
+               }
+           }
+       }
 
 
-        
+
+       //telemetry
+       StartCoroutine(telemetryUtil.PostData("Shop:StartCoins" + playerController.currency.ToString()));
+       
+       
+
     }
 
     // Update is called once per frame
@@ -584,7 +590,13 @@ public class ShopScript : MonoBehaviour
             //telemetry
             StartCoroutine(telemetryUtil.PostData("Transition:Main"));
         }
-        
+        else if (SceneManager.GetActiveScene().name == "test")
+        {
+            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
+            //telemetry
+            StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
+        }
+
     }
     private void LoadShopSaveData(StoreState state, GameObject[] itemArray, List<GameObject> soldItemList)
     {
@@ -654,9 +666,19 @@ public class ShopScript : MonoBehaviour
         for (int i = 0; i < shopSaveData.recipeArray.Length; i++)
         {
             randNum = Random.Range(0, itemManager.recipeArray.Length);
-            while (randomNumberList.Contains(randNum) || playerController.CheckRecipeUnlocked(itemManager.recipeArray[randNum].GetComponent<Recipe>()))
+            if(SceneManager.GetActiveScene().name == "TutorialShop")
             {
-                randNum = Random.Range(0, itemManager.recipeArray.Length);
+                while (randomNumberList.Contains(randNum))
+                {
+                    randNum = Random.Range(0, itemManager.recipeArray.Length);
+                }
+            }
+            else
+            {
+                while (randomNumberList.Contains(randNum) || playerController.CheckRecipeUnlocked(itemManager.recipeArray[randNum].GetComponent<Recipe>()))
+                {
+                    randNum = Random.Range(0, itemManager.recipeArray.Length);
+                }
             }
             randomNumberList.Add(randNum);
             shopSaveData.recipeArray[i] = itemManager.recipeArray[randNum];

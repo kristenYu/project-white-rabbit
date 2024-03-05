@@ -1848,7 +1848,7 @@ MonoBehaviour:
   itemManager: {fileID: 0}
   playerControllerObject: {fileID: 8205332308754028206, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
     type: 3}
-  shopSaveData: {fileID: 0}
+  shopSaveData: {fileID: 820911115}
   worldController: {fileID: 0}
   storeState: 0
   FurnitureTabButton: {fileID: 2053435966}
@@ -8126,6 +8126,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961186450695680278, guid: 5787de997d9829243b1c24c7762d2598,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.b
+      value: 0.48825207
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961186450695680278, guid: 5787de997d9829243b1c24c7762d2598,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.g
+      value: 0.52680427
+      objectReference: {fileID: 0}
+    - target: {fileID: 8961186450695680278, guid: 5787de997d9829243b1c24c7762d2598,
+        type: 3}
+      propertyPath: m_Colors.m_HighlightedColor.r
+      value: 0.6132076
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8961186450695680277, guid: 5787de997d9829243b1c24c7762d2598, type: 3}
