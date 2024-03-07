@@ -420,24 +420,34 @@ public class PlayerController : MonoBehaviour
         {
             if(hit.transform.tag != "non_interact")
             {
-                interactPopup.SetActive(true);
                 if(IsInventoryFull())
                 {
                     if(hit.transform.tag != "new_scene")
                     {
                         interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
                     }
+                    else
+                    { 
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                    }
                 }
                 else
                 {
                     interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
                 }
-                
+                interactPopup.SetActive(true);
+
             }
-            if(hit.transform.tag == "cooking")
+            
+            if (hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
                 interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
+            }
+            else if (hit.transform.tag == "debug_unlock_recipes")
+            {
+                interactPopup.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
             }
             else if (hit.transform.tag == "planting")
             {
@@ -468,6 +478,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
+                    cookingUI.SetActive(false);
                     interactPopup.SetActive(false);
                 }    
             }
@@ -491,6 +502,7 @@ public class PlayerController : MonoBehaviour
                 }
                
             }
+           
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -559,9 +571,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (activeItem.tag == "seed")
                         {
-                            cameraAudioSource.volume = 0.5f;
                             cameraAudioSource.PlayOneShot(plantingClip);
-                            cameraAudioSource.volume = 0.2f;
                             seedScript = activeItem.GetComponent<Seed>();
                             cropObject = Instantiate(seedScript.crop, hit.transform.position, Quaternion.identity);
                             cropObject.GetComponent<SpriteRenderer>().enabled = true;

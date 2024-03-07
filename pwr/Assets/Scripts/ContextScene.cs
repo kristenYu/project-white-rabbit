@@ -14,6 +14,10 @@ public class ContextScene : MonoBehaviour
     public string text1;
     public string text2;
 
+    public AudioClip text0AudioClip;
+    public AudioClip text1AudioClip;
+    public AudioClip text2AudioClip;
+
     public int currentTextNumber;
 
     public AudioSource audioSource;
@@ -21,8 +25,10 @@ public class ContextScene : MonoBehaviour
 
     void Start()
     {
+       
         currentTextNumber = 0;
-        welcomeText.text = text0; 
+        welcomeText.text = text0;
+        audioSource.PlayOneShot(text0AudioClip); 
     }
 
     // Update is called once per frame
@@ -34,10 +40,12 @@ public class ContextScene : MonoBehaviour
             if (currentTextNumber == 1)
             {
                 audioSource.PlayOneShot(audioClip);
+                audioSource.PlayOneShot(text1AudioClip);
                 welcomeText.text = text1;
             }
             else if (currentTextNumber == 2)
             {
+                audioSource.PlayOneShot(text2AudioClip);
                 audioSource.PlayOneShot(audioClip);
                 welcomeText.text = text2; 
             }

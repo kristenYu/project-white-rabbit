@@ -63,6 +63,7 @@ public class WorldController : MonoBehaviour
     public GameObject tutorialHarvestable;
     public Telemetry_Util telemetryUtil;
     public GameObject[] invalidTutorialCropArray;
+    public bool hasSetCropToFulllyGrown;
 
     //audio
     public AudioSource audioSource;
@@ -126,15 +127,11 @@ public class WorldController : MonoBehaviour
         backgroundPosition = new Vector3(nightFilter.transform.position.x, nightFilter.transform.position.y, -10f);
 
         telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
-        foreach (GameObject tutorialCrop in tutorialCropList)
-        {
-            tutorialCrop.GetComponent<Crop>().currentStage = Crop.CropStage.FullyGrown;
-            tutorialCrop.GetComponent<Crop>().isReadyToGrow = false;
-            tutorialCrop.GetComponent<SpriteRenderer>().sprite = tutorialCrop.GetComponent<Crop>().SpriteGrowingArray[3];
-        }
+      
 
         audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         hasPlayedGrowCropsClip = false;
+        hasSetCropToFulllyGrown = false;
     }
 
     // Update is called once per frame
@@ -149,21 +146,32 @@ public class WorldController : MonoBehaviour
         growActiveCrops();
         updateTOD(currentTimer);
 
-        //tutorial 
-        invalidTutorialCropArray = GameObject.FindGameObjectsWithTag("crop");
-        for(int i = 0; i < invalidTutorialCropArray.Length; i++)
+        if(SceneManager.GetActiveScene().name == "Tutorial")
         {
-            if(!tutorialCropList.Contains(invalidTutorialCropArray[i]))
+            //tutorial 
+            invalidTutorialCropArray = GameObject.FindGameObjectsWithTag("crop");
+            for (int i = 0; i < invalidTutorialCropArray.Length; i++)
             {
-                if(!activeCropList.Contains(invalidTutorialCropArray[i]))
+                if (!tutorialCropList.Contains(invalidTutorialCropArray[i]))
                 {
-                    Destroy(invalidTutorialCropArray[i]);
-                    
+                    if (!activeCropList.Contains(invalidTutorialCropArray[i]))
+                    {
+                        Destroy(invalidTutorialCropArray[i]);
+                    }
+
                 }
-                
             }
-        }
-        
+            if(!hasSetCropToFulllyGrown)
+            {
+                foreach (GameObject tutorialCrop in tutorialCropList)
+                {
+                    tutorialCrop.GetComponent<Crop>().currentStage = Crop.CropStage.FullyGrown;
+                    tutorialCrop.GetComponent<Crop>().isReadyToGrow = false;
+                    tutorialCrop.GetComponent<SpriteRenderer>().sprite = tutorialCrop.GetComponent<Crop>().SpriteGrowingArray[3];
+                }
+                hasSetCropToFulllyGrown = true;
+            }
+        } 
     }
 
     public void checkValidSceneForFurniture()

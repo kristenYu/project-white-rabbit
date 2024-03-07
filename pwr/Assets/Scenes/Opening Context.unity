@@ -479,6 +479,9 @@ MonoBehaviour:
   text0: Welcome to FarmQuest! I have set you up with a simple farm.
   text1: That means you owe me 1000 coins - a real steal if you ask me!
   text2: Come by my shop and pay me when you have the funds.
+  text0AudioClip: {fileID: 8300000, guid: b62f3bd1bffbddf4eb445e1f31bfc193, type: 3}
+  text1AudioClip: {fileID: 8300000, guid: 1820561c65233fe4cb956829c34096ea, type: 3}
+  text2AudioClip: {fileID: 8300000, guid: b3d780c06e4d418449fde676718b357e, type: 3}
   currentTextNumber: 0
   audioSource: {fileID: 253947972}
   audioClip: {fileID: 8300000, guid: 67cff30d0b9fcf44aa037829a0b92206, type: 3}
