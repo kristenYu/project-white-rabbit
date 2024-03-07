@@ -6633,6 +6633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsEventHasBeenUpdated: 0
   IsEventCompleted: 0
+  playerController: {fileID: 0}
   structToCheck:
     name: 
     targetValue: 0
@@ -37038,7 +37039,7 @@ PrefabInstance:
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00003
+      value: -255.00006
       objectReference: {fileID: 0}
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37143,7 +37144,7 @@ PrefabInstance:
     - target: {fileID: 3492017540082072295, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00003
+      value: -255.00006
       objectReference: {fileID: 0}
     - target: {fileID: 3492017540082072295, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37228,7 +37229,7 @@ PrefabInstance:
     - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00003
+      value: -255.00006
       objectReference: {fileID: 0}
     - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37677,7 +37678,7 @@ PrefabInstance:
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 2499.93
+      value: 780
       objectReference: {fileID: 0}
     - target: {fileID: 8992907497511114501, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}

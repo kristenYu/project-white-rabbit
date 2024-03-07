@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public GameObject recipeUIPrefab;
     private List<GameObject> knownRecipeUIObjects;
     private const float knownRecipeUIOffset = 60.0f;
-    private const float cookingUIContentMaximum = 720.0f; //need to make this bigger if you add recipes
+    private const float cookingUIContentMaximum = 0.0f; //need to make this bigger if you add recipes
     private GameObject cookingUIContent;
     private Image recipeUIImage;
     private Button recipeUIButton; 
@@ -1020,7 +1020,7 @@ public class PlayerController : MonoBehaviour
     {
         knownRecipes.Add(recipe);
         currentRecipeUIObject = Instantiate(recipeUIPrefab, this.transform.position, Quaternion.identity);
-        currentRecipeUIObject.transform.position = new Vector3(0.0f, (cookingUIContentMaximum - (knownRecipeUIOffset*(index+1))), 90.0f);
+        currentRecipeUIObject.transform.position = new Vector3(0.0f, (((cookingUIContent.GetComponent<RectTransform>().rect.height/2) + 30.0f - knownRecipeUIOffset*(index+1))), 90.0f);
         currentRecipeUIObject.transform.SetParent(cookingUIContent.transform, false);
         SetRecipeUI(currentRecipeUIObject, recipe);
         knownRecipeUIObjects.Add(currentRecipeUIObject);
