@@ -115,8 +115,10 @@ public class QuestBoard : MonoBehaviour
         playerObject.GetComponent<AudioSource>().Stop();
         playerController = playerObject.GetComponent<PlayerController>();
         playerObject.GetComponent<SpriteRenderer>().enabled = false;
-        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>(); 
-
+        audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
+        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+        questSetupScript = GameObject.FindGameObjectWithTag("quest_setup").GetComponent<QuestSetupScript>();
 
         //ASSUMES THAT THE CANVAS OBJECT IS THE SECOND OBJECT ON THE PLAYER OBJECT
         questHudIndex = 0;
@@ -132,10 +134,6 @@ public class QuestBoard : MonoBehaviour
         playerController.isShouldMove = false;
         currentQuestHudIndex = 0;
         currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
-
-
-        worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
-        questSetupScript = GameObject.FindGameObjectWithTag("quest_setup").GetComponent<QuestSetupScript>();
 
         //Turn of selection of algorithm 
         /*
@@ -155,7 +153,7 @@ public class QuestBoard : MonoBehaviour
         submitQuestsButton.onClick.AddListener(SetupSubmitQuestsUI);
         acceptQuestsButton.onClick.AddListener(SetupAcceptQuestsUI);
         questsToSubmit = new Quest[PlayerController.maxActiveQuests];
-        //PopulateQuestBoard();
+
 
         currentQuestboardState = QuestBoardState.submit;
         SetupSubmitQuestsUI();
@@ -172,13 +170,6 @@ public class QuestBoard : MonoBehaviour
 
         //set the current amount of coins
         currentCoins.text = playerController.currency.ToString();
-
-        //telemetry
-        //StartCoroutine(GetAssetBundle());
-        //StartCoroutine(PostData("test"));
-        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
-
-
     }
 
     // Update is called once per frame
@@ -192,7 +183,6 @@ public class QuestBoard : MonoBehaviour
         audioSource.PlayOneShot(exitButtonClip);
         playerController.enabled = true;
         playerController.HUD.SetActive(true);
-        Debug.Log(currentQuestAlgorithm);
         currentQuestAlgorithm.OnQuestClosed();
 
         playerController.isShouldMove = true;
@@ -248,17 +238,16 @@ public class QuestBoard : MonoBehaviour
         for (int i = 0; i < displayQuests.Length; i++)
         {
             SetQuestUI(questUIObjects[i], displayQuests[i], i);
-            StartCoroutine(telemetryUtil.PostData("Quest:AvailableQuest" + displayQuests[i].questName));
             switch(i)
             {
                 case 0:
-                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Left"));
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest:" + displayQuests[i].questName + ":Left"));
                     break;
                 case 1:
-                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Middle"));
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest:" + displayQuests[i].questName + ":Middle"));
                     break;
                 case 2:
-                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest" + displayQuests[i].questName + "Right"));
+                    StartCoroutine(telemetryUtil.PostData("Quest:PositionQuest:" + displayQuests[i].questName + ":Right"));
                     break;
             }
         }
@@ -363,6 +352,8 @@ public class QuestBoard : MonoBehaviour
         submitQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         acceptQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
 
+        StartCoroutine(telemetryUtil.PostData("QuestBoardState:Submit"));
+
     }
 
     public void SetupAcceptQuestsUI()
@@ -391,7 +382,7 @@ public class QuestBoard : MonoBehaviour
         //HARDCODED FOR THE PANEL BEING THE FIRST CHILD OF THE BUTTON
         submitQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(false);
         acceptQuestsButton.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-
+        StartCoroutine(telemetryUtil.PostData("Quests:QuestBoardState:Accept"));
     }
     //TODO: Turn this into functions
     public void AcceptQuest(Quest quest, int UIObjectPosition)
@@ -423,7 +414,8 @@ public class QuestBoard : MonoBehaviour
                     quest.eventListener = plantingEventListener;
                     quest.eventListener.OnStartListening();
                     playerController.AddQuestToActiveArray(quest);
-                    SetQuestHudObject(quest);
+                   
+                    
 
                     //update feedback for max number of quests 
                     currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
@@ -449,7 +441,7 @@ public class QuestBoard : MonoBehaviour
                     quest.eventListener.OnStartListening();
                     playerController.AddQuestToActiveArray(quest);
                     currentQuestAlgorithm.OnQuestAccepted(quest);
-                    SetQuestHudObject(quest);
+                    //SetQuestHudObject(quest);
 
                     //update feedback for max number of quests 
                     currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
@@ -470,7 +462,7 @@ public class QuestBoard : MonoBehaviour
                     playerController.AddQuestToActiveArray(quest);
                     currentQuestAlgorithm.OnQuestAccepted(quest);
 
-                    SetQuestHudObject(quest);
+                    //SetQuestHudObject(quest);
 
                     //update feedback for max number of quests 
                     currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
@@ -492,7 +484,7 @@ public class QuestBoard : MonoBehaviour
                     quest.eventListener = harvestEventListener;
                     quest.eventListener.OnStartListening();
                     playerController.AddQuestToActiveArray(quest);
-                    SetQuestHudObject(quest);
+                    //SetQuestHudObject(quest);
 
                     //update feedback for max number of quests 
                     currentAcceptedQuestNumText.text = playerController.CountNumberOfActiveQuests().ToString();
@@ -501,9 +493,22 @@ public class QuestBoard : MonoBehaviour
                     break;
 
             }
+
+            for (int i = 0; i < playerController.activeQuests.Length; i++)
+            {
+                if (playerController.activeQuests[i] != null)
+                {
+                    SetQuestHudObject(playerController.activeQuests[i], i);
+                }
+                if(playerController.activeQuests[i].questType == QuestType.invalid)
+                {
+                    questHudGameobjectArray[i].SetActive(false);
+                }
+            }
+
             questAccecptPanelObjects[UIObjectPosition].SetActive(true);
             //telemetry
-            StartCoroutine(telemetryUtil.PostData("Quest:Accept" + quest.questName));
+            StartCoroutine(telemetryUtil.PostData("Quest:Accept:" + quest.questName));
             //questAcceptedAlreadyArray[UIObjectPosition] = 1;
         }
 
@@ -537,7 +542,7 @@ public class QuestBoard : MonoBehaviour
         currentCoins.text = playerController.currency.ToString();
 
         //telemetry
-        StartCoroutine(telemetryUtil.PostData("Quest:Submit" + quest.questName));
+        StartCoroutine(telemetryUtil.PostData("Quest:Submit:" + quest.questName));
     }
 
     private void OnRandomToggleChanged(Toggle toggle)
@@ -604,9 +609,42 @@ public class QuestBoard : MonoBehaviour
         }
     }
 
-    private void SetQuestHudObject(Quest quest)
-    {
-        Debug.Log("QuestHudCurrentIndex: " + playerController.questHudCurrentIndex);
+    private void SetQuestHudObject(Quest quest, int index)
+    {   
+        //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
+        questHudGameobjectArray[index].SetActive(true);
+        questHudTMP = questHudGameobjectArray[index].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        questHudTMP.text = quest.questName;
+        questHudReward = questHudGameobjectArray[index].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+        questHudReward.text = quest.reward.ToString();
+        questHudTargetNumText = questHudGameobjectArray[index].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
+        questHudCurrentNumText = questHudGameobjectArray[index].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
+
+        switch (quest.questType)
+        {
+            case QuestType.cook:
+                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                questHudTargetNumText.text = ((CookingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                questHudCurrentNumText.text = ((CookingEventListener)quest.eventListener).currentNumRecipes.ToString();
+                break;
+            case QuestType.harvest:
+                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                questHudTargetNumText.text = ((HarvestEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                questHudCurrentNumText.text = ((HarvestEventListener)quest.eventListener).currentHarvestedNum.ToString();
+                break;
+            case QuestType.place:
+                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                questHudTargetNumText.text = ((PlaceEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                questHudCurrentNumText.text = ((PlaceEventListener)quest.eventListener).currentNumPlaced.ToString();
+                break;
+            case QuestType.plant:
+                //HARDCODED VALUE TO THE ORDER OF THE PREFAB
+                questHudTargetNumText.text = ((PlantingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
+                questHudCurrentNumText.text = ((PlantingEventListener)quest.eventListener).currentNumTargetCrops.ToString();
+                break;
+
+        }
+        /*
         if(playerController.questHudCurrentIndex < PlayerController.maxActiveQuests)
         {
             questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
@@ -643,6 +681,7 @@ public class QuestBoard : MonoBehaviour
             }
             playerController.questHudCurrentIndex++;
         }
+        */
     }
 }
 

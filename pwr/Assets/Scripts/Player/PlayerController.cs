@@ -548,8 +548,6 @@ public class PlayerController : MonoBehaviour
                         || hit.transform.gameObject.name == "TutorialShop" 
                         || hit.transform.gameObject.name =="TutorialQuestBoard") 
                     {
-                        Debug.Log("transition to new scene");
-                        Debug.Log(hit.transform.gameObject.name);
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
                         SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
@@ -694,7 +692,6 @@ public class PlayerController : MonoBehaviour
             SceneManager.GetActiveScene().name == "QuestBoard" ||
             SceneManager.GetActiveScene().name == "TutorialQuestBoard")
         {
-            Debug.Log("scene is one without hud");
             this.GetComponent<PlayerController>().enabled = false;
             if (playerAudioSource.isPlaying)
             {

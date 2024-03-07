@@ -37599,12 +37599,12 @@ PrefabInstance:
         type: 3}
       propertyPath: questHudObjectArray.Array.data[1]
       value: 
-      objectReference: {fileID: 485971625}
+      objectReference: {fileID: 8205332309057092333}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: questHudObjectArray.Array.data[2]
       value: 
-      objectReference: {fileID: 8205332309057092333}
+      objectReference: {fileID: 485971625}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: inventoryItemImageArray.Array.size

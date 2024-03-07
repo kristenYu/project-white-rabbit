@@ -1020,7 +1020,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 124.99999}
+  m_AnchoredPosition: {x: 0, y: 124.99989}
   m_SizeDelta: {x: 0, y: 780}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3161271258800586260
@@ -1807,7 +1807,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7329567676287444869}
   m_HandleRect: {fileID: 3651368302914142509}
   m_Direction: 3
-  m_Value: 1
+  m_Value: 1.0000002
   m_Size: 0.32051283
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3244,8 +3244,8 @@ MonoBehaviour:
   currentQuestIndex: 0
   questHudObjectArray:
   - {fileID: 4591996998737912682}
-  - {fileID: 7796371734411297633}
   - {fileID: 2304667907911939099}
+  - {fileID: 7796371734411297633}
   questHudCurrentIndex: 0
   currency: 0
   currencyText: {fileID: 8205332308507442870}
