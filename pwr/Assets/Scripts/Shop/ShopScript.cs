@@ -445,7 +445,7 @@ public class ShopScript : MonoBehaviour
         {
             playerController.addCurrency(item.GetComponent<Item>().sellingPrice);
             //remove item from inventory 
-            playerController.RemoveObjectFromInventory(item);
+            playerController.RemoveObjectFromInventory(index);
             for(int i = 0; i < playerController.transform.childCount; i++)
             {
                 if(playerController.transform.GetChild(i).gameObject == item)

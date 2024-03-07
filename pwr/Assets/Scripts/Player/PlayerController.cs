@@ -1109,6 +1109,7 @@ public class PlayerController : MonoBehaviour
         AddObjectToInventory(cookedFoodObject);
         cookedFoodObject.SetActive(false);
         currentInventoryIndex = 0;
+        actionFrequencyArray[(int)QuestBoard.QuestType.cook] += 1;
         BroadcastToCookingEL();
         StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
         return true;
