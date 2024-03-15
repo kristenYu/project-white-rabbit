@@ -484,7 +484,8 @@ public class PlayerController : MonoBehaviour
             }
             else if(hit.transform.tag == "placeable")
             {
-                if(activeItem != null)
+                cookingUI.SetActive(false);
+                if (activeItem != null)
                 {
                     if (activeItem.tag == "furniture")
                     {

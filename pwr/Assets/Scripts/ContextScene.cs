@@ -39,18 +39,30 @@ public class ContextScene : MonoBehaviour
             currentTextNumber++;
             if (currentTextNumber == 1)
             {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
                 audioSource.PlayOneShot(audioClip);
                 audioSource.PlayOneShot(text1AudioClip);
                 welcomeText.text = text1;
             }
             else if (currentTextNumber == 2)
             {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
                 audioSource.PlayOneShot(text2AudioClip);
                 audioSource.PlayOneShot(audioClip);
                 welcomeText.text = text2; 
             }
             else if(currentTextNumber >= 3)
             {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
                 audioSource.PlayOneShot(audioClip);
                 SceneManager.LoadScene("Main", LoadSceneMode.Single);
             }
