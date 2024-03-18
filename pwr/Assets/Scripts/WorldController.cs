@@ -136,12 +136,16 @@ public class WorldController : MonoBehaviour
         hasSetCropToFulllyGrown = false;
 
         //spawn mushrooms on start
-        mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
-        berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
-        mushroomAmountToSpawn = 3;
-        berryAmountToSpawn = 3;
-        mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
-        berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+        if(SceneManager.GetActiveScene().name == "Main")
+        {
+            mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
+            berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
+            mushroomAmountToSpawn = 3;
+            berryAmountToSpawn = 3;
+            mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
+            berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+        }
+       
     }
 
     // Update is called once per frame
@@ -371,28 +375,30 @@ public class WorldController : MonoBehaviour
                 //set to true in quest script
                 isNewDayQuests = true;
                 //spawn mushrooms and berries
-                mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
-                berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
-                if (maxMushroomSpawn - mushroomHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                if(SceneManager.GetActiveScene().name == "Main")
                 {
-                    mushroomAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
-                }
-                else
-                {
-                    mushroomAmountToSpawn = maxMushroomSpawn - mushroomHarvestableList.Count;
-                }
-                mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
-                
-                if(maxBerrySpawn - berryHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
-                {
-                    berryAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
-                }
-                else
-                {
-                    berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
-                }
-                berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+                    mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
+                    berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
+                    if (maxMushroomSpawn - mushroomHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                    {
+                        mushroomAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                    }
+                    else
+                    {
+                        mushroomAmountToSpawn = maxMushroomSpawn - mushroomHarvestableList.Count;
+                    }
+                    mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
 
+                    if (maxBerrySpawn - berryHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                    {
+                        berryAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                    }
+                    else
+                    {
+                        berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
+                    }
+                    berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+                }
 
                 StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
             }

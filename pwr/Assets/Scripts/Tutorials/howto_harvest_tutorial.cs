@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class howto_harvest_tutorial : MonoBehaviour
 {
@@ -34,6 +35,14 @@ public class howto_harvest_tutorial : MonoBehaviour
     private void Start()
     {
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+        if(SceneManager.GetActiveScene().name != "Tutorial")
+        {
+            GetComponent<SpriteRenderer>().enabled = false;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+        }
     }
 
     // Update is called once per frame
