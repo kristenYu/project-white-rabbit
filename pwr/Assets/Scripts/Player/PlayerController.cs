@@ -154,8 +154,10 @@ public class PlayerController : MonoBehaviour
     //session variable from php 
     private string sessionQuestAlgorithm; 
 
+    
     private void Awake()
     {
+        Debug.Log("awake called");
         // Does another instance already exist?
         if (instance && instance != this)
         {
@@ -167,21 +169,23 @@ public class PlayerController : MonoBehaviour
         // Otherwise store my reference and make me DontDestroyOnLoad
         instance = this;
         DontDestroyOnLoad(gameObject);
-
+        
         //telemetry
-      //  telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>(); 
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>(); 
         StartCoroutine(telemetryUtil.PostData("Event:SessionStart"));
         StartCoroutine(selectQuestAlgorithm());
 
         hasDebugCooking = false;
 
     }
-
+    
     void Start()
     {
+        Debug.Log("Start called");
        // telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
         currency = 300;
         inventory = new GameObject[inventorySize];
+        isShouldMove = true;
 
         recipeIndex = 0;
 
@@ -219,7 +223,7 @@ public class PlayerController : MonoBehaviour
         layerMask = ~layerMask;
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
-        isShouldMove = true;
+        
 
         //clear inventory array 
         for(int i = 0; i < inventorySize; i++)
@@ -886,14 +890,23 @@ public class PlayerController : MonoBehaviour
         {
             if (this.transform.GetChild(i).GetComponent<Item>() != null)
             {
-                if(this.transform.GetChild(i).GetComponent<Item>().stringName == tempObject.GetComponent<Item>().stringName)
+                Debug.Log(tempObject);
+                if(this.transform.GetChild(i) == tempObject)
                 {
                     Destroy(this.transform.GetChild(i).gameObject);
-                }   
+                }
+                /*
+                if(this.transform.GetChild(i).GetComponent<Item>().stringName == tempObject.GetComponent<Item>().stringName)
+                {
+                   
+                    break;
+                } 
+                */
             }
         }
         return tempObject;
     }
+
 
     private void ShowActiveItem()
     {

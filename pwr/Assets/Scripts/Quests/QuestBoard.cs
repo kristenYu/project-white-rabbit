@@ -644,44 +644,6 @@ public class QuestBoard : MonoBehaviour
                 break;
 
         }
-        /*
-        if(playerController.questHudCurrentIndex < PlayerController.maxActiveQuests)
-        {
-            questHudGameobjectArray[playerController.questHudCurrentIndex].SetActive(true);
-            //ASSUMES THAT THE QUEST HUD GAME OBJECTS ARE IN A PARTICLAR ORDER - if they are moved this breaks!
-            questHudTMP = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-            questHudTMP.text = quest.questName;
-            questHudReward = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(2).GetComponent<TextMeshProUGUI>();
-            questHudReward.text = quest.reward.ToString();
-            questHudTargetNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-            questHudCurrentNumText = questHudGameobjectArray[playerController.questHudCurrentIndex].transform.GetChild(5).GetComponent<TextMeshProUGUI>();
-            switch (quest.questType)
-            {
-                case QuestType.cook:
-                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                    questHudTargetNumText.text = ((CookingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                    questHudCurrentNumText.text = ((CookingEventListener)quest.eventListener).currentNumRecipes.ToString();
-                    break;
-                case QuestType.harvest:
-                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                    questHudTargetNumText.text = ((HarvestEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                    questHudCurrentNumText.text = ((HarvestEventListener)quest.eventListener).currentHarvestedNum.ToString();
-                    break;
-                case QuestType.place:
-                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                    questHudTargetNumText.text = ((PlaceEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                    questHudCurrentNumText.text = ((PlaceEventListener)quest.eventListener).currentNumPlaced.ToString();
-                    break;
-                case QuestType.plant:
-                    //HARDCODED VALUE TO THE ORDER OF THE PREFAB
-                    questHudTargetNumText.text = ((PlantingEventListener)quest.eventListener).structToCheck.targetValue.ToString();
-                    questHudCurrentNumText.text = ((PlantingEventListener)quest.eventListener).currentNumTargetCrops.ToString();
-                    break;
-
-            }
-            playerController.questHudCurrentIndex++;
-        }
-        */
     }
 }
 

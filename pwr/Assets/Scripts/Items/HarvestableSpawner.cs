@@ -10,64 +10,21 @@ public class HarvestableSpawner : MonoBehaviour
         berry,
     }
     
-    public GameObject mushroomGameObject;
+    public GameObject gameObjectToSpawn;
     public WorldController worldController;
 
     private float randomX;
     private float randomY;
-    private const int harvestableSpawnNumber = 3;
+    public const int harvestableSpawnNumber = 3;
     private GameObject spawnedObject;
 
-    public harvestable currentHarvestable; 
-    void Start()
+    public harvestable currentHarvestable;
+    private void Awake()
     {
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
     }
 
-    private void Update()
-    {
-        switch(currentHarvestable)
-        {
-            case harvestable.mushrooom:
-                if (worldController.mushroomHarvestableList.Count >= WorldController.maxMushroomSpawn)
-                {
-                    worldController.shouldSpawnMushroom = false;
-                }
-                if (worldController.shouldSpawnMushroom)
-                {
-                    if (WorldController.maxMushroomSpawn - worldController.mushroomHarvestableList.Count > harvestableSpawnNumber)
-                    {
-                        SpawnNewHarvestable(harvestableSpawnNumber);
-                    }
-                    else
-                    {
-                        SpawnNewHarvestable(WorldController.maxMushroomSpawn - worldController.mushroomHarvestableList.Count);
-                    }
-                }
-                break;
-            case harvestable.berry:
-                if (worldController.mushroomHarvestableList.Count >= WorldController.maxBerrySpawn)
-                {
-                    worldController.shouldSpawnBerries = false;
-                }
-                if (worldController.shouldSpawnBerries)
-                {
-                    if (WorldController.maxBerrySpawn - worldController.berryHarvestableList.Count > harvestableSpawnNumber)
-                    {
-                        SpawnNewHarvestable(harvestableSpawnNumber);
-                    }
-                    else
-                    {
-                        SpawnNewHarvestable(WorldController.maxMushroomSpawn - worldController.berryHarvestableList.Count);
-                    }
-                }
-                break;
-
-        }
-       
-    }
-
-    public void SpawnNewHarvestable(int amountToSpawn)
+    public void SpawnNewHarvestable(int amountToSpawn, List<GameObject> spawnedObjectList)
     {
         for(int i = 0; i < amountToSpawn; i++)
         {
@@ -76,21 +33,9 @@ public class HarvestableSpawner : MonoBehaviour
             randomY = Random.Range(this.gameObject.transform.position.y - (this.gameObject.transform.localScale.y / 2),
                 this.gameObject.transform.position.y + (this.gameObject.transform.localScale.y / 2));
 
-            spawnedObject = Instantiate(mushroomGameObject, new Vector3(randomX, randomY, 0.0f), Quaternion.identity);
-            switch(currentHarvestable)
-            {
-                case harvestable.mushrooom:
-                    worldController.mushroomHarvestableList.Add(spawnedObject);
-                    spawnedObject.transform.parent = worldController.transform;
-                    break;
-                case harvestable.berry:
-                    worldController.berryHarvestableList.Add(spawnedObject);
-                    spawnedObject.transform.parent = worldController.transform;
-                    break;
-
-            }
-
-
+            spawnedObject = Instantiate(gameObjectToSpawn, new Vector3(randomX, randomY, 0.0f), Quaternion.identity);
+            spawnedObject.transform.parent = worldController.transform;
+            spawnedObjectList.Add(spawnedObject);
         }
     }
 

@@ -34,6 +34,8 @@ TagManager:
   - quest_setup
   - shop
   - telemetry
+  - berry_spawner
+  - mushroom_spawner
   layers:
   - Default
   - TransparentFX

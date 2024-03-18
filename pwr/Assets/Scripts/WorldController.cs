@@ -51,6 +51,10 @@ public class WorldController : MonoBehaviour
     public const int maxBerrySpawn = 5;
     public bool shouldSpawnMushroom;
     public bool shouldSpawnBerries;
+    public int mushroomAmountToSpawn; 
+    public int berryAmountToSpawn; 
+    public HarvestableSpawner mushroomSpawner;
+    public HarvestableSpawner berrySpawner;
 
     //filters 
     public GameObject nightFilter;
@@ -107,9 +111,7 @@ public class WorldController : MonoBehaviour
         isNewDay = false;
         //bool for resetting quests
         isNewDayQuests = false;
-        //spawn mushrooms on start
-        shouldSpawnMushroom = true;
-        shouldSpawnBerries = true;
+
 
         //Days are one minute total to complete
         dayDuration = 30.0f;
@@ -132,6 +134,14 @@ public class WorldController : MonoBehaviour
         audioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         hasPlayedGrowCropsClip = false;
         hasSetCropToFulllyGrown = false;
+
+        //spawn mushrooms on start
+        mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
+        berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
+        mushroomAmountToSpawn = 3;
+        berryAmountToSpawn = 3;
+        mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
+        berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
     }
 
     // Update is called once per frame
@@ -360,9 +370,30 @@ public class WorldController : MonoBehaviour
                 isNewDay = true;
                 //set to true in quest script
                 isNewDayQuests = true;
-                //set to false in the harvestable spawner script
-                shouldSpawnMushroom = true;
-                shouldSpawnBerries = true;
+                //spawn mushrooms and berries
+                mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
+                berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
+                if (maxMushroomSpawn - mushroomHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                {
+                    mushroomAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                }
+                else
+                {
+                    mushroomAmountToSpawn = maxMushroomSpawn - mushroomHarvestableList.Count;
+                }
+                mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
+                
+                if(maxBerrySpawn - berryHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                {
+                    berryAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                }
+                else
+                {
+                    berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
+                }
+                berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+
+
                 StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
             }
         }

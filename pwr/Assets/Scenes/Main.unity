@@ -5428,12 +5428,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &485971625 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7796371734411297633, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8205332309057092332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &490748157
 GameObject:
   m_ObjectHideFlags: 0
@@ -7608,12 +7602,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &725336146 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8205332308754028206, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8205332309057092332}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &727306193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5897419718397493376, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
@@ -14073,6 +14061,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Berry Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940380, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_TagString
+      value: berry_spawner
+      objectReference: {fileID: 0}
     - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
         type: 3}
       propertyPath: m_RootOrder
@@ -15378,7 +15371,7 @@ Transform:
   m_Children:
   - {fileID: 84780723}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1460318661
 GameObject:
@@ -19325,7 +19318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920fb4dfba25c63458894173f5cd1205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mushroomGameObject: {fileID: 6548234305049978767, guid: 8c54ebe51d5c56a4bb7c916715684266,
+  gameObjectToSpawn: {fileID: 6548234305049978767, guid: 8c54ebe51d5c56a4bb7c916715684266,
     type: 3}
   worldController: {fileID: 0}
   currentHarvestable: 0
@@ -20608,7 +20601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 920fb4dfba25c63458894173f5cd1205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mushroomGameObject: {fileID: 8329520493770811169, guid: 55e28ae68957c9b4aac2713f54849ebd,
+  gameObjectToSpawn: {fileID: 8329520493770811169, guid: 55e28ae68957c9b4aac2713f54849ebd,
     type: 3}
   worldController: {fileID: 0}
   currentHarvestable: 1
@@ -33493,6 +33486,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1847056103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3734407544158801413, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8205332309057092332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1852054514
 GameObject:
   m_ObjectHideFlags: 0
@@ -35101,7 +35100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7000a1c8f24fa24b9867d1afedc356d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObject: {fileID: 725336146}
+  playerObject: {fileID: 0}
 --- !u!4 &1988238195
 Transform:
   m_ObjectHideFlags: 0
@@ -35322,6 +35321,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &2003864030 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 617983462839312585, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+    type: 3}
+  m_PrefabInstance: {fileID: 8205332309057092332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2015829335
 GameObject:
   m_ObjectHideFlags: 0
@@ -36702,6 +36707,11 @@ PrefabInstance:
       objectReference: {fileID: 477141926}
     - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
+      propertyPath: berrySpawner
+      value: 
+      objectReference: {fileID: 1712402937}
+    - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
       propertyPath: growCropsClip
       value: 
       objectReference: {fileID: 8300000, guid: efd9e793704151b40940e888e7d7a218, type: 3}
@@ -36710,6 +36720,11 @@ PrefabInstance:
       propertyPath: twilightFilter
       value: 
       objectReference: {fileID: 1833679635}
+    - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
+        type: 3}
+      propertyPath: mushroomSpawner
+      value: 
+      objectReference: {fileID: 1562996449}
     - target: {fileID: 3020716752809631540, guid: 2e2b8667523abef4da1ea6bccf021c6a,
         type: 3}
       propertyPath: harvestableSpawner
@@ -36873,6 +36888,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom Spawner
       objectReference: {fileID: 0}
+    - target: {fileID: 3529238550309940380, guid: 523ea4e06cb2131408014b0651bdd233,
+        type: 3}
+      propertyPath: m_TagString
+      value: mushroom_spawner
+      objectReference: {fileID: 0}
     - target: {fileID: 3529238550309940386, guid: 523ea4e06cb2131408014b0651bdd233,
         type: 3}
       propertyPath: m_RootOrder
@@ -37009,12 +37029,12 @@ PrefabInstance:
     - target: {fileID: 629652285663026239, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_Size
-      value: 0.19230773
+      value: 0.32051283
       objectReference: {fileID: 0}
     - target: {fileID: 629652285663026239, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_Value
-      value: 0.9999995
+      value: 0.999999
       objectReference: {fileID: 0}
     - target: {fileID: 629652285663026239, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37039,7 +37059,7 @@ PrefabInstance:
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00006
+      value: -255.00012
       objectReference: {fileID: 0}
     - target: {fileID: 1168680543668006294, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37064,7 +37084,7 @@ PrefabInstance:
     - target: {fileID: 1338545658077841340, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 1338545658077841340, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37111,15 +37131,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2044273401065685241, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -255
+      objectReference: {fileID: 0}
     - target: {fileID: 2609300077579033586, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2609300077579033586, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 2818818632321691189, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -255
       objectReference: {fileID: 0}
     - target: {fileID: 3051970909334427782, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37144,7 +37174,7 @@ PrefabInstance:
     - target: {fileID: 3492017540082072295, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00006
+      value: -255.00012
       objectReference: {fileID: 0}
     - target: {fileID: 3492017540082072295, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37229,12 +37259,17 @@ PrefabInstance:
     - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -255.00006
+      value: -255.00012
       objectReference: {fileID: 0}
     - target: {fileID: 4881821710181485981, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 32.299988
+      objectReference: {fileID: 0}
+    - target: {fileID: 5179849160535064995, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -255
       objectReference: {fileID: 0}
     - target: {fileID: 5295918478340208973, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37414,7 +37449,7 @@ PrefabInstance:
     - target: {fileID: 8205332308754028201, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8205332308754028201, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
@@ -37599,12 +37634,12 @@ PrefabInstance:
         type: 3}
       propertyPath: questHudObjectArray.Array.data[1]
       value: 
-      objectReference: {fileID: 8205332309057092333}
+      objectReference: {fileID: 2003864030}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: questHudObjectArray.Array.data[2]
       value: 
-      objectReference: {fileID: 485971625}
+      objectReference: {fileID: 1847056103}
     - target: {fileID: 8205332308754028202, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
         type: 3}
       propertyPath: inventoryItemImageArray.Array.size
@@ -37712,9 +37747,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd5fe9deb0a4f3148bbe882e3d47fef5, type: 3}
---- !u!1 &8205332309057092333 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2304667907911939099, guid: bd5fe9deb0a4f3148bbe882e3d47fef5,
-    type: 3}
-  m_PrefabInstance: {fileID: 8205332309057092332}
-  m_PrefabAsset: {fileID: 0}
