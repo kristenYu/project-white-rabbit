@@ -20,6 +20,7 @@ FarmQuest features a fully designed game loop, with various bits of gameplay. Th
 1. Selling items in the shop 
 1. Completing quests for money 
 1. A mortage system to use as a goal
+1. A tutorial 
 
 ## Adding a new AI Director
 All AI Directors need to extend the QuestAlgorithmBase class found in Assets/Scripts/Quests. The QuestBoard script then calls these methods at the appropriate time. 
@@ -74,6 +75,53 @@ Where
 4. The cookedFoodSellingPrice is the price of selling the final cooked food as an int
 
 Second, add in a sprite with the exact name of the cooked food in the cooked food folder in sprites. 
+
+## Adding a New Quest Type 
+Quests rely on the Event Listener System to track quests. Quests are tracked by manually sending notifications to Event Listener Objects. Each Type of Quest has it's own event listener class that extends the abstract AEventListener base class. The AEventListener base class is set up as the following: 
+
+```
+    //Manager Variables 
+    public bool IsEventHasBeenUpdated;
+    public bool IsEventCompleted; 
+
+    //Register the event listener with the event listener manager
+    public void RegisterToManager()
+    {
+    }
+
+    //Tells the listener when to start listening to the gameobject 
+    public abstract void OnStartListening();
+
+    //Clean up for when the Event Listener should be destroyed
+    public abstract void OnEndListening();
+
+    //Is called when the event is updated
+    public abstract void OnEventUpdate();
+
+    //Is called when the event is completed
+    public abstract void OnEventCompleted();
+
+    //set one event listener equal to the other 
+    public abstract void Equals(AEventListener otherEventListener); 
+```
+
+There are two booleans to track if the event has been updated or completed, and then various functions for listening and clean up. Each event listener has it's own type of struct, found in the EventListenerStructs script. These structs track the relevant information that needs to be stored by a quest in order to track progress. For example, the plant seed struct has two fields: 
+
+```
+ //struct to check when a seed is planted
+    [System.Serializable]
+    public struct PlantSeedStruct
+    {
+        public string name;
+        public int targetValue; 
+    }
+```
+Where name is the name of the seed that should be tracked, and targetValue is the number of seeds that should be planted. This struct matches the ```eventListenerData``` field in the quest data object. 
+
+When making a new Event Listener class, extend the abstract AEventListenerClass. All of the functions need to be defined, but OnStartLIstening() and Equals() are required to be defined in order for proper functionality to work. For examples, see any of the event listeners currently in the game. 
+
+The EventListeningManager will automatically create event listeners when a quest begins tracking. It then manages the state of each event listener, so it knows when each of the events are considered completed, and will perform clean up of the event listeners when they are no longer needed. 
+
 
 ## Credits 
 Art Credits: 
