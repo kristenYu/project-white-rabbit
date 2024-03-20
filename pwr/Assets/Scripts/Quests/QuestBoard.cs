@@ -315,20 +315,21 @@ public class QuestBoard : MonoBehaviour
                         case QuestType.plant:
                             //HARDCODED VALUE TO THE ORDER OF THE PREFAB
                             submitQuestUIObjects[i].transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).structToCheck.targetValue.ToString();
-                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops.ToString();
+                            submitQuestUIObjects[i].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = (((PlantingEventListener)playerController.activeQuests[i].eventListener).currentNumTargetCrops - ((PlantingEventListener)playerController.activeQuests[i].eventListener).startingNumTargetCrops).ToString();
                             break;
 
                     }
                     if (playerController.activeQuests[i].eventListener.IsEventCompleted)
                     {
                         submitQuestUIObjects[i].GetComponent<Button>().enabled = true;
-                        submitQuestUIObjects[i].GetComponent<Image>().color = Color.green;
+                        //submitQuestUIObjects[i].GetComponent<Image>().color = Color.green;
+                        submitQuestUIObjects[i].GetComponent<Image>().color = new Color(0.5377715f, 0.6887516f, 0.8584906f, 1f);
                         //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(69f, 154f, 63f, 255f);
                     }
                     else
                     {
                         submitQuestUIObjects[i].GetComponent<Button>().enabled = false;
-                        submitQuestUIObjects[i].GetComponent<Image>().color = Color.red;
+                        submitQuestUIObjects[i].GetComponent<Image>().color = new Color(0.735849f, 0.4396859f, 0.3637593f, 1f);
                         //submitQuestUIObjects[i].GetComponent<Image>().color = new Color(191f, 99f, 68f, 255f);
                         //submitQuestUIObjects[i].SetActive(false);
                     }
@@ -500,7 +501,7 @@ public class QuestBoard : MonoBehaviour
                 {
                     SetQuestHudObject(playerController.activeQuests[i], i);
                 }
-                if(playerController.activeQuests[i].questType == QuestType.invalid)
+                else if(playerController.activeQuests[i].questType == QuestType.invalid)
                 {
                     questHudGameobjectArray[i].SetActive(false);
                 }

@@ -446,7 +446,8 @@ public class PlayerController : MonoBehaviour
             if (hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
-                interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
+                interactPopup.SetActive(false);
+                //interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
             }
             else if (hit.transform.tag == "debug_unlock_recipes")
             {
@@ -1141,22 +1142,13 @@ public class PlayerController : MonoBehaviour
                 }
                 if (inventory[i].GetComponent<Item>().stringName == ingredient)
                 {
-                    targetIngredients.Add(inventory[i]);
-                    currentIngredient = RemoveObjectFromInventory(i);
                     isIngredientInInventory = true;
                     break;
                 }
             }
 
             if (isIngredientInInventory == false)
-            {
-                Debug.Log("Recipe Cannot be made because player does not have the correct ingredients");
-                //return the items to the inventory 
-                foreach (GameObject item in targetIngredients)
-                {
-                    AddObjectToInventory(item);
-                }
-
+            {   
                 return false;
             }
         }
@@ -1443,7 +1435,7 @@ public class PlayerController : MonoBehaviour
                         //check is quest name is the same
                         if (activeQuests[j].questName.Contains(questHudObjectArray[k].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text))
                         {
-                            questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = ((PlantingEventListener)activeQuests[j].eventListener).currentNumTargetCrops.ToString();
+                            questHudObjectArray[k].transform.GetChild(5).GetComponent<TextMeshProUGUI>().text = (((PlantingEventListener)activeQuests[j].eventListener).currentNumTargetCrops - ((PlantingEventListener)activeQuests[j].eventListener).startingNumTargetCrops).ToString();
                         }
                     }
                 }
