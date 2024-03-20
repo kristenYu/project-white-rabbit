@@ -20,7 +20,10 @@ FarmQuest features a fully designed game loop, with various bits of gameplay. Th
 1. Selling items in the shop 
 1. Completing quests for money 
 1. A mortage system to use as a goal
-1. A tutorial 
+1. A tutorial
+
+## AI Directors in FarmQuest
+FarmQuest is intended for use as a tool to enable AI director research. The AI director in the game chooses which quest the player sees on the quest board. The Quest board will be populated with a specific AI director, depending on which one is selected. Currently, the AI director is selected at random. FarmQuest comes with 3 AI Directors. A [reinforcement based AI Director](https://webdocs.cs.ualberta.ca/~nathanst/papers/yu2022director.pdf), an AI director that tries to learn from player actions, and a random AI director which randomly selects quests. 
 
 ## Adding a new AI Director
 All AI Directors need to extend the QuestAlgorithmBase class found in Assets/Scripts/Quests. The QuestBoard script then calls these methods at the appropriate time. 
