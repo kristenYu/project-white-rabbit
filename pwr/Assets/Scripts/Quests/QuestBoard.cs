@@ -499,9 +499,17 @@ public class QuestBoard : MonoBehaviour
             {
                 if (playerController.activeQuests[i] != null)
                 {
-                    SetQuestHudObject(playerController.activeQuests[i], i);
+                    if(playerController.activeQuests[i].questType == QuestType.invalid)
+                    {
+                        questHudGameobjectArray[i].SetActive(false);
+                    }
+                    else
+                    {
+                        SetQuestHudObject(playerController.activeQuests[i], i);
+                    }
+                    
                 }
-                else if(playerController.activeQuests[i].questType == QuestType.invalid)
+                else
                 {
                     questHudGameobjectArray[i].SetActive(false);
                 }

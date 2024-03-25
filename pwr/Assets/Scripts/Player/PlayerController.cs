@@ -951,7 +951,7 @@ public class PlayerController : MonoBehaviour
         furnitureObject = Instantiate(furniture, this.transform.position, Quaternion.identity);
         furnitureObject.transform.SetParent(this.transform);
         furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
+        furnitureObject.transform.gameObject.layer = 1; //default layer
         AddObjectToInventory(furnitureObject);
     }
 
@@ -960,12 +960,7 @@ public class PlayerController : MonoBehaviour
         furnitureObject = Instantiate(furniture, this.transform.position, Quaternion.identity);
         furnitureObject.transform.SetParent(this.transform);
         furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-        furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
-    }
-
-    private void DestroyFurnitureObject(GameObject furniture)
-    {
-        Destroy(furniture);
+        furnitureObject.transform.gameObject.layer = 1; //default layer
     }
 
     private void PlaceFurniture(RaycastHit2D hit2D)
