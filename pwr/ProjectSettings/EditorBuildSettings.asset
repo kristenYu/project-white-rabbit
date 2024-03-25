@@ -26,16 +26,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Win.unity
     guid: 066f302b7b46f614ab651ef68a0390f1
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: 4ed94177d2074764bb262c91132c2b65
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialQuestBoard.unity
     guid: 1ac6ec31c01c8de488dafb2ecd087f89
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialHome.unity
     guid: 1f7ef0d1934b93449961116e92ebd72d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialShop.unity
     guid: d75d335d88acac1498cc35504b1aa309
   - enabled: 0

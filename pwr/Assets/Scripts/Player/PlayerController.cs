@@ -428,10 +428,22 @@ public class PlayerController : MonoBehaviour
                 {
                     if(hit.transform.tag != "new_scene")
                     {
-                        interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                        if (activeItem != null)
+                        {
+                            if (activeItem.tag == "furniture")
+                            {
+                                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                            }
+                            interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                        }
+                        else
+                        {
+                            interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                        }
+                        
                     }
                     else
-                    { 
+                    {
                         interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
                     }
                 }
@@ -986,10 +998,10 @@ public class PlayerController : MonoBehaviour
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.0f, layerMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.1f, layerMask);
         if(debug)
         {
-            Debug.DrawRay(transform.position, direction, Color.white, 1.0f);
+            Debug.DrawRay(transform.position, direction, Color.white, 1.1f);
         }
         return hit; 
     }
@@ -1117,10 +1129,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         cameraAudioSource.PlayOneShot(canCookClip);
-        cookedFoodObject = Instantiate(recipe.cookedFood);
-        AddObjectToInventory(cookedFoodObject);
-        cookedFoodObject.SetActive(false);
-        currentInventoryIndex = 0;
+        AddObjectToInventory(recipe.cookedFood);
         actionFrequencyArray[(int)QuestBoard.QuestType.cook] += 1;
         BroadcastToCookingEL();
         StartCoroutine(telemetryUtil.PostData("Interaction:Cook" + recipe.name));
