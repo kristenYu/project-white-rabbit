@@ -19,14 +19,27 @@ public class HarvestableSpawner : MonoBehaviour
     private GameObject spawnedObject;
 
     public harvestable currentHarvestable;
-    private void Awake()
+
+    void Awake()
     {
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
     }
 
-    public void SpawnNewHarvestable(int amountToSpawn, List<GameObject> spawnedObjectList)
+    void Start()
     {
-        for(int i = 0; i < amountToSpawn; i++)
+        if (currentHarvestable == harvestable.mushrooom)
+        {
+            SpawnNewHarvestable(worldController.mushroomAmountToSpawn, worldController.mushroomHarvestableList, worldController);
+        }
+        else if (currentHarvestable == harvestable.berry)
+        {
+            SpawnNewHarvestable(worldController.berryAmountToSpawn, worldController.berryHarvestableList, worldController);
+        }
+    }
+
+    public void SpawnNewHarvestable(int amountToSpawn, List<GameObject> spawnedObjectList, WorldController worldController)
+    {
+        for (int i = 0; i < amountToSpawn; i++)
         {
             randomX = Random.Range(this.gameObject.transform.position.x - (this.gameObject.transform.localScale.x / 2),
                 this.gameObject.transform.position.x + (this.gameObject.transform.localScale.x / 2));
@@ -39,9 +52,9 @@ public class HarvestableSpawner : MonoBehaviour
         }
     }
 
-    public void RespawnExistingHarvestable()
+    public void RespawnExistingHarvestable(WorldController worldController)
     {
-        foreach(GameObject harvestable in worldController.mushroomHarvestableList)
+        foreach (GameObject harvestable in worldController.mushroomHarvestableList)
         {
             Instantiate(harvestable, harvestable.transform.position, Quaternion.identity);
         }

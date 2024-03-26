@@ -111,7 +111,10 @@ public class PlayerController : MonoBehaviour
     public GameObject interactPopup;
     public Sprite interactPlantSprite;
     public Sprite interactBasicSprite;
-    public Sprite interactCookSprite; 
+    public Sprite interactCookSprite;
+    public Sprite interactPlaceSprite;
+    public Sprite interactHarvestSprite;
+    public Sprite interactPickupSprite;
     private int layerMask;
     public GameObject HUD;
 
@@ -436,9 +439,12 @@ public class PlayerController : MonoBehaviour
                         {
                             if (activeItem.tag == "furniture")
                             {
-                                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                                interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlaceSprite;
                             }
-                            interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                            else
+                            {
+                                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                            }   
                         }
                         else
                         {
@@ -495,13 +501,23 @@ public class PlayerController : MonoBehaviour
                     {
                         interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
                     }
-                    
                 }
                 else
                 {
                     cookingUI.SetActive(false);
                     interactPopup.SetActive(false);
                 }    
+            }
+            else if (hit.transform.tag == "harvestable")
+            {
+                if (IsInventoryFull())
+                {
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                }
+                else
+                {
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactHarvestSprite;
+                }
             }
             else if(hit.transform.tag == "placeable")
             {
@@ -511,7 +527,7 @@ public class PlayerController : MonoBehaviour
                     if (activeItem.tag == "furniture")
                     {
                         interactPopup.SetActive(true);
-                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
+                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlaceSprite;
                     }
                     else
                     {
@@ -522,7 +538,19 @@ public class PlayerController : MonoBehaviour
                 {
                     interactPopup.SetActive(false);
                 }
-               
+            }
+            else if(hit.transform.tag == "furniture")
+            {
+                if (IsInventoryFull())
+                {
+                    interactPopup.SetActive(true);
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+                }
+                else
+                {
+                    interactPopup.SetActive(true);
+                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactPickupSprite;
+                }
             }
            
 
@@ -684,7 +712,6 @@ public class PlayerController : MonoBehaviour
                             actionFrequencyArray[(int)QuestBoard.QuestType.place] += 1;
                             //placeFurnitureFlag = true;
                             hasPlacedFurniture = true;
-                            
                         }
                     }
                 }
@@ -994,10 +1021,6 @@ public class PlayerController : MonoBehaviour
             }
         }
         Destroy(furnitureObject);
-        //Destroy(hit2D.transform.gameObject);
-        //furnitureObject.transform.SetParent(this.transform);
-        //furnitureObject.transform.localPosition = new Vector3(previousDirection.x, previousDirection.y, 0);
-        //furnitureObject.transform.gameObject.layer = 2; //Ignore Raycast Layer
     }
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {

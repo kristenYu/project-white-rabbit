@@ -135,16 +135,19 @@ public class WorldController : MonoBehaviour
         hasPlayedGrowCropsClip = false;
         hasSetCropToFulllyGrown = false;
 
+        mushroomAmountToSpawn = 3;
+        berryAmountToSpawn = 3;
         //spawn mushrooms on start
-        if(SceneManager.GetActiveScene().name == "Main")
+        /*
+        if (SceneManager.GetActiveScene().name == "Main")
         {
             mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
             berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
-            mushroomAmountToSpawn = 3;
-            berryAmountToSpawn = 3;
-            mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
-            berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+
+            mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList, this);
+            berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList, this);
         }
+        */
        
     }
 
@@ -374,30 +377,23 @@ public class WorldController : MonoBehaviour
                 isNewDay = true;
                 //set to true in quest script
                 isNewDayQuests = true;
-                //spawn mushrooms and berries
-                if(SceneManager.GetActiveScene().name == "Main")
+                //count hte number of berreis and mushrooms to spawn
+                if (maxMushroomSpawn - mushroomHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
                 {
-                    mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
-                    berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
-                    if (maxMushroomSpawn - mushroomHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
-                    {
-                        mushroomAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
-                    }
-                    else
-                    {
-                        mushroomAmountToSpawn = maxMushroomSpawn - mushroomHarvestableList.Count;
-                    }
-                    mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList);
+                    mushroomAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                }
+                else
+                {
+                    mushroomAmountToSpawn = maxMushroomSpawn - mushroomHarvestableList.Count;
+                }
 
-                    if (maxBerrySpawn - berryHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
-                    {
-                        berryAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
-                    }
-                    else
-                    {
-                        berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
-                    }
-                    berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList);
+                if (maxBerrySpawn - berryHarvestableList.Count > HarvestableSpawner.harvestableSpawnNumber)
+                {
+                    berryAmountToSpawn = HarvestableSpawner.harvestableSpawnNumber;
+                }
+                else
+                {
+                    berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
                 }
 
                 StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
