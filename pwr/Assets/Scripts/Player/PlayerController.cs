@@ -147,6 +147,10 @@ public class PlayerController : MonoBehaviour
     public bool hasShopped;
     public bool hasDebugCooking;
 
+    //scene transitions
+    public Animator sceneAnimator;
+    public float TransitionTime = 0.8f;
+
     //Telemetry 
     public Telemetry_Util telemetryUtil;
     string UUID;
@@ -531,20 +535,23 @@ public class PlayerController : MonoBehaviour
                     if (hit.transform.gameObject.name == "Home" || hit.transform.gameObject.name == "TutorialHome")
                     {
                         //assumes that the object matches the name of the scene you want to load
+                        StartCoroutine(LoadNextScene(hit.transform.gameObject.name));
                         this.transform.position = new Vector3(-4.5f, -6.5f, 0f); //HARDCODED VALUE TO THE OPENING LOCATION
-                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:Home"));
                     }
                     if(hit.transform.gameObject.name == "Main")
                     {
-                        
-                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+
+                        //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        StartCoroutine(LoadNextScene(hit.transform.gameObject.name));
                         this.transform.position = new Vector3(-7.5f, 2.5f, 0f);
                         StartCoroutine(telemetryUtil.PostData("Transition:Main"));
                     }
                     if(hit.transform.gameObject.name == "Tutorial")
                     {
-                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        StartCoroutine(LoadNextScene(hit.transform.gameObject.name));
                         this.transform.position = new Vector3(123.5f, -4.25f, 0f); //HARDCODED VALUE FOR TUTORIAL LOCATION
                         StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
                     }
@@ -568,7 +575,8 @@ public class PlayerController : MonoBehaviour
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
-                        SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
+                        StartCoroutine(LoadNextScene(hit.transform.gameObject.name));
+                        //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
                     }
                     
@@ -1446,7 +1454,16 @@ public class PlayerController : MonoBehaviour
             }  
         }
     }
-
+    public IEnumerator LoadNextScene(string sceneName)
+    {
+        //play animation
+        sceneAnimator.SetTrigger("start");
+        //wait for animation to stop playing 
+        yield return new WaitForSeconds(0);
+        sceneAnimator.SetTrigger("end");
+        //load scene
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+    }
 }
 
 

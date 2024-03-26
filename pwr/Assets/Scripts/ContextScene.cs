@@ -21,11 +21,13 @@ public class ContextScene : MonoBehaviour
     public int currentTextNumber;
 
     public AudioSource audioSource;
-    public AudioClip audioClip; 
+    public AudioClip audioClip;
+
+    public Animator sceneTransition;
+    public float transitionTime = 1.0f;
 
     void Start()
     {
-       
         currentTextNumber = 0;
         welcomeText.text = text0;
         audioSource.PlayOneShot(text0AudioClip); 
@@ -64,8 +66,19 @@ public class ContextScene : MonoBehaviour
                     audioSource.Stop();
                 }
                 audioSource.PlayOneShot(audioClip);
-                SceneManager.LoadScene("Main", LoadSceneMode.Single);
+                StartCoroutine(PlaySceneTransition());
+                
             }
         }
+    }
+
+    public IEnumerator PlaySceneTransition()
+    {
+        //play animation
+        sceneTransition.SetTrigger("start");
+        //wait for animation to stop playing 
+        yield return new WaitForSeconds(transitionTime);
+        //load scene
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 }

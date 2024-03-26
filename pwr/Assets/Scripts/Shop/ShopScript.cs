@@ -98,6 +98,10 @@ public class ShopScript : MonoBehaviour
     public AudioClip buyItemClip;
     public AudioClip cantBuyItemClip;
     public AudioClip sellItemClip;
+
+    //Scene transitions
+    public Animator sceneAnimator;
+    public float transitionTime = 1.0f;
     private void Awake()
     {
         playerControllerObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0.0f, 0.0f);
@@ -586,21 +590,17 @@ public class ShopScript : MonoBehaviour
         shopSaveData.mortage = moneyOwed;
         if(SceneManager.GetActiveScene().name == "TutorialShop")
         {
+            StartCoroutine(LoadNextLevel("Tutorial"));
             SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
             //telemetry
-            StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
+            //StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
         }
         else if (SceneManager.GetActiveScene().name == "Shop")
         {
+            //StartCoroutine(LoadNextLevel("Main"));
             SceneManager.LoadScene("Main", LoadSceneMode.Single);
             //telemetry
             StartCoroutine(telemetryUtil.PostData("Transition:Main"));
-        }
-        else if (SceneManager.GetActiveScene().name == "test")
-        {
-            SceneManager.LoadScene("Tutorial", LoadSceneMode.Single);
-            //telemetry
-            StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
         }
 
     }
@@ -761,6 +761,16 @@ public class ShopScript : MonoBehaviour
     private bool checkIfShopShouldUpdate()
     {
         return worldController.isNewDay; 
+    }
+
+    public IEnumerator LoadNextLevel(string sceneName)
+    {
+        //play animation
+        sceneAnimator.SetTrigger("start");
+        //wait for animation to stop playing 
+        yield return new WaitForSeconds(transitionTime/2);
+        //load scene
+        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
     }
 
 }
