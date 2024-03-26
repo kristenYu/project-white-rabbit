@@ -15,6 +15,8 @@ public class WinScreen : MonoBehaviour
     public TextMeshProUGUI cookStatText;
     public TextMeshProUGUI furnitureStatText;
     public TextMeshProUGUI harvestablesStatText;
+    public AudioSource worldControllerAudioSource;
+    public AudioClip winScreenSong;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,9 @@ public class WinScreen : MonoBehaviour
         player.GetComponent<SpriteRenderer>().enabled = false;
 
         worldController = GameObject.FindGameObjectWithTag("world_c").GetComponent<WorldController>();
+        worldControllerAudioSource = GameObject.FindGameObjectWithTag("world_c").GetComponent<AudioSource>();
+        worldControllerAudioSource.clip = winScreenSong;
+        worldControllerAudioSource.Play();
     }
 
     // Update is called once per frame

@@ -903,6 +903,8 @@ MonoBehaviour:
   cookStatText: {fileID: 1490717724}
   furnitureStatText: {fileID: 766326529}
   harvestablesStatText: {fileID: 369685864}
+  mainCameraAudioSource: {fileID: 0}
+  winScreenSong: {fileID: 8300000, guid: bd710892032d0e847a0218f0512b555a, type: 3}
 --- !u!4 &1089599029
 Transform:
   m_ObjectHideFlags: 0

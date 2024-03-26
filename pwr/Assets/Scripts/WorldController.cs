@@ -71,8 +71,12 @@ public class WorldController : MonoBehaviour
 
     //audio
     public AudioSource audioSource;
+    public AudioSource backgroundAudioSource;
     public AudioClip newDayClip;
     public AudioClip growCropsClip;
+    public AudioClip dayAudioClip;
+    public AudioClip twilightAudioClip;
+    public AudioClip nightAudioClip;
     public bool hasPlayedGrowCropsClip;
 
     //Singleton 
@@ -117,6 +121,8 @@ public class WorldController : MonoBehaviour
         dayDuration = 30.0f;
         twilightDuration = 10.0f;
         nightDuration = 20.0f;
+
+        backgroundAudioSource = this.GetComponent<AudioSource>();
 
         //activeCropList = new List<GameObject>();
         destroyCropList = new List<GameObject>();        
@@ -334,6 +340,9 @@ public class WorldController : MonoBehaviour
                     currentTOD = TOD.Twilight;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[1];
+                backgroundAudioSource.volume = 0.2f;
+                backgroundAudioSource.clip = twilightAudioClip;
+                backgroundAudioSource.Play();
             }
         }
         else if (currentTOD == TOD.Twilight)
@@ -352,6 +361,10 @@ public class WorldController : MonoBehaviour
                 currentTOD = TOD.Night;
                 currentTimer = 0.0f;
                 TODImage.texture = TODIcons[2];
+                backgroundAudioSource.Stop();
+                backgroundAudioSource.volume = 0.2f;
+                backgroundAudioSource.clip = nightAudioClip;
+                backgroundAudioSource.Play();
             }
         }
         else if (currentTOD == TOD.Night)
@@ -375,6 +388,10 @@ public class WorldController : MonoBehaviour
                 TODImage.texture = TODIcons[0];
                 //set to false in the shop script
                 isNewDay = true;
+                backgroundAudioSource.Stop();
+                backgroundAudioSource.volume = 0.12f;
+                backgroundAudioSource.clip = dayAudioClip;
+                backgroundAudioSource.Play();
                 //set to true in quest script
                 isNewDayQuests = true;
                 //count hte number of berreis and mushrooms to spawn

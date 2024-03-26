@@ -60,8 +60,14 @@ MonoBehaviour:
   shopScript: {fileID: 0}
   isNewDay: 0
   isNewDayQuests: 0
-  harvestableList: []
-  shouldSpawnMushrooms: 0
+  mushroomHarvestableList: []
+  berryHarvestableList: []
+  shouldSpawnMushroom: 0
+  shouldSpawnBerries: 0
+  mushroomAmountToSpawn: 0
+  berryAmountToSpawn: 0
+  mushroomSpawner: {fileID: 0}
+  berrySpawner: {fileID: 0}
   nightFilter: {fileID: 3012832033870043740, guid: 796f2ac9d85406e46a3665e0c1995c01,
     type: 3}
   twilightFilter: {fileID: 2491782709855706674, guid: 535601b2a291d1e4b9ce285dcbf00b57,
@@ -72,7 +78,12 @@ MonoBehaviour:
   tutorialHarvestable: {fileID: 0}
   telemetryUtil: {fileID: 0}
   invalidTutorialCropArray: []
+  hasSetCropToFulllyGrown: 0
   audioSource: {fileID: 0}
+  backgroundAudioSource: {fileID: 0}
   newDayClip: {fileID: 8300000, guid: 3e4e46731af134640b4caf634d5af31f, type: 3}
   growCropsClip: {fileID: 8300000, guid: efd9e793704151b40940e888e7d7a218, type: 3}
+  dayAudioClip: {fileID: 8300000, guid: ee3a182a67bdb8e49bd3a9850fd0683b, type: 3}
+  twilightAudioClip: {fileID: 8300000, guid: 540e7f4d2033a534d9f7f6568656cd52, type: 3}
+  nightAudioClip: {fileID: 8300000, guid: 770f07d40f5455747a8485c8fbd3ad7b, type: 3}
   hasPlayedGrowCropsClip: 0
