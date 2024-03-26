@@ -30,10 +30,12 @@ public class HarvestableSpawner : MonoBehaviour
         if (currentHarvestable == harvestable.mushrooom)
         {
             SpawnNewHarvestable(worldController.mushroomAmountToSpawn, worldController.mushroomHarvestableList, worldController);
+            worldController.mushroomAmountToSpawn = 0; 
         }
         else if (currentHarvestable == harvestable.berry)
         {
             SpawnNewHarvestable(worldController.berryAmountToSpawn, worldController.berryHarvestableList, worldController);
+            worldController.berryAmountToSpawn = 0;
         }
     }
 

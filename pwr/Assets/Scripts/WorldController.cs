@@ -395,6 +395,15 @@ public class WorldController : MonoBehaviour
                 {
                     berryAmountToSpawn = maxBerrySpawn - berryHarvestableList.Count;
                 }
+                if(SceneManager.GetActiveScene().name == "Main")
+                {
+                    berrySpawner = GameObject.FindGameObjectWithTag("berry_spawner").GetComponent<HarvestableSpawner>();
+                    mushroomSpawner = GameObject.FindGameObjectWithTag("mushroom_spawner").GetComponent<HarvestableSpawner>();
+                    berrySpawner.SpawnNewHarvestable(berryAmountToSpawn, berryHarvestableList, this);
+                    mushroomSpawner.SpawnNewHarvestable(mushroomAmountToSpawn, mushroomHarvestableList, this);
+                    berryAmountToSpawn = 0;
+                    mushroomAmountToSpawn = 0;
+                }
 
                 StartCoroutine(telemetryUtil.PostData("Event:Day" + currentDay.ToString()));
             }

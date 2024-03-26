@@ -938,7 +938,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 124.99998}
+  m_AnchoredPosition: {x: 0, y: 125.00001}
   m_SizeDelta: {x: 0, y: 780}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3161271258800586260
@@ -3346,6 +3346,7 @@ MonoBehaviour:
   playerAudioSource: {fileID: 0}
   cameraAudioSource: {fileID: 0}
   walkingClip: {fileID: 8300000, guid: bf3c465683f155c41b244b7189816d00, type: 3}
+  houseWalkingClip: {fileID: 8300000, guid: 320a99b7d0ffb91478eba123a59f0890, type: 3}
   plantingClip: {fileID: 8300000, guid: 5375993a863c44246a0e958e16acf53a, type: 3}
   bushRustleclip: {fileID: 8300000, guid: f113bb8bdddbc3f458e0a5f971f14b78, type: 3}
   mushroomHarvestClip: {fileID: 8300000, guid: 7c07ef1da2b8a19458510e0a28ac2cd8, type: 3}
@@ -3418,7 +3419,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bf3c465683f155c41b244b7189816d00, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 320a99b7d0ffb91478eba123a59f0890, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1.32

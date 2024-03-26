@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource playerAudioSource;
     public AudioSource cameraAudioSource; 
     public AudioClip walkingClip;
+    public AudioClip houseWalkingClip;
     public AudioClip plantingClip;
     public AudioClip bushRustleclip;
     public AudioClip mushroomHarvestClip;
@@ -131,6 +132,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip canCookClip;
     public AudioClip cannotCookClip;
     public AudioClip harvestPlantClip;
+    
 
 
     //Debug
@@ -299,6 +301,16 @@ public class PlayerController : MonoBehaviour
         {
             if(!playerAudioSource.isPlaying)
             {
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "TutorialHome")
+                {
+                    playerAudioSource.pitch = 2.0f;
+                    playerAudioSource.clip = houseWalkingClip;
+                }
+                else
+                {
+                    playerAudioSource.pitch = 1.35f;
+                    playerAudioSource.clip = walkingClip;
+                }
                 playerAudioSource.Play();
             }
             
@@ -309,6 +321,16 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "TutorialHome")
+                {
+                    playerAudioSource.pitch = 2.0f;
+                    playerAudioSource.clip = houseWalkingClip;
+                }
+                else
+                {
+                    playerAudioSource.pitch = 1.35f;
+                    playerAudioSource.clip = walkingClip;
+                }
                 playerAudioSource.Play();
             }
             hit = drawRay(Vector2.right, false);
@@ -318,6 +340,16 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "TutorialHome")
+                {
+                    playerAudioSource.pitch = 2.0f;
+                    playerAudioSource.clip = houseWalkingClip;
+                }
+                else
+                {
+                    playerAudioSource.pitch = 1.35f;
+                    playerAudioSource.clip = walkingClip;
+                }
                 playerAudioSource.Play();
             }
             hit = drawRay(Vector2.down, false);
@@ -327,6 +359,16 @@ public class PlayerController : MonoBehaviour
         {
             if (!playerAudioSource.isPlaying)
             {
+                if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "TutorialHome")
+                {
+                    playerAudioSource.pitch = 2.0f;
+                    playerAudioSource.clip = houseWalkingClip;
+                }
+                else
+                {
+                    playerAudioSource.pitch = 1.35f;
+                    playerAudioSource.clip = walkingClip;
+                }
                 playerAudioSource.Play();
             }
             hit = drawRay(Vector2.up, false);
