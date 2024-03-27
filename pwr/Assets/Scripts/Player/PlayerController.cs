@@ -13,16 +13,16 @@ public class PlayerController : MonoBehaviour
     public GameObject itemManagerObject;
     private ItemManager itemManager;
     public GameObject worldControllerObject;
-    private WorldController worldController; 
+    private WorldController worldController;
 
     //planting seeds
     private GameObject cropObject;
-    private Crop cropScript; 
+    private Crop cropScript;
     private Seed seedScript;
 
     //Recipes 
     public List<Recipe> knownRecipes;
-    private GameObject currentRecipeUIObject; 
+    private GameObject currentRecipeUIObject;
     private bool isKnownRecipe;
     private Recipe currentRecipe;
 
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     private const float cookingUIContentMaximum = 0.0f; //need to make this bigger if you add recipes
     private GameObject cookingUIContent;
     private Image recipeUIImage;
-    private Button recipeUIButton; 
+    private Button recipeUIButton;
     private TextMeshProUGUI recipeUIText;
     public Image[] recipeUIIngredientImageArray;
     public Item recipeIngredientItem;
@@ -45,14 +45,14 @@ public class PlayerController : MonoBehaviour
     private GameObject currentIngredient;
     private bool isIngredientInInventory;
     public GameObject cookedFoodObject;
-    public bool CookedRecipeFlag; 
-    public int recipeIndex; 
-    
+    public bool CookedRecipeFlag;
+    public int recipeIndex;
+
 
     //inventory 
     public GameObject[] inventory;
     public Image[] inventoryItemImageArray;
-    public Image[] inventoryHudImageArray; 
+    public Image[] inventoryHudImageArray;
     public GameObject activeItem;
     public Sprite activeItemSprite;
     public Sprite inventorySprite;
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
     private int openInventory;
 
     //Quests 
-    public const int maxActiveQuests = 3; 
+    public const int maxActiveQuests = 3;
     public Quest[] activeQuests;
     public int currentQuestIndex;
     private bool isActiveQuestsAtMaximum;
@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviour
     public int questHudCurrentIndex;
     private int activeQuestNum;
     private TextMeshProUGUI questTrackingUICurrentNumText;
-  //  private QuestAlgorithmBase currentQuestAlgorithm;
-  //  public GameObject[] questAlgorithms; //Should be set to the number of algorithms 
+    //  private QuestAlgorithmBase currentQuestAlgorithm;
+    //  public GameObject[] questAlgorithms; //Should be set to the number of algorithms 
 
     //Currency
     public int currency;
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
     private Harvestable harvestableScript;
     public bool hasHarvestedMushroom;
     public bool hasHarvestedBerry;
-    public string justHarvestedName; 
+    public string justHarvestedName;
 
     //Movement
     public bool isShouldMove;
@@ -103,9 +103,10 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 7.0f;
     private Vector2 previousDirection;
     RaycastHit2D hit;
+    RaycastHit2D[] hits;
 
     //Animator
-    Animator anim; 
+    Animator anim;
 
     //juice
     public GameObject interactPopup;
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     //sound effects
     public AudioSource playerAudioSource;
-    public AudioSource cameraAudioSource; 
+    public AudioSource cameraAudioSource;
     public AudioClip walkingClip;
     public AudioClip houseWalkingClip;
     public AudioClip plantingClip;
@@ -132,11 +133,11 @@ public class PlayerController : MonoBehaviour
     public AudioClip canCookClip;
     public AudioClip cannotCookClip;
     public AudioClip harvestPlantClip;
-    
+
 
 
     //Debug
-    private GameObject testObject; 
+    private GameObject testObject;
 
     //Singleton 
     private static PlayerController instance;
@@ -161,9 +162,9 @@ public class PlayerController : MonoBehaviour
     string UUID;
     System.DateTime dt = System.DateTime.Now;
     //session variable from php 
-    private string sessionQuestAlgorithm; 
+    private string sessionQuestAlgorithm;
 
-    
+
     private void Awake()
     {
         Debug.Log("awake called");
@@ -178,20 +179,20 @@ public class PlayerController : MonoBehaviour
         // Otherwise store my reference and make me DontDestroyOnLoad
         instance = this;
         DontDestroyOnLoad(gameObject);
-        
+
         //telemetry
-        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>(); 
+        telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
         StartCoroutine(telemetryUtil.PostData("Event:SessionStart"));
         StartCoroutine(selectQuestAlgorithm());
 
         hasDebugCooking = false;
 
     }
-    
+
     void Start()
     {
         Debug.Log("Start called");
-       // telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
+        // telemetryUtil = GameObject.FindGameObjectWithTag("telemetry").GetComponent<Telemetry_Util>();
         currency = 300;
         inventory = new GameObject[inventorySize];
         isShouldMove = true;
@@ -206,7 +207,7 @@ public class PlayerController : MonoBehaviour
         knownRecipeUIObjects = new List<GameObject>();
         targetIngredients = new List<GameObject>();
         CookedRecipeFlag = false;
-        hasHarvestedMushroom = false; 
+        hasHarvestedMushroom = false;
 
 
         itemManager = itemManagerObject.GetComponent<ItemManager>();
@@ -216,14 +217,14 @@ public class PlayerController : MonoBehaviour
         currentQuestIndex = 0;
         questHudCurrentIndex = 0;
         activeQuests = new Quest[maxActiveQuests];
-        for(int i = 0; i < questHudObjectArray.Length; i++)
+        for (int i = 0; i < questHudObjectArray.Length; i++)
         {
             questHudObjectArray[i].SetActive(false);
         }
-      
+
         anim = GetComponent<Animator>();
 
-        foreach(Image itemImage in inventoryItemImageArray)
+        foreach (Image itemImage in inventoryItemImageArray)
         {
             itemImage.gameObject.SetActive(false);
         }
@@ -232,10 +233,10 @@ public class PlayerController : MonoBehaviour
         layerMask = ~layerMask;
 
         actionFrequencyArray = new int[(int)QuestBoard.QuestType.invalid];
-        
+
 
         //clear inventory array 
-        for(int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
             deactivateItem(i);
         }
@@ -246,7 +247,7 @@ public class PlayerController : MonoBehaviour
         //sound 
         cameraAudioSource = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>();
         playerAudioSource = this.GetComponent<AudioSource>();
-        if(playerAudioSource.isPlaying)
+        if (playerAudioSource.isPlaying)
         {
             playerAudioSource.Stop();
         }
@@ -288,7 +289,7 @@ public class PlayerController : MonoBehaviour
 
         if (activeItem != null)
         {
-            
+
             anim.SetBool("IsHolding", true);
         }
         else
@@ -299,7 +300,7 @@ public class PlayerController : MonoBehaviour
         //Interaction raycasts
         if (horizontal < 0)
         {
-            if(!playerAudioSource.isPlaying)
+            if (!playerAudioSource.isPlaying)
             {
                 if (SceneManager.GetActiveScene().name == "Home" || SceneManager.GetActiveScene().name == "TutorialHome")
                 {
@@ -313,7 +314,7 @@ public class PlayerController : MonoBehaviour
                 }
                 playerAudioSource.Play();
             }
-            
+
             hit = drawRay(Vector2.left, false);
             previousDirection = Vector2.left;
         }
@@ -405,7 +406,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-       
+
         //Option to Sprint 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
@@ -415,9 +416,9 @@ public class PlayerController : MonoBehaviour
         {
             runSpeed = 7.0f;
         }
-        
+
         //inventory QOL Update
-        if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1)) 
+        if (Input.GetKeyDown(KeyCode.Keypad1) || Input.GetKeyDown(KeyCode.Alpha1))
         {
             cameraAudioSource.PlayOneShot(inventoryRustleClip);
             setActiveItem(0);
@@ -471,12 +472,13 @@ public class PlayerController : MonoBehaviour
         //interact with objects
         if (hit)
         {
-            //Debug.Log(hit.transform.gameObject.name);
-            if(hit.transform.tag != "non_interact")
+            Debug.Log(hit.transform.gameObject.name);
+            /*
+            if (hit.transform.tag != "non_interact")
             {
-                if(IsInventoryFull())
+                if (IsInventoryFull())
                 {
-                    if(hit.transform.tag != "new_scene")
+                    if (hit.transform.tag != "new_scene")
                     {
                         if (activeItem != null)
                         {
@@ -487,13 +489,13 @@ public class PlayerController : MonoBehaviour
                             else
                             {
                                 interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
-                            }   
+                            }
                         }
                         else
                         {
                             interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
                         }
-                        
+
                     }
                     else
                     {
@@ -506,13 +508,18 @@ public class PlayerController : MonoBehaviour
                 }
                 interactPopup.SetActive(true);
 
-            }
-            
+            }*/
+
             if (hit.transform.tag == "cooking")
             {
                 cookingUI.SetActive(true);
                 interactPopup.SetActive(false);
                 //interactPopup.GetComponent<SpriteRenderer>().sprite = interactCookSprite;
+            }
+            else if(hit.transform.tag == "new_scene")
+            {
+                interactPopup.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
             }
             else if (hit.transform.tag == "debug_unlock_recipes")
             {
@@ -531,75 +538,67 @@ public class PlayerController : MonoBehaviour
                     interactPopup.SetActive(false);
                 }
             }
-            else if(hit.transform.tag == "crop")
+            else if (hit.transform.tag == "crop")
             {
-                if(hit.transform.gameObject.GetComponent<Crop>().currentStage == Crop.CropStage.FullyGrown)
+                if (hit.transform.gameObject.GetComponent<Crop>().currentStage == Crop.CropStage.FullyGrown)
                 {
                     interactPopup.SetActive(true);
-                    if (IsInventoryFull())
-                    {
-                        interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
-                    }
-                    else
-                    {
-                        interactPopup.GetComponent<SpriteRenderer>().sprite = interactBasicSprite;
-                    }
+                    SetInteractPopup(interactBasicSprite);
                 }
                 else
                 {
                     cookingUI.SetActive(false);
                     interactPopup.SetActive(false);
-                }    
+                }
             }
             else if (hit.transform.tag == "harvestable")
             {
-                if (IsInventoryFull())
-                {
-                    interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
-                }
-                else
-                {
-                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactHarvestSprite;
-                }
+                interactPopup.SetActive(true);
+                SetInteractPopup(interactHarvestSprite);
             }
-            else if(hit.transform.tag == "placeable")
+            else if (hit.transform.tag == "placeable")
             {
                 cookingUI.SetActive(false);
+                //check if there is a furniture on the tile; if so we want to do a pick up instead
+                hits = drawRaycastAll(previousDirection, false);
+                //check if we are trying to place something instead -> placing has priority so that is the first thing we check in the if statement
                 if (activeItem != null)
                 {
                     if (activeItem.tag == "furniture")
                     {
-                        interactPopup.SetActive(true);
                         interactPopup.GetComponent<SpriteRenderer>().sprite = interactPlaceSprite;
+                        interactPopup.SetActive(true);
                     }
                     else
                     {
                         interactPopup.SetActive(false);
                     }
                 }
+                //if we are not trying to place something, maybe we are trying to pick something up
+                else if (hits.Length > 1)
+                { 
+                    if(GetTransformOfTag(hits, "furniture") != null)
+                    {
+                        interactPopup.SetActive(true);
+                        SetInteractPopup(interactPickupSprite);
+                    }
+                } 
                 else
                 {
                     interactPopup.SetActive(false);
                 }
+               
             }
-            else if(hit.transform.tag == "furniture")
+            else if (hit.transform.tag == "furniture")
             {
-                if (IsInventoryFull())
-                {
-                    interactPopup.SetActive(true);
-                    interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
-                }
-                else
-                {
-                    interactPopup.SetActive(true);
-                    interactPopup.GetComponent<SpriteRenderer>().sprite = interactPickupSprite;
-                }
+                interactPopup.SetActive(true);
+                SetInteractPopup(interactPickupSprite);
             }
-            else if(hit.transform.tag == "Player")
+            else if (hit.transform.tag == "Player")
             {
                 interactPopup.SetActive(false);
             }
-           
+
 
 
             if (Input.GetKeyDown(KeyCode.E))
@@ -615,7 +614,7 @@ public class PlayerController : MonoBehaviour
                         //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:Home"));
                     }
-                    if(hit.transform.gameObject.name == "Main")
+                    if (hit.transform.gameObject.name == "Main")
                     {
 
                         //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
@@ -623,30 +622,17 @@ public class PlayerController : MonoBehaviour
                         this.transform.position = new Vector3(-7.5f, 2.5f, 0f);
                         StartCoroutine(telemetryUtil.PostData("Transition:Main"));
                     }
-                    if(hit.transform.gameObject.name == "Tutorial")
+                    if (hit.transform.gameObject.name == "Tutorial")
                     {
                         //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(LoadNextScene(hit.transform.gameObject.name));
                         this.transform.position = new Vector3(123.5f, -4.25f, 0f); //HARDCODED VALUE FOR TUTORIAL LOCATION
                         StartCoroutine(telemetryUtil.PostData("Transition:Tutorial"));
                     }
-                    //Hide hud
-                    /*
-                    if (hit.transform.gameObject.name == "TutorialShop")
-                    {
-                        Debug.Log("transition to new scene");
-                        Debug.Log(hit.transform.gameObject.name);
-                        body.velocity = new Vector2(0.0f, 0.0f);
-                        HUD.SetActive(false);
-                        SceneManager.LoadScene("test", LoadSceneMode.Single);
-                        //StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
-                    }
-                    */
-                    
-                    if (hit.transform.gameObject.name == "Shop" 
-                        || hit.transform.gameObject.name == "QuestBoard" 
-                        || hit.transform.gameObject.name == "TutorialShop" 
-                        || hit.transform.gameObject.name =="TutorialQuestBoard") 
+                    if (hit.transform.gameObject.name == "Shop"
+                        || hit.transform.gameObject.name == "QuestBoard"
+                        || hit.transform.gameObject.name == "TutorialShop"
+                        || hit.transform.gameObject.name == "TutorialQuestBoard")
                     {
                         body.velocity = new Vector2(0.0f, 0.0f);
                         HUD.SetActive(false);
@@ -654,7 +640,7 @@ public class PlayerController : MonoBehaviour
                         //SceneManager.LoadScene(hit.transform.gameObject.name, LoadSceneMode.Single);
                         StartCoroutine(telemetryUtil.PostData("Transition:" + hit.transform.gameObject.name));
                     }
-                    
+
 
                 }
                 else if (hit.transform.gameObject.tag == "debug_seed")
@@ -689,9 +675,9 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 //Harvest food from a crop that is fully grown 
-                else if(hit.transform.gameObject.tag == "crop")
+                else if (hit.transform.gameObject.tag == "crop")
                 {
-                    if(!IsInventoryFull())
+                    if (!IsInventoryFull())
                     {
                         //check if the crop can be harvested and harvests if it can 
                         cropScript = hit.transform.gameObject.GetComponent<Crop>();
@@ -704,9 +690,9 @@ public class PlayerController : MonoBehaviour
                     }
 
                 }
-                else if(hit.transform.gameObject.tag == "harvestable")
+                else if (hit.transform.gameObject.tag == "harvestable")
                 {
-                    if(!IsInventoryFull())
+                    if (!IsInventoryFull())
                     {
                         harvestableScript = hit.transform.gameObject.GetComponent<Harvestable>();
                         AddObjectToInventory(harvestableScript.harvestedItem);
@@ -736,7 +722,7 @@ public class PlayerController : MonoBehaviour
                         //interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
 
                     }
-                   
+
                 }
                 else if (hit.transform.gameObject.tag == "debug_furniture")
                 {
@@ -747,7 +733,19 @@ public class PlayerController : MonoBehaviour
                 //places furniture if active item is furniture
                 else if (hit.transform.gameObject.tag == "placeable")
                 {
-                    if(activeItem != null)
+                    //if check if we are trying to pick up object
+                    hits = drawRaycastAll(previousDirection, false);
+                    if (hits.Length > 1)
+                    {
+                        if (GetTransformOfTag(hits, "furniture") != null)
+                        { 
+                            StartCoroutine(telemetryUtil.PostData("Interaction:PickupFurniture" + GetTransformOfTag(hits, "furniture").gameObject.GetComponent<Furniture>().stringName));
+                            AddObjectToInventory(GetTransformOfTag(hits, "furniture").gameObject);
+                            PickUpFurniture(GetTransformOfTag(hits, "furniture"));
+                        }
+                    }
+                    //otherwise, we are trying to place an object
+                    if (activeItem != null)
                     {
                         if (activeItem.tag == "furniture")
                         {
@@ -763,19 +761,19 @@ public class PlayerController : MonoBehaviour
                     }
                 }
                 //picks up furniture
-                else if(hit.transform.gameObject.tag == "furniture")
+                else if (hit.transform.gameObject.tag == "furniture")
                 {
                     StartCoroutine(telemetryUtil.PostData("Interaction:PickupFurniture" + hit.transform.gameObject.GetComponent<Furniture>().stringName));
                     AddObjectToInventory(hit.transform.gameObject);
                     PickUpFurniture(hit);
                 }
-                else if(hit.transform.gameObject.tag == "debug_unlock_recipes")
+                else if (hit.transform.gameObject.tag == "debug_unlock_recipes")
                 {
                     hasDebugCooking = true;
                     Debug_UnlockAllRecipes();
                 }
             }
-           
+
         }
         else
         {
@@ -787,7 +785,7 @@ public class PlayerController : MonoBehaviour
         currencyText.text = currency.ToString();
 
         //check for shop enabled and disable player movement; fix sound bugs when transitioning scenes
-        if (SceneManager.GetActiveScene().name == "Shop" || 
+        if (SceneManager.GetActiveScene().name == "Shop" ||
             SceneManager.GetActiveScene().name == "TutorialShop" ||
             SceneManager.GetActiveScene().name == "QuestBoard" ||
             SceneManager.GetActiveScene().name == "TutorialQuestBoard")
@@ -799,12 +797,12 @@ public class PlayerController : MonoBehaviour
             }
             //GameObject.Find("WorldController").GetComponent<WorldController>().enabled = false;
         }
-        
+
     }
-	
+
     private void FixedUpdate()
     {
-        if(isShouldMove)
+        if (isShouldMove)
         {
             //Movemement 
             if (horizontal != 0 && vertical != 0) // Check for diagonal movement
@@ -819,25 +817,6 @@ public class PlayerController : MonoBehaviour
         {
             body.velocity = new Vector2(0.0f, 0.0f);
         }
-    }
-
-    public void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.transform.gameObject.name);
-        if(collision.transform.tag == "furniture")
-        {
-            if (IsInventoryFull())
-            {
-                interactPopup.SetActive(true);
-                interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
-            }
-            else
-            {
-                interactPopup.SetActive(true);
-                interactPopup.GetComponent<SpriteRenderer>().sprite = interactPickupSprite;
-            }
-        }
-       
     }
     public void setActiveItem(int index)
     {
@@ -856,22 +835,22 @@ public class PlayerController : MonoBehaviour
 
     public void SetNextOpenInventory()
     {
-        for(int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
-            if(inventory[i] ==  null)
+            if (inventory[i] == null)
             {
                 backendInventoryIndex = i;
                 break;
             }
         }
-    }    
-	
+    }
+
     public int GetOpenInventory()
     {
         openInventory = 0;
-        for(int i = 0; i < inventory.Length; i++)
+        for (int i = 0; i < inventory.Length; i++)
         {
-            if(inventory[i] == null)
+            if (inventory[i] == null)
             {
                 openInventory++;
             }
@@ -880,9 +859,9 @@ public class PlayerController : MonoBehaviour
     }
     public bool IsInventoryFull()
     {
-        for(int i = 0; i < inventory.Length; i++)
+        for (int i = 0; i < inventory.Length; i++)
         {
-            if(inventory[i] == null)
+            if (inventory[i] == null)
             {
                 return false;
             }
@@ -897,15 +876,15 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("Attempted to add a null item");
             return false;
         }
-        if(backendInventoryIndex < inventorySize)
+        if (backendInventoryIndex < inventorySize)
         {
-            if(inventory[backendInventoryIndex] == null)
+            if (inventory[backendInventoryIndex] == null)
             {
                 currentItem = item.GetComponent<Item>();
                 if (currentItem == null)
                 {
                     Debug.LogWarning(item.name + " is not an item class; Cannot add to inventory");
-                    return false; 
+                    return false;
                 }
                 else
                 {
@@ -924,8 +903,8 @@ public class PlayerController : MonoBehaviour
                     inventoryItemImageArray[backendInventoryIndex].sprite = currentItem.itemSprite;
                     inventoryItemImageArray[backendInventoryIndex].gameObject.SetActive(true);
                     //activeItem = inventory[currentInventoryIndex];
-                   
-                    
+
+
                     return true;
                 }
             }
@@ -941,16 +920,16 @@ public class PlayerController : MonoBehaviour
             return false;
         }
     }
-	
+
     public bool AddObjectToInventory(GameObject item, int indexAt)
     {
         if (indexAt > inventorySize)
         {
             return false;
         }
-        else if(inventory[indexAt] != null)
+        else if (inventory[indexAt] != null)
         {
-            return false; 
+            return false;
         }
         else
         {
@@ -971,13 +950,13 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-	
+
     //only removes the first instance of the object in the list
     public GameObject RemoveObjectFromInventory(GameObject item)
     {
         tempObject = null;
         int savedIndex;
-        for(int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
             if (inventory[i] == item)
             {
@@ -989,7 +968,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         inventoryItemImageArray[backendInventoryIndex].gameObject.SetActive(false);
-        
+
         return tempObject;
     }
 
@@ -999,12 +978,12 @@ public class PlayerController : MonoBehaviour
         inventory[indexAt] = null;
         inventoryItemImageArray[indexAt].gameObject.SetActive(false);
         backendInventoryIndex = indexAt;
-        for(int i = 0; i < this.transform.childCount; i++)
+        for (int i = 0; i < this.transform.childCount; i++)
         {
             if (this.transform.GetChild(i).GetComponent<Item>() != null)
             {
                 Debug.Log(tempObject);
-                if(this.transform.GetChild(i) == tempObject)
+                if (this.transform.GetChild(i) == tempObject)
                 {
                     Destroy(this.transform.GetChild(i).gameObject);
                 }
@@ -1023,7 +1002,7 @@ public class PlayerController : MonoBehaviour
 
     private void ShowActiveItem()
     {
-        if(activeItem != null)
+        if (activeItem != null)
         {
             if (activeItem.gameObject.tag == "furniture")
             {
@@ -1032,18 +1011,18 @@ public class PlayerController : MonoBehaviour
                     activeItem.SetActive(true);
                     activeItem.transform.localPosition = Vector3.zero + new Vector3(previousDirection.x, previousDirection.y, 0);
                 }
-            }  
+            }
         }
         if (inventory[previousInventoryIndex] != null)
         {
-            if(previousInventoryIndex != currentInventoryIndex)
+            if (previousInventoryIndex != currentInventoryIndex)
             {
                 if (inventory[previousInventoryIndex].tag == "furniture")
                 {
                     inventory[previousInventoryIndex].SetActive(false);
                 }
             }
-           
+
         }
     }
     private void CreateFurnitureObjectAndAddToInventory(GameObject furniture)
@@ -1077,9 +1056,23 @@ public class PlayerController : MonoBehaviour
     private void PickUpFurniture(RaycastHit2D hit2D)
     {
         furnitureObject = hit2D.transform.gameObject;
-        foreach(GameObject furniture in worldController.placedFurnitureObjects)
+        foreach (GameObject furniture in worldController.placedFurnitureObjects)
         {
-            if(furniture == furnitureObject)
+            if (furniture == furnitureObject)
+            {
+                worldController.placedFurnitureObjects.Remove(furnitureObject);
+                break;
+            }
+        }
+        Destroy(furnitureObject);
+    }
+
+    private void PickUpFurniture(Transform transform)
+    {
+        furnitureObject = transform.gameObject;
+        foreach (GameObject furniture in worldController.placedFurnitureObjects)
+        {
+            if (furniture == furnitureObject)
             {
                 worldController.placedFurnitureObjects.Remove(furnitureObject);
                 break;
@@ -1090,13 +1083,46 @@ public class PlayerController : MonoBehaviour
     private RaycastHit2D drawRay(Vector2 direction, bool debug)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 1.1f, layerMask);
-        if(debug)
+        if (debug)
         {
             Debug.DrawRay(transform.position, direction, Color.white, 1.1f);
         }
-        return hit; 
+        return hit;
     }
-	
+
+    private RaycastHit2D[] drawRaycastAll(Vector2 direction, bool debug)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, direction, 1.1f, layerMask);
+        if (debug)
+        {
+            Debug.DrawRay(transform.position, direction, Color.white, 1.1f);
+        }
+        return hits;
+    }
+
+    private Transform GetTransformOfTag(RaycastHit2D[] hits, string tag)
+    {
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (hits[i].transform.gameObject.tag == tag)
+            {
+                return hits[i].transform;
+            }
+        }
+        return null;
+    }
+
+    public void SetInteractPopup(Sprite sprite)
+    {
+        if (IsInventoryFull())
+        {
+            interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+        }
+        else
+        {
+            interactPopup.GetComponent<SpriteRenderer>().sprite = sprite;
+        }
+    }
    
 
 	 //functions to add and remove currency...is this...right??? ehhHHhHHH

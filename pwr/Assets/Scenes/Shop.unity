@@ -2533,6 +2533,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransitionPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 6062986059284664445, guid: c25d9319523c2eb42b39f165445c883e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c25d9319523c2eb42b39f165445c883e, type: 3}
 --- !u!95 &779971382 stripped
@@ -6117,8 +6122,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.45600003, y: 0.5}
   m_AnchorMax: {x: 0.45600003, y: 0.5}
-  m_AnchoredPosition: {x: 11.018, y: -0.00011206}
-  m_SizeDelta: {x: 250.42, y: 64.375}
+  m_AnchoredPosition: {x: 8.8274, y: -0.00011206}
+  m_SizeDelta: {x: 200.62, y: 64.375}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1740431638
 MonoBehaviour:
@@ -6140,7 +6145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Sorry, you don't have room in your inventory
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
