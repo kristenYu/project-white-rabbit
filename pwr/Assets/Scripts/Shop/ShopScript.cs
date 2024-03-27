@@ -378,7 +378,7 @@ public class ShopScript : MonoBehaviour
                     {
                         audioSource.PlayOneShot(cantBuyItemClip);
                         rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-                        rabbitAnimator.speechText.text = "Sorry, you don't have any room in your inventory.";
+                        rabbitAnimator.speechText.text = "Sorry, you don't have room in your inventory.";
                         //telemetry
                         StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
                     }
@@ -424,7 +424,7 @@ public class ShopScript : MonoBehaviour
             {
                 audioSource.PlayOneShot(cantBuyItemClip);
                 rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-                rabbitAnimator.speechText.text = "Sorry, you don't have any room in your inventory.";
+                rabbitAnimator.speechText.text = "Sorry, you don't have room in your inventory.";
                 //telemetry
                 StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
             }
@@ -435,7 +435,7 @@ public class ShopScript : MonoBehaviour
             audioSource.PlayOneShot(cantBuyItemClip);
             //message saying no money :(, make into a pop up in game later?
             rabbitAnimator.setAnimation(Rabbit_Animator.AnimState.talk);
-            rabbitAnimator.speechText.text = "Sorry you don't have enough money";
+            rabbitAnimator.speechText.text = "Sorry, you don't have enough money";
             //telemetry
             StartCoroutine(telemetryUtil.PostData("Shop:TriedBought" + item.GetComponent<Item>().stringName));
         }
