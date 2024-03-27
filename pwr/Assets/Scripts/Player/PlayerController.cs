@@ -471,6 +471,7 @@ public class PlayerController : MonoBehaviour
         //interact with objects
         if (hit)
         {
+            //Debug.Log(hit.transform.gameObject.name);
             if(hit.transform.tag != "non_interact")
             {
                 if(IsInventoryFull())
@@ -593,6 +594,10 @@ public class PlayerController : MonoBehaviour
                     interactPopup.SetActive(true);
                     interactPopup.GetComponent<SpriteRenderer>().sprite = interactPickupSprite;
                 }
+            }
+            else if(hit.transform.tag == "Player")
+            {
+                interactPopup.SetActive(false);
             }
            
 
@@ -816,6 +821,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.transform.gameObject.name);
+        if(collision.transform.tag == "furniture")
+        {
+            if (IsInventoryFull())
+            {
+                interactPopup.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = inventoryFullSprite;
+            }
+            else
+            {
+                interactPopup.SetActive(true);
+                interactPopup.GetComponent<SpriteRenderer>().sprite = interactPickupSprite;
+            }
+        }
+       
+    }
     public void setActiveItem(int index)
     {
         previousInventoryIndex = currentInventoryIndex;
